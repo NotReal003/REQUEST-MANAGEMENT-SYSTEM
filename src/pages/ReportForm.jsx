@@ -20,12 +20,12 @@ const ReportForm = () => {
           <div className="terms my-4">
             <label className="label cursor-pointer">
               <input type="checkbox" id="agree" name="agree" className="checkbox" required />
-              <span className="label-text ml-2"> By clicking here you are allowing us to view the info added to the form by you. Please check out our SkyLine <a href="#" className="link link-primary">Terms of Service</a> and <a href="#" className="link link-primary">Privacy Policy</a>.</span>
+              <span className="label-text ml-2"> By clicking here you are allowing us to view the info added to the form by you. Please check out our SkyLine <a href="https://support.notreal003.xyz/privacy" className="link link-primary">Terms of Service</a> and <a href="https://support.notreal003.xyz/terms" className="link link-primary">Privacy Policy</a>.</span>
             </label>
           </div>
 
           <button type="submit" className="btn btn-primary w-full">Submit</button>
-          <Link to="https://request.notreal003.xyz" className="btn btn-secondary w-full mt-4">Back</Link>
+          <Link to="/" className="btn btn-secondary w-full mt-4">Back</Link>
         </form>
       </div>
     </div>
