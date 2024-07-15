@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <Link className="btn btn-ghost normal-case text-xl" to="/">Example</Link>
+        <Link className="btn btn-ghost normal-case text-xl" to="/">Example!!</Link>
       </div>
       <div className="flex-none">
         <ul className="menu menu-horizontal p-0">
