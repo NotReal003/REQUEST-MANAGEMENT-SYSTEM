@@ -25,7 +25,7 @@ const ReportForm = () => {
           </div>
 
           <button type="submit" className="btn btn-primary w-full">Submit</button>
-          <Link to="/" className="btn btn-secondary w-full mt-4">Back</Link>
+          <Link to="https://request.notreal003.xyz" className="btn btn-secondary w-full mt-4">Back</Link>
         </form>
       </div>
     </div>
