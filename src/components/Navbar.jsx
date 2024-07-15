@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <div className="navbar bg-base-100">
   <div className="flex-1">
-    <a className="btn btn-ghost text-xl">NotReal003 | Requests</a>
+    <Link className="btn btn-ghost text-xl" to="/">NotReal003 | Requests</Link>
   </div>
   <div className="flex-none">
     <ul className="menu menu-horizontal px-1">
@@ -28,3 +28,17 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+    <div className="navbar bg-base-100">
+      <div className="flex-1">
+        <Link className="btn btn-ghost normal-case text-xl" to="/">Example!!</Link>
+      </div>
+      <div className="flex-none">
+        <ul className="menu menu-horizontal p-0">
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/support">Support</Link></li>
+          <li><Link to="/apply">Apply</Link></li>
+          <li><Link to="/report">Report</Link></li>
+        </ul>
+      </div>
+    </div>
