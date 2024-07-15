@@ -12,6 +12,9 @@ const Home = () => {
         <Link to="/apply" className="btn btn-secondary w-full">Guild Application</Link>
         <Link to="/support" className="btn btn-accent w-full">Support Request</Link>
       </div>
+      <div>
+      <Footer />
+      </div>
     </div>
   );
 };
