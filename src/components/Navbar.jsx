@@ -9,7 +9,7 @@ const Navbar = () => {
     <Link className="btn btn-ghost text-xl" to="/">NotReal003 | Requests</Link>
   </div>
   <div className="flex-none">
-    <ul className="menu menu-horizontal px-1">
+    <ul className="menu menu-horizontal px-1 ml-1">
       <li><Link to="/">Home</Link></li>
       <li>
         <details>
