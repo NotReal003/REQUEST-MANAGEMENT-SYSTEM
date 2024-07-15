@@ -1,6 +1,6 @@
 // src/App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import ReportForm from './pages/ReportForm';
@@ -13,12 +13,12 @@ const App = () => {
       <div className="App">
         <Navbar />
         <div className="container mx-auto p-4">
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/report" component={ReportForm} />
-            <Route path="/support" component={Support} />
-            <Route path="/apply" component={Apply} />
-          </Switch>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route path="/report" element={<ReportForm />} />
+            <Route path="/support" element={<Support />} />
+            <Route path="/apply" element={<Apply />} />
+          </Routes>
         </div>
       </div>
     </Router>
