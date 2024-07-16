@@ -6,14 +6,14 @@ const Navbar = () => {
 
   useEffect(() => {
     if (theme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
       document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
     }
   }, [theme]);
 
   const handleThemeChange = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   return (
