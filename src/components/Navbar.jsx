@@ -49,7 +49,7 @@ const Navbar = () => {
         </svg>
       </label>
       <div className="flex-none">
-        <ul className="menu menu-horizontal px-1 ml-1">
+        <ul className="menu menu-horizontal px-1 ml-1 flex items-center justify-center">
           <li>
             <Link to="https://notreal003.xyz">
               <svg
