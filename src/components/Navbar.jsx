@@ -5,15 +5,15 @@ const Navbar = () => {
   const [theme, setTheme] = useState('light');
 
   useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
+    if (theme === 'dracula') {
+      document.documentElement.setAttribute('data-theme', 'dracula');
     } else {
       document.documentElement.setAttribute('data-theme', 'light');
     }
   }, [theme]);
 
   const handleThemeChange = () => {
-    setTheme(theme === 'light' ? 'dark' : 'light');
+    setTheme(theme === 'light' ? 'dracula' : 'light');
   };
 
   return (
