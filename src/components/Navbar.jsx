@@ -17,7 +17,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-100 border-b border-gray-200/25">
       <div className="flex-1">
          <Link className="btn btn-ghost text-xl" to="/">NotReal003</Link>
        </div>
