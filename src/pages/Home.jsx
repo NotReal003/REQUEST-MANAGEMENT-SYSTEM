@@ -12,8 +12,8 @@ const Home = () => {
         <Link to="/apply" className="btn btn-outline btn-secondary w-full">Guild Application</Link>
         <Link to="/support" className="btn btn-outline btn-accent w-full">Support Request</Link>
       </div>
-      <Footer />
     </div>
+    <Footer />
   );
 };
 
