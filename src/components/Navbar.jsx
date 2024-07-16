@@ -18,9 +18,9 @@ const Navbar = () => {
 
   return (
     <div className="navbar bg-base-100">
-      <div className="flex-1">
-        <Link className="btn btn-ghost text-xl" to="/">NotReal003</Link>
-      </div>
+<div className='w-full navbar bg-base-300'>
+  <Link to='/' className='font-bold text-lg flex-1 px-2 mx-2'>NotReal003</Link>
+</div>
       <label className="swap swap-rotate">
         {/* this hidden checkbox controls the state */}
         <input 
