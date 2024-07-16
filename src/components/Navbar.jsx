@@ -23,7 +23,7 @@ const Navbar = () => {
 
   {/* moon icon */}
   <svg
-    className="swap-on h-5 w-5 fill-current"
+    className="swap-on h-5 w-5 fill-current flex items-center justify-center"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24">
     <path
@@ -53,7 +53,7 @@ const Navbar = () => {
           <summary>Requests</summary>
           <ul className="bg-base-100 rounded-t-none p-2">
             <li><Link to="/apply">Apply</Link></li>
-            <li><Link to="/report">/Report</Link></li>
+            <li><Link to="/report">Report</Link></li>
             <li><Link to="/support">Support</Link></li>
           </ul>
         </details>
