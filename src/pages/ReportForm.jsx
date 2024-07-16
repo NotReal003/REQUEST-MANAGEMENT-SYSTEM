@@ -35,8 +35,8 @@ const ReportForm = () => {
             </label>
           </div>
 
-          <button type="submit" className="btn btn-primary w-full">Submit</button>
-          <Link to="/" className="btn btn-secondary w-full mt-4">Back</Link>
+          <button type="submit" className="btn btn-outline btn-primary w-full">Submit</button>
+          <Link to="/" className="btn btn-outline btn-secondary w-full mt-4">Back</Link>
         </form>
       </div>
     </div>
