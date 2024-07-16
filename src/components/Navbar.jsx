@@ -67,7 +67,7 @@ const Navbar = () => {
             </Link>
           </li>
           <div className="dropdown dropdown-bottom dropdown-end">
-            <div tabIndex={0} role="button" className="btn m-1">Requests</div>
+            <div tabIndex={0} role="button" className="btn m-1 btn-sm">Requests</div>
             <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
               <li><Link to="/apply">Apply</Link></li>
               <li><Link to="/Report">Report</Link></li>
