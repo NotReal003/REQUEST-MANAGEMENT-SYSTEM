@@ -3,6 +3,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+  const toggleTheme = () => {
+    const html = document.documentElement;
+    if (html.getAttribute('data-theme') === 'synthwave') {
+      html.removeAttribute('data-theme');
+    } else {
+      html.setAttribute('data-theme', 'synthwave');
+    }
+  };
   return (
     <div className="navbar bg-base-100">
   <div className="flex-1">
