@@ -51,7 +51,7 @@ const Navbar = () => {
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1 ml-1 flex items-center justify-center">
           <li>
-            <Link to="https://notreal003.xyz">
+            <Link to="/">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -69,9 +69,10 @@ const Navbar = () => {
           <div className="dropdown dropdown-bottom dropdown-end">
             <div tabIndex={0} role="button" className="btn m-1 btn-sm">Requests</div>
             <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-              <li><Link to="/apply">Apply</Link></li>
-              <li><Link to="/Report">Report</Link></li>
+              <li><Link to="https://notreal003.xyz">Home</Link></li>
               <li><Link to="/support">Support</Link></li>
+              <li><Link to="/Report">Discord Report</Link></li>
+              <li><Link to="/apply">Guild Application</Link></li>
             </ul>
           </div>
         </ul>
