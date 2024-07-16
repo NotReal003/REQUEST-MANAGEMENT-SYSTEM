@@ -66,16 +66,14 @@ const Navbar = () => {
               </svg>
             </Link>
           </li>
-          <li>
-            <details>
-              <summary>Requests</summary>
-              <ul className="bg-base-100 rounded-t-none p-2">
-                <li><Link to="/apply">Apply</Link></li>
-                <li><Link to="/report">Report</Link></li>
-                <li><Link to="/support">Support</Link></li>
-              </ul>
-            </details>
-          </li>
+          <div className="dropdown dropdown-bottom dropdown-end">
+            <div tabIndex={0} role="button" className="btn m-1">Requests</div>
+            <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+              <li><Link to="/apply">Apply</Link></li>
+              <li><Link to="/Report">Report</Link></li>
+              <li><Link to="/support">Support</Link></li>
+            </ul>
+          </div>
         </ul>
       </div>
     </div>
