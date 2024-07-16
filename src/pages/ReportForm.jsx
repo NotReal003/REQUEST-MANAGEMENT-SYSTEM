@@ -19,7 +19,7 @@ const ReportForm = () => {
       strokeWidth="2"
       d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
   </svg>
-          <span>Look!</strong> If you believe the user is violating the Discord Terms of Service or Community Guidelines, right-click the message and choose "Report message" button.</span>
+          <span><storng></storng>Look!</strong> If you believe the user is violating the Discord Terms of Service or Community Guidelines, right-click the message and choose "Report message" button.</span>
         </div>
       <form id="reportForm">
           <label htmlFor="messageLink" className="label">Discord Message Link (required)</label>
