@@ -10,6 +10,7 @@ module.exports = {
     require('daisyui'),
   ],
   daisyui: {
-    themes: ["light", "dark", "dracula"], // Specify the themes you want to use
+    themes: ["light", "dark", "dracula"],
+    darkTheme: "dracula", // Specify the themes you want to use
   },
 }
