@@ -6,7 +6,7 @@ import Home from './pages/Home';
 import ReportForm from './pages/ReportForm';
 import Support from './pages/Support';
 import Apply from './pages/Apply';
-import NotFound from './pages/NotFound';
+import NotFound from './pages/404';
 
 const App = () => {
   return (
