@@ -11,6 +11,7 @@ module.exports = {
   ],
   daisyui: {
     themes: ["light", "dracula"],
-    darkTheme: "dracula", // Specify the themes you want to use
+    darkTheme: "dracula",
+    logs: false, // Specify the themes you want to use
   },
 }

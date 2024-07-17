@@ -1,12 +1,16 @@
 // src/pages/ReportForm.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { IoSend } from "react-icons/io5";
+import { ImExit } from "react-icons/im";
+import { MdOutlineSecurity } from "react-icons/md";
+import { LuDot } from "react-icons/lu";
 
 const ReportForm = () => {
   return (
     <div className="container mx-auto p-4">
       <div className="form-container">
-        <h1 className="text-2xl font-bold mb-4">Discord Report</h1>
+        <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center"><MdOutlineSecurity /> <LuDot />Discord Report</h1>
         <div role="alert" className="alert">
           <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -35,8 +39,8 @@ const ReportForm = () => {
             </label>
           </div>
 
-          <button type="submit" className="btn btn-outline btn-primary w-full">Submit</button>
-          <Link to="/" className="btn btn-outline btn-secondary w-full mt-4">Back</Link>
+          <button type="submit" className="btn btn-outline btn-primary w-full"><IoSend />Submit</button>
+          <Link to="/" className="btn btn-outline btn-secondary w-full mt-4"><ImExit />Back</Link>
         </form>
       </div>
     </div>
