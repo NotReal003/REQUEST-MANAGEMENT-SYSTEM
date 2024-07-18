@@ -1,5 +1,5 @@
 // src/pages/ReportForm.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IoSend } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
@@ -7,6 +7,28 @@ import { MdOutlineSecurity } from "react-icons/md";
 import { LuDot } from "react-icons/lu";
 
 const ReportForm = () => {
+  const [messageLink, setMessageLink] = useState('');
+  const [additionalInfo, setAdditionalInfo] = useState('');
+  const [agree, setAgree] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const token = document.cookie.split('; ').find(row => row.startsWith('jwt='))?.split('=')[1];
+    const response = await fetch('https://f174c7ef-3543-40a2-bb8b-9aa0730bc042-00-1uxfjy0vfa4lx.pike.replit.dev/api/report', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ messageLink, additionalInfo, agree })
+    });
+    if (response.ok) {
+      alert('Report submitted successfully');
+    } else {
+      alert('Failed to submit report');
+    }
+  };
+  
   return (
     <div className="container mx-auto p-4">
       <div className="form-container">
