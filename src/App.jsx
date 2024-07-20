@@ -1,5 +1,5 @@
 // src/App.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -8,6 +8,17 @@ import Support from './pages/Support';
 import Apply from './pages/Apply';
 import NotFound from './pages/404';
 
+const App = () => {
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+      localStorage.setItem('jwtToken', token);
+      // Optionally, you can redirect to remove the token from the URL
+      window.history.replaceState({}, document.title, "/");
+    }
+  }, []);
+  
 const App = () => {
 
   return (
