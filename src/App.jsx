@@ -18,8 +18,6 @@ const App = () => {
       window.history.replaceState({}, document.title, "/");
     }
   }, []);
-  
-const App = () => {
 
   return (
     <Router>
