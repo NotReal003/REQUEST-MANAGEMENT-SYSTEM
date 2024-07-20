@@ -15,7 +15,7 @@ const App = () => {
     if (token) {
       localStorage.setItem('jwtToken', token);
       // Optionally, you can redirect to remove the token from the URL
-      window.history.replaceState({}, document.title, "/");
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);
 
