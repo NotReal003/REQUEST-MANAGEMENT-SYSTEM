@@ -10,25 +10,27 @@ import Login from './pages/Login';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true); // New state to manage loading
 
   useEffect(() => {
-    const getTokenFromUrl = () => {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('token');
-    };
-
-    const token = getTokenFromUrl();
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
     if (token) {
       localStorage.setItem('jwtToken', token);
       setIsAuthenticated(true);
-      window.history.replaceState({}, document.title, '/'); // Remove token from URL
+      window.history.replaceState({}, document.title, "/");
     } else {
       const storedToken = localStorage.getItem('jwtToken');
       if (storedToken) {
         setIsAuthenticated(true);
       }
     }
+    setLoading(false); // Set loading to false after token check
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading state while checking token
+  }
 
   return (
     <Router>
