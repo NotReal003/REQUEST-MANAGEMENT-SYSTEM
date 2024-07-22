@@ -6,6 +6,8 @@ const Login = () => {
       <h1 className="text-4xl mb-4">Login</h1>
       <p className="mb-8">You need to log in with Discord to access this site.</p>
       <Link to="https://api.notreal003.xyz/auth/signin" className="btn btn-primary">Login with Discord</Link>
+      <Link to="https://api.notreal003.xyz/auth/signin" className="btn btn-outline btn-primary">Login with Discord</Link>
+
     </div>
   );
 };
