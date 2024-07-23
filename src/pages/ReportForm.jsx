@@ -27,7 +27,7 @@ const ReportForm = () => {
     };
 
     try {
-      const response = await fetch('https://f174c7ef-3543-40a2-bb8b-9aa0730bc042-00-1uxfjy0vfa4lx.pike.replit.dev:3001/report', {
+      const response = await fetch('https://api.notreal003.xyz/report', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,6 +57,7 @@ const ReportForm = () => {
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
           <MdOutlineSecurity /> <LuDot />Discord Report
         </h1>
+        {status && <div className="mt-4 alert alert-success">{status}</div>}
         <div role="alert" className="alert">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info h-6 w-6 shrink-0">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -104,7 +105,6 @@ const ReportForm = () => {
           <button type="submit" className="btn btn-outline btn-primary w-full"><IoSend />Submit</button>
           <Link to="/" className="btn btn-outline btn-secondary w-full mt-4"><ImExit />Back</Link>
         </form>
-        {status && <div className="mt-4 alert alert-success">{status}</div>}
       </div>
     </div>
   );
