@@ -7,6 +7,7 @@ import Support from './pages/Support';
 import Apply from './pages/Apply';
 import NotFound from './pages/404';
 import Login from './pages/Login';
+import Done from './pages/Done';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -43,6 +44,7 @@ const App = () => {
             <Route path="/support" element={isAuthenticated ? <Support /> : <Navigate to="/login" />} />
             <Route path="/apply" element={isAuthenticated ? <Apply /> : <Navigate to="/login" />} />
             <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
+            <Route path="/support" element={isAuthenticated ? <Done /> : <Navigate to="/login" />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

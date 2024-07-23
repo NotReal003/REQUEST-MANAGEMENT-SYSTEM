@@ -1,6 +1,7 @@
 import { CircleUser, LogOut } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { TbExternalLink } from "react-icons/tb";
 
 export default function Navbar({ isAuthenticated }) {
   const [user, setUser] = useState(null);
@@ -79,10 +80,10 @@ export default function Navbar({ isAuthenticated }) {
               <div className="flex-none hidden sm:block">
                 <ul className="menu menu-horizontal">
                   <li>
-                    <a>Navbar Item 1</a>
+                    <Link to="/report">Report</Link>
                   </li>
                   <li>
-                    <a>Navbar Item 2</a>
+                    <Link to="/support">Support</Link>
                   </li>
                 </ul>
               </div>
@@ -119,10 +120,10 @@ export default function Navbar({ isAuthenticated }) {
             <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
             <ul className="menu p-4 w-80 min-h-full bg-base-200">
               <li>
-                <a>Sidebar Item 1</a>
+                <Link to="https://notreal003.xyz">Home <TbExternalLink /></Link>
               </li>
               <li>
-                <a>Sidebar Item 2</a>
+                <Link to="/apply">Guild Application</Link>
               </li>
             </ul>
           </div>
