@@ -41,7 +41,7 @@ const ReportForm = () => {
         setMessageLink('');
         setAdditionalInfo('');
         setAgree(false);
-        navigate('/success'); // Redirect to a success page
+        navigate('/done'); // Redirect to a success page
       } else {
         setStatus('Error submitting report');
       }
