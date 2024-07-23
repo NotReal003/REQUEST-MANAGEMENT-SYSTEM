@@ -1,7 +1,5 @@
-import { LogOut } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { TbExternalLink } from "react-icons/tb";
+import { Link, useNavigate } from 'react-router-dom';
 import { FaUserCircle } from "react-icons/fa";
 import { IoLogIn } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
@@ -26,6 +24,7 @@ export default function Navbar({ isAuthenticated }) {
 
         if (res.status === 403) {
           localStorage.removeItem('jwtToken');
+          nagivate('/login');
           throw new Error('Forbidden: Invalid or expired token');
         }
 
