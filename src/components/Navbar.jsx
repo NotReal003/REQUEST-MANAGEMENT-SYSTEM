@@ -1,4 +1,4 @@
-import { CircleUser, Loader2, LogOut } from 'lucide-react';
+import { CircleUser, LogOut } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -12,20 +12,17 @@ export default function Navbar({ isAuthenticated }) {
 
       try {
         const token = localStorage.getItem('jwtToken');
-        const response = await
-fetch('http://api.notreal003.xyz/auth/@me', {
+        const res = await fetch('https://api.notreal003.xyz/auth/@me', {
           headers: {
             'Authorization': `${token}`
           }
         });
 
-        if (!response.ok) {
+        if (!res.ok) {
           throw new Error('Not authenticated');
         }
 
-        const userData = await response.json();
-        console.log(userData);
-
+        const userData = await res.json();
         setUser(userData);
       } catch (error) {
         console.log(error);
@@ -43,7 +40,15 @@ fetch('http://api.notreal003.xyz/auth/@me', {
 
   const handleLogout = async () => {
     try {
-     localStorage.removeItem('jwtToken');
+      const res = await fetch('https://api.notreal003.xyz/auth/signout', {
+        credentials: 'include',
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to logout');
+      }
+
+      localStorage.removeItem('jwtToken');
       window.location.href = '/';
     } catch (error) {
       console.log(error);
@@ -51,6 +56,7 @@ fetch('http://api.notreal003.xyz/auth/@me', {
   };
 
   return (
+    <>
       <nav className="z-20 mb-5">
         <div className="container"></div>
 
@@ -82,8 +88,8 @@ fetch('http://api.notreal003.xyz/auth/@me', {
               </div>
 
               {loading ? (
-                <div>
-                  <Loader2 className="animate-spin size-6 mr-4" />
+                <div className="flex items-center mr-4">
+                  <span className="loading loading-spinner size-6"></span>
                 </div>
               ) : (
                 <div className="dropdown dropdown-end mr-4 ml-2">
@@ -122,5 +128,6 @@ fetch('http://api.notreal003.xyz/auth/@me', {
           </div>
         </div>
       </nav>
+    </>
   );
 }
