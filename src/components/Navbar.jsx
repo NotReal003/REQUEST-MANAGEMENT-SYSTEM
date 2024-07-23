@@ -12,7 +12,7 @@ export default function Navbar({ isAuthenticated }) {
 
       try {
         const token = localStorage.getItem('jwtToken');
-        const res = await fetch('https://api.notreal003.xyz/auth/@me', {
+        const res = await fetch('https://api.notreal003.xyz/users/@me', {
           headers: {
             'Authorization': `${token}`
           }
