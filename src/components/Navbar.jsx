@@ -1,7 +1,12 @@
-import { CircleUser, LogOut } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TbExternalLink } from "react-icons/tb";
+import { FaUserCircle } from "react-icons/fa";
+import { IoLogIn } from "react-icons/io5";
+import { ImExit } from "react-icons/im";
+import { MdNavigateNext } from "react-icons/md";
+import { LiaExternalLinkAltSolid } from "react-icons/lia";
 
 export default function Navbar({ isAuthenticated }) {
   const [user, setUser] = useState(null);
@@ -18,6 +23,11 @@ export default function Navbar({ isAuthenticated }) {
             'Authorization': `${token}`
           }
         });
+
+        if (res.status === 403) {
+          localStorage.removeItem('jwtToken');
+          throw new Error('Forbidden: Invalid or expired token');
+        }
 
         if (!res.ok) {
           throw new Error('Not authenticated');
@@ -68,23 +78,13 @@ export default function Navbar({ isAuthenticated }) {
               <Link to="/" className="font-bold text-lg flex-1 px-2 mx-2">
                 NotReal003
               </Link>
-
-              <div className="flex-none sm:hidden">
-                <label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                  </svg>
-                </label>
-              </div>
-
-              <div className="flex-none hidden sm:block">
-                <ul className="menu menu-horizontal">
-                  <li>
-                    <Link to="/report">Report</Link>
-                  </li>
-                  <li>
-                    <Link to="/support">Support</Link>
-                  </li>
+              <div className="dropdown dropdown-bottom dropdown-end">
+                <div tabIndex={0} role="button" className="btn m-1 btn-sm flex items-center justify-center"><MdNavigateNext />Requests</div>
+                <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                  <li><Link to="https://notreal003.xyz">Home <LiaExternalLinkAltSolid /></Link></li>
+                  <li><Link to="/support">Support</Link></li>
+                  <li><Link to="/Report">Discord Report</Link></li>
+                  <li><Link to="/apply">Guild Application</Link></li>
                 </ul>
               </div>
 
@@ -101,31 +101,27 @@ export default function Navbar({ isAuthenticated }) {
                         className="size-6 object-cover rounded-full border"
                       />
                     ) : (
-                      <CircleUser className="size-6" />
+                      <FaUserCircle className="size-6" />
                     )}
                   </button>
                   <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                    <li>
-                      <a onClick={handleLogout} className="flex items-center gap-x-2 hover:text-red-500">
-                        <LogOut className="size-4" /> <span>Sign out</span>
-                      </a>
-                    </li>
+                    {isAuthenticated ? (
+                      <li>
+                        <a onClick={handleLogout} className="flex items-center gap-x-2 hover:text-red-500">
+                          <ImExit className="size-4" /> <span>Sign out</span>
+                        </a>
+                      </li>
+                    ) : (
+                      <li>
+                        <Link to="/login" className="flex items-center gap-x-2 hover:text-blue-500">
+                          <IoLogIn className="size-4" /> <span>Sign in</span>
+                        </Link>
+                      </li>
+                    )}
                   </ul>
                 </div>
-              )}
+               )}
             </div>
-          </div>
-
-          <div className="drawer-side">
-            <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
-            <ul className="menu p-4 w-80 min-h-full bg-base-200">
-              <li>
-                <Link to="https://notreal003.xyz">Home <TbExternalLink /></Link>
-              </li>
-              <li>
-                <Link to="/apply">Guild Application</Link>
-              </li>
-            </ul>
           </div>
         </div>
       </nav>

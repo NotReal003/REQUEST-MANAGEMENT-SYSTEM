@@ -17,7 +17,7 @@ const ReportForm = () => {
 
     const token = localStorage.getItem('jwtToken');
     if (!token) {
-      setStatus('User not authenticated');
+      setStatus('You must be logged in to submit a request.');
       return;
     }
 
@@ -41,13 +41,13 @@ const ReportForm = () => {
         setMessageLink('');
         setAdditionalInfo('');
         setAgree(false);
-        navigate('/done'); // Redirect to a success page
+        navigate('/success');
       } else {
-        setStatus('Error submitting report');
+        setStatus('Please Login again, your accses has been deneid.');
       }
     } catch (error) {
       console.error('Error:', error);
-      setStatus('Error submitting report');
+      setStatus('Error while submitting report');
     }
   };
 
@@ -57,7 +57,7 @@ const ReportForm = () => {
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
           <MdOutlineSecurity /> <LuDot />Discord Report
         </h1>
-        {status && <div className="mt-4 alert alert-success">{status}</div>}
+        {status && <div className="mt-4 alert alert-error mb-4">{status}</div>}
         <div role="alert" className="alert">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info h-6 w-6 shrink-0">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
