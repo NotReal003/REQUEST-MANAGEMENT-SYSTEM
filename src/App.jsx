@@ -44,7 +44,7 @@ const App = () => {
             <Route path="/support" element={isAuthenticated ? <Support /> : <Navigate to="/login" />} />
             <Route path="/apply" element={isAuthenticated ? <Apply /> : <Navigate to="/login" />} />
             <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
-            <Route path="/support" element={isAuthenticated ? <Done /> : <Navigate to="/login" />} />
+            <Route path="/done" element={isAuthenticated ? <Done /> : <Navigate to="/login" />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
