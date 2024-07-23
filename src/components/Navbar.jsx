@@ -69,7 +69,7 @@ export default function Navbar({ isAuthenticated }) {
           <div className="drawer-content flex flex-col">
             <div className="w-full navbar bg-base-300">
               <Link to="/" className="font-bold text-lg flex-1 px-2 mx-2">
-                Tick-it
+                NotReal003
               </Link>
 
               <div className="flex-none sm:hidden">
