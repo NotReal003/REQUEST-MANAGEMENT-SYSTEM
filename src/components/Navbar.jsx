@@ -12,17 +12,19 @@ export default function Navbar({ isAuthenticated }) {
 
       try {
         const token = localStorage.getItem('jwtToken');
-        const res = await fetch('http://api.notreal003.xyz/auth/@me', {
+        const response = await
+fetch('http://api.notreal003.xyz/auth/@me', {
           headers: {
             'Authorization': `${token}`
           }
         });
 
-        if (!res.ok) {
+        if (!response.ok) {
           throw new Error('Not authenticated');
         }
 
-        const userData = await res.json();
+        const userData = await response.json();
+        console.log(userData);
 
         setUser(userData);
       } catch (error) {
@@ -41,18 +43,7 @@ export default function Navbar({ isAuthenticated }) {
 
   const handleLogout = async () => {
     try {
-        const token = localStorage.getItem('jwtToken');
-        const res = await fetch('http://api.notreal003.xyz/auth/signout', {
-          headers: {
-            'Authorization': `${token}`
-          }
-      });
-
-      if (!res.ok) {
-        throw new Error('Failed to logout');
-      }
-
-      localStorage.removeItem('jwtToken');
+     localStorage.removeItem('jwtToken');
       window.location.href = '/';
     } catch (error) {
       console.log(error);
@@ -60,7 +51,6 @@ export default function Navbar({ isAuthenticated }) {
   };
 
   return (
-    <>
       <nav className="z-20 mb-5">
         <div className="container"></div>
 
@@ -132,6 +122,5 @@ export default function Navbar({ isAuthenticated }) {
           </div>
         </div>
       </nav>
-    </>
   );
 }

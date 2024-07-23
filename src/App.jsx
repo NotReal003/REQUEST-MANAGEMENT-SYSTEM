@@ -29,7 +29,7 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Show a loading state while checking token
+    return <div className="loading loading-spinner text-info"></div>; // Show a loading state while checking token
   }
 
   return (
