@@ -27,7 +27,7 @@ const ReportForm = () => {
     };
 
     try {
-      const response = await fetch('https://api.notreal003.xyz/report', {
+      const response = await fetch('https://api.notreal003.xyz/requests/supportreport', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
