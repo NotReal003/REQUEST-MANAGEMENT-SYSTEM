@@ -64,7 +64,7 @@ const Support = () => {
           <span>Feel free ask anything!</span>
         </div>
         <form id="reportForm" onSubmit={handleSubmit}>
-          <label htmlFor="messageLink" className="label">Your support request(required)</label>
+          <label htmlFor="messageLink" className="label">Your support request (required)</label>
           <textarea
             id="additionalInfo" 
             name="additionalInfo" 
@@ -98,7 +98,7 @@ const Support = () => {
                 onChange={(e) => setAgree(e.target.checked)}
                 required 
               />
-              <span className="label-text ml-2"> By clicking here you are allowing us to view the info added to the form by you. Please check out our SkyLine <a href="https://support.notreal003.xyz/privacy" className="link link-primary">Terms of Service</a> and <a href="https://support.notreal003.xyz/terms" className="link link-primary">Privacy Policy</a>.</span>
+              <span className="label-text ml-2"> By clicking here you are allowing us to view the info added to the form by you. Please check out our SkyLine <a href="https://support.notreal003.xyz/privacy" className="link link-primary">Terms of Service</a> and <a href="https://support.notreal003.xyz/privacy" className="link link-primary">Privacy Policy</a>.</span>
             </label>
           </div>
 
