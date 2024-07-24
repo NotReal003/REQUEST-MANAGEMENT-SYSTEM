@@ -9,7 +9,7 @@ const Success = () => {
           <CircleCheck className="w-20 h-20 text-green-500 animate-pulse" />
         </div>
         <h1 className="text-2xl font-bold mb-2">Success!</h1>
-        <p className="text-lg">Your request was submitted successfully.</p>
+        <p className="text-lg">Your request was submitted successfully, join our Discord Server so we may contact you :)</p>
         <Link to="/" className="btn btn-outline btn-info mt-4 w-full">
           <House className='size-4'/> Back to Home
         </Link>

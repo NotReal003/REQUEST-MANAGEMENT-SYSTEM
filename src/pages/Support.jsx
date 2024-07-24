@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { IoSend } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
 import { MdOutlineSecurity } from "react-icons/md";
-import { LuDot } from "react-icons/lu";
 
 const Support = () => {
   const [messageLink, setMessageLink] = useState('');
@@ -23,7 +22,7 @@ const Support = () => {
 
     const payload = {
       messageLink,
-      additionalInfo
+      additionalInfo,
     };
 
     try {
@@ -37,7 +36,7 @@ const Support = () => {
       });
 
       if (response.ok) {
-        setStatus('Report submitted successfully');
+        setStatus('Your request submitted successfully');
         setMessageLink('');
         setAdditionalInfo('');
         setAgree(false);
