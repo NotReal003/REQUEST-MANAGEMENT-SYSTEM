@@ -6,7 +6,7 @@ const Success = () => {
     <div className="flex items-center justify-center bg-base-50">
       <div className="text-center">
         <div className="flex items-center justify-center mb-4">
-          <CircleCheck className="w-20 h-20 text-green-550 animate-pulse" />
+          <CircleCheck className="w-20 h-20 text-green-500 animate-pulse" />
         </div>
         <h1 className="text-2xl font-bold mb-2">Success!</h1>
         <p className="text-lg">Your request was submitted successfully.</p>
