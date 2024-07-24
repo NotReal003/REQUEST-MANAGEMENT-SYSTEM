@@ -9,6 +9,7 @@ import { LiaExternalLinkAltSolid } from "react-icons/lia";
 export default function Navbar({ isAuthenticated }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -23,8 +24,7 @@ export default function Navbar({ isAuthenticated }) {
         });
 
         if (res.status === 403) {
-          localStorage.removeItem('jwtToken');
-          nagivate('/login');
+          setShowAlert(true);
           throw new Error('Forbidden: Invalid or expired token');
         }
 
@@ -67,6 +67,27 @@ export default function Navbar({ isAuthenticated }) {
 
   return (
     <>
+      {showAlert && (
+        <div role="alert" className="alert">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            className="stroke-info h-6 w-6 shrink-0">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>Your access seems denied, please Login again.</span>
+          <div>
+            <button className="btn btn-sm btn-outline" onClick={() => setShowAlert(false)}>No</button>
+            <button className="btn btn-sm btn-outline btn-secondary" onClick={handleLogout}>Logout</button>
+          </div>
+        </div>
+      )}
+
       <nav className="z-20 mb-5">
         <div className="container"></div>
 
@@ -112,14 +133,14 @@ export default function Navbar({ isAuthenticated }) {
                       </li>
                     ) : (
                       <li>
-                        <Link to="/login" className="flex items-center gap-x-2 hover:text-blue-500">
+                        <Link to="https://api.notreal003.xyz/auth/signin" className="flex items-center gap-x-2 hover:text-blue-500">
                           <IoLogIn className="size-4" /> <span>Sign in</span>
                         </Link>
                       </li>
                     )}
                   </ul>
                 </div>
-               )}
+              )}
             </div>
           </div>
         </div>
