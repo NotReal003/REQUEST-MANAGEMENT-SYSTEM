@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoSend } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
-import { MdOutlineSecurity } from "react-icons/md";
-import { LuDot } from "react-icons/lu";
+import { TbMessageReport } from "react-icons/tb";
+
 
 const ReportForm = () => {
   const [messageLink, setMessageLink] = useState('');
@@ -55,7 +55,7 @@ const ReportForm = () => {
     <div className="container mx-auto p-4">
       <div className="form-container">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
-          <MdOutlineSecurity /> <LuDot />Discord Report
+          <TbMessageReport className="size-6 mr-2"/>Discord report
         </h1>
         {status && <div className="mt-4 alert alert-error mb-4">{status}</div>}
         <div role="alert" className="alert">
@@ -72,7 +72,7 @@ const ReportForm = () => {
             name="messageLink" 
             className="input input-bordered w-full" 
             placeholder="https://discord.com/channels/XXXXX/XXXXX/XXXXX" 
-            value={messageLink}
+            value={messageLink}l
             onChange={(e) => setMessageLink(e.target.value)}
             required 
           />
