@@ -26,7 +26,7 @@ const Support = () => {
     };
 
     try {
-      const response = await fetch('https://api.notreal003.xyz/requests/support', {
+      const response = await fetch('https://api.notreal003.xyz/requests/supports', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,18 +35,24 @@ const Support = () => {
         body: JSON.stringify(payload)
       });
 
+      if (response.status === 403) {
+        setStatus('Your access seems denied, please login again.');
+        return;
+      }
+
       if (response.ok) {
         setStatus('Your request submitted successfully');
         setMessageLink('');
         setAdditionalInfo('');
         setAgree(false);
         navigate('/success');
-      } else if (error.response && error.response.status === 403) {
-        setStatus('Please log in again, your access has been denied.');
+      } else {
+        const errorData = await response.json();
+        setStatus(`Error while submitting request: ${errorData.message}`);
       }
     } catch (error) {
       console.error('Error:', error);
-      setStatus(`Error while submitting request: ${error}');
+      setStatus('Error while submitting request');
     }
   };
 
