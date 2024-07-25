@@ -41,12 +41,12 @@ const Support = () => {
         setAdditionalInfo('');
         setAgree(false);
         navigate('/success');
-      } else {
+      } else if (error.response && error.response.status === 403) {
         setStatus('Please log in again, your access has been denied.');
       }
     } catch (error) {
       console.error('Error:', error);
-      setStatus('Error while submitting report');
+      setStatus(`Error while submitting request: ${error}');
     }
   };
 
