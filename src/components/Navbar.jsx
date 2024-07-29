@@ -80,7 +80,7 @@ export default function Navbar({ isAuthenticated }) {
               strokeWidth="2"
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
-          <span>Your access seems denied, please Login again.</span>
+          <span>Your access has been denied, please Login again.</span>
           <div>
             <button className="btn btn-sm btn-outline" onClick={() => setShowAlert(false)}>No</button>
             <button className="btn btn-sm btn-outline btn-secondary" onClick={handleLogout}>Logout</button>
@@ -132,7 +132,7 @@ export default function Navbar({ isAuthenticated }) {
 
               {loading ? (
                 <div className="flex items-center mr-4">
-                  <span className="loading loading-spinner size-6"></span>
+                  <span className="skeleton h-8 w-8 shrink-0 rounded-full"></span>
                 </div>
               ) : (
                 <div className="dropdown dropdown-bottom dropdown-end mr-4 ml-2">
