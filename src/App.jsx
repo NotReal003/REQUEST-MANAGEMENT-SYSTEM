@@ -8,6 +8,7 @@ import Apply from './pages/Apply';
 import NotFound from './pages/404';
 import Login from './pages/Login';
 import Success from './pages/Success';
+import One from './pages/One';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -45,6 +46,7 @@ const App = () => {
             <Route path="/apply" element={isAuthenticated ? <Apply /> : <Navigate to="/login" />} />
             <Route path="/login" element={isAuthenticated ? <Navigate to="/" /> : <Login />} />
             <Route path="/Success" element={isAuthenticated ? <Success /> : <Navigate to="/login" />} />
+            <Route path="/One" element={isAuthenticated ? <One /> : <Navigate to="/login" />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
