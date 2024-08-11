@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const AdminDashboard = () => {
+const Admin = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -152,4 +152,4 @@ const updateRequestStatus = async (requestId, status) => {
   }
 };
 
-export default AdminDashboard;
+export default Admin;
