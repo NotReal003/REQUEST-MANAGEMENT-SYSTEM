@@ -43,7 +43,7 @@ const Admin = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('jwtToken');
-      await axios.put(`https://api.notreal003.xyz/requests/${requestId}`, { status: newStatus }, {
+      await axios.put(`https://api.notreal003.xyz/admin/${requestId}`, { status: newStatus }, {
         headers: { Authorization: `${token}` },
       });
       // Update the request status locally after successful API call
