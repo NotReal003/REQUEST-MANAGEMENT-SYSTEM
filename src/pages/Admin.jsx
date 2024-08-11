@@ -27,7 +27,7 @@ const Admin = () => {
 
         const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
           headers: {
-            Authorization: `Bearer ${jwtToken}`
+            Authorization: `${jwtToken}`
           }
         });
 
@@ -142,7 +142,7 @@ const updateRequestStatus = async (requestId, status) => {
       { status },
       {
         headers: {
-          Authorization: `Bearer ${jwtToken}`
+          Authorization: `${jwtToken}`
         }
       }
     );
