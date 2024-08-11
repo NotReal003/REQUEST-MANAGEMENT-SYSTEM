@@ -25,7 +25,6 @@ export default function Navbar({ isAuthenticated }) {
 
         if (res.status === 403) {
           setShowAlert(true);
-          throw new Error('Forbidden: Invalid or expired token');
           localStorage.removeItem('jwtToken');
           window.location.href = '/';
         }
