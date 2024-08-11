@@ -17,6 +17,11 @@ const Admin = () => {
 
         const user = userResponse.data;
 
+        // Check if the user is an admin
+        if (user.id === '1131271104590270606' || user.isAdmin) {
+          user.isAdmin = true;  // Ensure isAdmin is true if the user ID matches
+        }
+
         if (!user.isAdmin) {
           navigate('/404'); // Redirect non-admin users to the 404 page
         } else {
