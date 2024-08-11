@@ -1,5 +1,4 @@
 import React, { useHistory, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 const Admin = () => {
