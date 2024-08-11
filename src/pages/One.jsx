@@ -53,8 +53,8 @@ const One = () => {
           <thead>
             <tr>
               <th>#</th>
-              <th>Message Link</th>
-              <th>Additional Info</th>
+              <th>Reason</th>
+              <th>Anything Else</th>
               <th>Status</th>
               <th>Submitted At</th>
             </tr>
