@@ -17,11 +17,6 @@ const Admin = () => {
 
         const user = userResponse.data;
 
-        // Check if the user is an admin
-        if (user.id === '1131271104590270606' || user.isAdmin) {
-          user.isAdmin = true;  // Ensure isAdmin is true if the user ID matches
-        }
-
         if (!user.isAdmin) {
           navigate('/404'); // Redirect non-admin users to the 404 page
         } else {
@@ -60,10 +55,29 @@ const Admin = () => {
     }
   };
 
+  const handleDeleteRequest = async (requestId) => {
+    if (window.confirm('Are you sure you want to delete this request?')) {
+      setLoading(true);
+      try {
+        const token = localStorage.getItem('jwtToken');
+        await axios.delete(`https://api.notreal003.xyz/admin/${requestId}`, {
+          headers: { Authorization: `${token}` },
+        });
+        // Remove the deleted request from the local state
+        setRequests((prevRequests) => prevRequests.filter((request) => request._id !== requestId));
+      } catch (error) {
+        console.error('Error deleting request:', error);
+        alert('Failed to delete request. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
   return (
     <div className="container mx-auto p-8">
       <div className="text-center">
-        <h1 className="text-4xl font-extrabold mb-8 text-primary">Admin Dashboard</h1>
+        <h1 className="text-4xl font-extrabold mb-8 text-primary">Dashboard</h1>
         <p className="text-lg text-secondary">Manage and review all submitted requests</p>
       </div>
 
@@ -121,6 +135,13 @@ const Admin = () => {
                         disabled={loading || request.status === 'Pending'}
                       >
                         Pending
+                      </button>
+                      <button
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleDeleteRequest(request._id)}
+                        disabled={loading}
+                      >
+                        Delete
                       </button>
                     </div>
                   </td>

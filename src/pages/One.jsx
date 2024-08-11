@@ -47,14 +47,18 @@ const One = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Your Requests</h1>
+      <div className="text-center mb-6">
+        <h1 className="text-4xl font-bold mb-4">Your Submitted Requests</h1>
+        <p className="text-gray-600">Below is a summary of the requests you've submitted.</p>
+      </div>
+
       <div className="overflow-x-auto">
-        <table className="table w-full">
-          <thead>
+        <table className="table w-full table-zebra">
+          <thead className="bg-primary text-white">
             <tr>
               <th>#</th>
-              <th>Reason</th>
-              <th>Anything Else</th>
+              <th>Message Link</th>
+              <th>Additional Information</th>
               <th>Status</th>
               <th>Submitted At</th>
             </tr>
@@ -62,7 +66,7 @@ const One = () => {
           <tbody>
             {requests.length === 0 ? (
               <tr>
-                <td colSpan="5" className="text-center">
+                <td colSpan="5" className="text-center text-lg text-gray-500">
                   No requests found.
                 </td>
               </tr>
@@ -71,7 +75,7 @@ const One = () => {
                 <tr key={request._id}>
                   <td>{index + 1}</td>
                   <td>
-                    <a href={request.messageLink} className="link link-primary">
+                    <a href={request.messageLink} className="link link-primary" target="_blank" rel="noopener noreferrer">
                       {request.messageLink}
                     </a>
                   </td>
