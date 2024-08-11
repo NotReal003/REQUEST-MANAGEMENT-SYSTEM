@@ -1,10 +1,11 @@
-import React, { useHistory, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Admin = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,7 +18,7 @@ const Admin = () => {
         const user = userResponse.data;
 
         if (!user.isAdmin) {
-          history.push('/404'); // Redirect non-admin users to the 404 page
+          navigate('/404'); // Redirect non-admin users to the 404 page
         } else {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
             headers: { Authorization: `${token}` },
@@ -26,12 +27,12 @@ const Admin = () => {
         }
       } catch (error) {
         console.error('Error fetching data:', error);
-        history.push('/404'); // Redirect in case of error
+        navigate('/404'); // Redirect in case of error
       }
     };
 
     fetchData();
-  }, [history]);
+  }, [navigate]);
 
   const handleStatusChange = async (requestId, newStatus) => {
     setLoading(true);
