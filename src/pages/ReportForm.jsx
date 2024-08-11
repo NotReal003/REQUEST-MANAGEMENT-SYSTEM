@@ -102,8 +102,8 @@ const ReportForm = () => {
             </label>
           </div>
 
-          <button type="submit" className="btn btn-outline btn-primary w-full"><IoSend />Submit</button>
-          <Link to="/" className="btn btn-outline btn-secondary w-full mt-4"><ImExit />Back</Link>
+          <button type="submit" className="btn no-animation btn-outline btn-primary w-full"><IoSend />Submit</button>
+          <Link to="/" className="btn no-animation btn-outline btn-secondary w-full mt-4"><ImExit />Back</Link>
         </form>
       </div>
     </div>

@@ -83,7 +83,7 @@ export default function Navbar({ isAuthenticated }) {
           </svg>
           <span>Your access has been denied, please Login again.</span>
           <div>
-            <button className="btn btn-sm btn-outline" onClick={() => setShowAlert(false)}>No</button>
+            <button className="btn btn-sm btn-outline mr-1 ml-1" onClick={() => setShowAlert(false)}>No</button>
             <button className="btn btn-sm btn-outline btn-secondary" onClick={handleLogout}>Logout</button>
           </div>
         </div>

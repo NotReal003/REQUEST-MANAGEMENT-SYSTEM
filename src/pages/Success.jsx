@@ -14,7 +14,7 @@ const Success = () => {
         <Link to="/" className="btn btn-outline btn-info mt-4 w-full">
           <House className='size-4'/> Back to Home
         </Link>
-        <a target="_blank" href="https://discord.gg/sqVBrMVQmp" className="btn btn-outline btn-primary w-full mt-5"><FaDiscord /> Join our Discord Server</a>
+        <a target="_blank" href="https://discord.gg/sqVBrMVQmp" className="btn no-animation btn-outline btn-primary w-full mt-5"><FaDiscord /> Join our Discord Server</a>
       </div>
     </div>
   );
