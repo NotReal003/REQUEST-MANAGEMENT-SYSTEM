@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Button, Spinner, Modal, Notification, Badge } from 'daisyui';
+import { Spinner, Button, Badge } from 'daisyui';
 
 const Admin = () => {
   const [requests, setRequests] = useState([]);
@@ -182,36 +182,38 @@ const Admin = () => {
         </>
       )}
 
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-        <Modal.Header>Confirm Deletion</Modal.Header>
-        <Modal.Body>
-          <p>Are you sure you want to delete this request?</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            size="sm"
-            className="btn-error"
-            onClick={() => {
-              handleDeleteRequest(selectedRequest);
-              setModalOpen(false);
-            }}
-          >
-            Yes, Delete
-          </Button>
-          <Button
-            size="sm"
-            className="btn-secondary"
-            onClick={() => setModalOpen(false)}
-          >
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {modalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+            <h3 className="text-lg font-bold">Confirm Deletion</h3>
+            <p className="my-4">Are you sure you want to delete this request?</p>
+            <div className="flex justify-end space-x-4">
+              <Button
+                size="sm"
+                className="btn-error"
+                onClick={() => {
+                  handleDeleteRequest(selectedRequest);
+                  setModalOpen(false);
+                }}
+              >
+                Yes, Delete
+              </Button>
+              <Button
+                size="sm"
+                className="btn-secondary"
+                onClick={() => setModalOpen(false)}
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {notification && (
-        <Notification type={notification.type} onClose={() => setNotification(null)}>
+        <div className={`fixed bottom-4 right-4 p-4 rounded-lg shadow-lg ${notification.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`}>
           {notification.message}
-        </Notification>
+        </div>
       )}
     </div>
   );
