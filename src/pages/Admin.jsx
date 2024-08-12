@@ -42,7 +42,7 @@ const Admin = () => {
 
   const handleStatusChange = async (requestId, status, reviewMessage) => {
     try {
-      await axios.put(`https://api.notreal003.xyz/requests/${requestId}`, { status, reviewMessage }, {
+      await axios.put(`https://api.notreal003.xyz/admin/${requestId}`, { status, reviewMessage }, {
         headers: { Authorization: `${token}` },
       });
       // Update the status and review message in the UI
