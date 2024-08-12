@@ -15,7 +15,7 @@ const Admin = () => {
     const fetchRequests = async () => {
       try {
         const userResponse = await axios.get('https://api.notreal003.xyz/users/@me', {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `${token}` },
         });
         const user = userResponse.data;
 
