@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Button, Card, Modal, Spinner, Alert, Input, Textarea, Select } from 'daisyui';
 
 const Admin = () => {
   const [requests, setRequests] = useState([]);
