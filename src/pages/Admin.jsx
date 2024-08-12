@@ -93,7 +93,7 @@ const Admin = () => {
 
               {selectedRequest?._id === request._id ? (
                 <div className="mt-4">
-                  <Select
+                  <select className="select select-primary w-full max-w-xs"
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
                     className="mb-2"
@@ -101,9 +101,9 @@ const Admin = () => {
                     <option value="Pending">Pending</option>
                     <option value="Approved">Approved</option>
                     <option value="Rejected">Rejected</option>
-                  </Select>
+                  </select>
 
-                  <Textarea
+                  <textarea
                     value={reviewMessage}
                     onChange={(e) => setReviewMessage(e.target.value)}
                     placeholder="Leave a review message"
