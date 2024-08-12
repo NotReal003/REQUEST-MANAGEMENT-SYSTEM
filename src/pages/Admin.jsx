@@ -1,234 +1,136 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Spinner, Button, Badge } from 'daisyui';
+import { useNavigate } from 'react-router-dom';
+import { Card, Button, Select, Textarea, Alert } from 'daisyui';
 
 const Admin = () => {
   const [requests, setRequests] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [selectedRequest, setSelectedRequest] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [notification, setNotification] = useState(null);
+  const [reviewMessage, setReviewMessage] = useState('');
+  const [status, setStatus] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const token = localStorage.getItem('jwtToken');
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchRequests = async () => {
       try {
-        const token = localStorage.getItem('jwtToken');
         const userResponse = await axios.get('https://api.notreal003.xyz/users/@me', {
           headers: { Authorization: `${token}` },
         });
-
         const user = userResponse.data;
 
         if (user.id !== '1131271104590270606' && !user.isAdmin) {
-          navigate('/404'); // Redirect non-admin users to the 404 page
+          navigate('/404');
         } else {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
             headers: { Authorization: `${token}` },
           });
+
           setRequests(requestsResponse.data);
         }
       } catch (error) {
+        setError('Failed to fetch requests. Please try again later.');
         console.error('Error fetching data:', error);
-        navigate('/404'); // Redirect in case of error
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
-  }, [navigate]);
+    fetchRequests();
+  }, [token, navigate]);
 
-  const handleStatusChange = async (requestId, newStatus, reviewMessage = '') => {
-    setLoading(true);
+  const handleStatusChange = async (requestId) => {
     try {
-      const token = localStorage.getItem('jwtToken');
-      await axios.put(`https://api.notreal003.xyz/requests/${requestId}`, 
-        { status: newStatus, reviewMessage }, 
+      await axios.put(
+        `https://api.notreal003.xyz/admin/${requestId}`,
+        { status, reviewMessage },
         { headers: { Authorization: `${token}` } }
       );
-      setRequests((prevRequests) =>
-        prevRequests.map((request) =>
-          request._id === requestId ? { ...request, status: newStatus, reviewMessage } : request
+      alert('Request updated successfully');
+      // Refresh requests after update
+      setRequests((prev) =>
+        prev.map((req) =>
+          req._id === requestId ? { ...req, status, reviewMessage } : req
         )
       );
-      setNotification({ type: 'success', message: 'Request updated successfully!' });
     } catch (error) {
       console.error('Error updating request status:', error);
-      setNotification({ type: 'error', message: 'Failed to update request status.' });
-    } finally {
-      setLoading(false);
+      alert('Failed to update request status');
     }
   };
 
-  const handleDeleteRequest = async (requestId) => {
-    setLoading(true);
-    try {
-      const token = localStorage.getItem('jwtToken');
-      await axios.delete(`https://api.notreal003.xyz/requests/${requestId}`, {
-        headers: { Authorization: `${token}` },
-      });
-      setRequests((prevRequests) => prevRequests.filter((request) => request._id !== requestId));
-      setNotification({ type: 'success', message: 'Request deleted successfully!' });
-    } catch (error) {
-      console.error('Error deleting request:', error);
-      setNotification({ type: 'error', message: 'Failed to delete request.' });
-    } finally {
-      setLoading(false);
-    }
+  const handleRequestSelect = (request) => {
+    setSelectedRequest(request);
+    setStatus(request.status || 'Pending');
+    setReviewMessage(request.reviewMessage || '');
   };
 
   return (
-    <div className="container mx-auto p-8">
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+
       {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <Spinner size="lg" className="text-primary" />
+        <div className="text-center">
+          <div className="btn btn-primary loading">Loading...</div>
         </div>
+      ) : error ? (
+        <div className="alert alert-error">{error}</div>
+      ) : requests.length === 0 ? (
+        <p>No requests available.</p>
       ) : (
-        <>
-          <div className="text-center">
-            <h1 className="text-4xl font-extrabold mb-8 text-primary animate-fade-in">
-              Admin Dashboard
-            </h1>
-            <p className="text-lg text-secondary animate-fade-in">
-              Manage and review all submitted requests
-            </p>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {requests.map((request) => (
+            <Card
+              key={request._id}
+              className={`p-4 shadow-lg ${selectedRequest?._id === request._id ? 'border-2 border-primary' : ''}`}
+            >
+              <h2 className="text-xl font-semibold">{request.username}'s Request</h2>
+              <p className="mt-2"><strong>Message Link:</strong> {request.messageLink}</p>
+              <p><strong>Additional Info:</strong> {request.additionalInfo || 'None provided'}</p>
+              <p><strong>Status:</strong> {request.status}</p>
 
-          {requests.length === 0 ? (
-            <div className="flex justify-center items-center h-64 animate-fade-in">
-              <span className="text-lg text-gray-500">No requests found.</span>
-            </div>
-          ) : (
-            <div className="overflow-x-auto animate-slide-in">
-              <table className="table table-zebra w-full mt-8 shadow-lg rounded-lg">
-                <thead>
-                  <tr>
-                    <th className="bg-primary text-white">ID</th>
-                    <th className="bg-primary text-white">Message Link</th>
-                    <th className="bg-primary text-white">Additional Info</th>
-                    <th className="bg-primary text-white">Status</th>
-                    <th className="bg-primary text-white">Actions</th>
-                    <th className="bg-primary text-white">Submitted At</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {requests.map((request) => (
-                    <tr key={request._id}>
-                      <td className="text-sm font-semibold">{request.id}</td>
-                      <td>
-                        <a
-                          href={request.messageLink}
-                          className="text-blue-500 hover:underline"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {request.messageLink}
-                        </a>
-                      </td>
-                      <td>{request.additionalInfo || 'None'}</td>
-                      <td>
-                        <Badge className={getStatusBadgeClass(request.status)}>
-                          {request.status}
-                        </Badge>
-                      </td>
-                      <td>
-                        <div className="flex space-x-2">
-                          <Button
-                            size="sm"
-                            className="btn-success"
-                            onClick={() => handleStatusChange(request._id, 'Approved')}
-                            disabled={loading || request.status === 'Approved'}
-                          >
-                            Approve
-                          </Button>
-                          <Button
-                            size="sm"
-                            className="btn-error"
-                            onClick={() => handleStatusChange(request._id, 'Rejected')}
-                            disabled={loading || request.status === 'Rejected'}
-                          >
-                            Reject
-                          </Button>
-                          <Button
-                            size="sm"
-                            className="btn-warning"
-                            onClick={() => handleStatusChange(request._id, 'Pending')}
-                            disabled={loading || request.status === 'Pending'}
-                          >
-                            Pending
-                          </Button>
-                          <Button
-                            size="sm"
-                            className="btn-danger"
-                            onClick={() => {
-                              setSelectedRequest(request._id);
-                              setModalOpen(true);
-                            }}
-                            disabled={loading}
-                          >
-                            Delete
-                          </Button>
-                        </div>
-                      </td>
-                      <td>{new Date(request.createdAt).toLocaleString()}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </>
-      )}
+              {selectedRequest?._id === request._id ? (
+                <div className="mt-4">
+                  <Select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    className="mb-2"
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                  </Select>
 
-      {modalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-            <h3 className="text-lg font-bold">Confirm Deletion</h3>
-            <p className="my-4">Are you sure you want to delete this request?</p>
-            <div className="flex justify-end space-x-4">
-              <Button
-                size="sm"
-                className="btn-error"
-                onClick={() => {
-                  handleDeleteRequest(selectedRequest);
-                  setModalOpen(false);
-                }}
-              >
-                Yes, Delete
-              </Button>
-              <Button
-                size="sm"
-                className="btn-secondary"
-                onClick={() => setModalOpen(false)}
-              >
-                Cancel
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+                  <Textarea
+                    value={reviewMessage}
+                    onChange={(e) => setReviewMessage(e.target.value)}
+                    placeholder="Leave a review message"
+                    className="mb-2"
+                  />
 
-      {notification && (
-        <div className={`fixed bottom-4 right-4 p-4 rounded-lg shadow-lg ${notification.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`}>
-          {notification.message}
+                  <Button
+                    onClick={() => handleStatusChange(request._id)}
+                    className="btn btn-primary"
+                  >
+                    Update Status
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  onClick={() => handleRequestSelect(request)}
+                  className="btn btn-secondary mt-4"
+                >
+                  Manage Request
+                </Button>
+              )}
+            </Card>
+          ))}
         </div>
       )}
     </div>
   );
-};
-
-// Function to get the appropriate badge class based on the status
-const getStatusBadgeClass = (status) => {
-  switch (status) {
-    case 'Approved':
-      return 'badge-success';
-    case 'Rejected':
-      return 'badge-error';
-    default:
-      return 'badge-warning';
-  }
 };
 
 export default Admin;
