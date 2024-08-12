@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Button, Card, Modal, Spinner, Alert, Input, Textarea, Select } from 'daisyui';
 
 const Admin = () => {
   const [requests, setRequests] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [reviewMessage, setReviewMessage] = useState('');
+  const [status, setStatus] = useState('Pending');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,9 +21,8 @@ const Admin = () => {
         });
 
         const user = userResponse.data;
-
-          if (user.id !== '1131271104590270606' && !user.isAdmin) {
-            navigate('/404');
+        if (user.id !== '1131271104590270606' && !user.isAdmin) {
+          navigate('/404');
         } else {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
             headers: { Authorization: `${token}` },
@@ -29,31 +31,32 @@ const Admin = () => {
         }
       } catch (error) {
         console.error('Error fetching data:', error);
-        navigate('/404'); // Redirect in case of error
+        navigate('/404');
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [navigate]);
 
-  const handleStatusChange = async (requestId, newStatus) => {
+  const handleStatusChange = async (requestId) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('jwtToken');
       await axios.put(
-        `https://api.notreal003.xyz/admin/${requestId}`,
-        { status: newStatus, reviewMessage },
+        `https://api.notreal003.xyz/requests/${requestId}`,
+        { status, reviewMessage },
         {
           headers: { Authorization: `${token}` },
         }
       );
-      // Update the request status locally after successful API call
       setRequests((prevRequests) =>
         prevRequests.map((request) =>
-          request._id === requestId ? { ...request, status: newStatus, reviewMessage } : request
+          request._id === requestId ? { ...request, status, reviewMessage } : request
         )
       );
-      setSelectedRequest(null); // Clear the selected request after update
+      setIsModalOpen(false);
     } catch (error) {
       console.error('Error updating request status:', error);
       alert('Failed to update request status. Please try again.');
@@ -62,143 +65,108 @@ const Admin = () => {
     }
   };
 
-  const handleReviewChange = (e) => {
-    setReviewMessage(e.target.value);
+  const handleDeleteRequest = async (requestId) => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('jwtToken');
+      await axios.delete(`https://api.notreal003.xyz/requests/${requestId}`, {
+        headers: { Authorization: `${token}` },
+      });
+      setRequests((prevRequests) => prevRequests.filter((request) => request._id !== requestId));
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error deleting request:', error);
+      alert('Failed to delete request. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const selectRequest = (request) => {
+  const handleRequestClick = (request) => {
     setSelectedRequest(request);
+    setStatus(request.status);
     setReviewMessage(request.reviewMessage || '');
+    setIsModalOpen(true);
   };
 
   return (
     <div className="container mx-auto p-8">
-      <div className="text-center">
-        <h1 className="text-4xl font-extrabold mb-8 text-primary">Admin Dashboard</h1>
-        <p className="text-lg text-secondary">Manage and review all submitted requests</p>
-      </div>
-
-      {requests.length === 0 ? (
-        <div className="flex justify-center items-center h-64">
-          <span className="text-lg text-gray-500">No requests found.</span>
+      {loading ? (
+        <div className="flex justify-center items-center h-screen">
+          <Spinner className="text-primary" size="xl" />
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="table table-zebra w-full mt-8 shadow-lg rounded-lg">
-            <thead>
-              <tr>
-                <th className="bg-primary text-white">ID</th>
-                <th className="bg-primary text-white">Message Link</th>
-                <th className="bg-primary text-white">Additional Info</th>
-                <th className="bg-primary text-white">Status</th>
-                <th className="bg-primary text-white">Actions</th>
-                <th className="bg-primary text-white">Submitted At</th>
-              </tr>
-            </thead>
-            <tbody>
-              {requests.map((request) => (
-                <tr key={request._id} onClick={() => selectRequest(request)}>
-                  <td className="text-sm font-semibold">{request.id}</td>
-                  <td>
-                    <a
-                      href={request.messageLink}
-                      className="text-blue-500 hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {request.messageLink}
-                    </a>
-                  </td>
-                  <td>{request.additionalInfo || 'None'}</td>
-                  <td>
-                    <span className={`badge badge-lg ${getStatusBadgeClass(request.status)}`}>
-                      {request.status}
-                    </span>
-                  </td>
-                  <td>
-                    <div className="flex space-x-2">
-                      <button
-                        className="btn btn-sm btn-success"
-                        onClick={() => handleStatusChange(request._id, 'Approved')}
-                        disabled={loading || request.status === 'Approved'}
-                      >
-                        Approve
-                      </button>
-                      <button
-                        className="btn btn-sm btn-error"
-                        onClick={() => handleStatusChange(request._id, 'Rejected')}
-                        disabled={loading || request.status === 'Rejected'}
-                      >
-                        Reject
-                      </button>
-                      <button
-                        className="btn btn-sm btn-warning"
-                        onClick={() => handleStatusChange(request._id, 'Pending')}
-                        disabled={loading || request.status === 'Pending'}
-                      >
-                        Pending
-                      </button>
-                    </div>
-                  </td>
-                  <td>{new Date(request.createdAt).toLocaleString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {selectedRequest && (
-        <div className="mt-8 p-4 border rounded-lg shadow-md bg-gray-100">
-          <h2 className="text-2xl font-bold mb-4">Review Request</h2>
-          <p className="mb-2"><strong>ID:</strong> {selectedRequest.id}</p>
-          <p className="mb-2"><strong>Message Link:</strong> {selectedRequest.messageLink}</p>
-          <p className="mb-2"><strong>Status:</strong> {selectedRequest.status}</p>
-          <textarea
-            className="textarea textarea-bordered w-full mt-4"
-            placeholder="Leave a review message"
-            value={reviewMessage}
-            onChange={handleReviewChange}
-          />
-          <div className="flex space-x-2 mt-4">
-            <button
-              className="btn btn-success"
-              onClick={() => handleStatusChange(selectedRequest._id, 'Approved')}
-              disabled={loading}
-            >
-              Save Review & Approve
-            </button>
-            <button
-              className="btn btn-error"
-              onClick={() => handleStatusChange(selectedRequest._id, 'Rejected')}
-              disabled={loading}
-            >
-              Save Review & Reject
-            </button>
-            <button
-              className="btn btn-warning"
-              onClick={() => handleStatusChange(selectedRequest._id, 'Pending')}
-              disabled={loading}
-            >
-              Save Review & Mark as Pending
-            </button>
+        <div>
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-extrabold text-primary">Admin Dashboard</h1>
+            <p className="text-lg text-secondary">Manage and review all submitted requests</p>
           </div>
+
+          {requests.length === 0 ? (
+            <Alert status="info" className="shadow-lg">
+              No requests found.
+            </Alert>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {requests.map((request) => (
+                <Card
+                  key={request._id}
+                  className="p-4 shadow-lg cursor-pointer transition-transform transform hover:scale-105"
+                  onClick={() => handleRequestClick(request)}
+                >
+                  <h2 className="text-xl font-semibold mb-2">{request.username}'s Request</h2>
+                  <p className="text-sm text-gray-500">Status: {request.status}</p>
+                  <p className="text-sm text-gray-500">Submitted At: {new Date(request.createdAt).toLocaleString()}</p>
+                </Card>
+              ))}
+            </div>
+          )}
+
+          {selectedRequest && (
+            <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)} className="max-w-xl mx-auto">
+              <Card className="p-4 shadow-lg">
+                <h2 className="text-2xl font-bold mb-4">Manage Request</h2>
+                <Input className="mb-4" readOnly value={selectedRequest.username} label="Username" />
+                <Input className="mb-4" readOnly value={selectedRequest.messageLink} label="Message Link" />
+                <Textarea
+                  className="mb-4"
+                  value={selectedRequest.additionalInfo || 'None'}
+                  readOnly
+                  label="Additional Info"
+                />
+                <Select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  className="mb-4"
+                  label="Status"
+                >
+                  <option value="Pending">Pending</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Rejected">Rejected</option>
+                </Select>
+                <Textarea
+                  className="mb-4"
+                  value={reviewMessage}
+                  onChange={(e) => setReviewMessage(e.target.value)}
+                  placeholder="Leave a review message"
+                  label="Review Message"
+                />
+
+                <div className="flex justify-end space-x-4">
+                  <Button className="btn-error" onClick={() => handleDeleteRequest(selectedRequest._id)} disabled={loading}>
+                    Delete
+                  </Button>
+                  <Button className="btn-primary" onClick={() => handleStatusChange(selectedRequest._id)} disabled={loading}>
+                    Update Status
+                  </Button>
+                </div>
+              </Card>
+            </Modal>
+          )}
         </div>
       )}
     </div>
   );
-};
-
-// Function to get the appropriate badge class based on the status
-const getStatusBadgeClass = (status) => {
-  switch (status) {
-    case 'Approved':
-      return 'badge-success';
-    case 'Rejected':
-      return 'badge-error';
-    default:
-      return 'badge-warning';
-  }
 };
 
 export default Admin;
