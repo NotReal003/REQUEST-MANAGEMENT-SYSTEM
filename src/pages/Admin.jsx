@@ -15,10 +15,11 @@ const Admin = () => {
     const fetchRequests = async () => {
       try {
         const userResponse = await axios.get('https://api.notreal003.xyz/users/@me', {
-          headers: { Authorization: `${token}` },
+          headers: { Authorization: `Bearer ${token}` },
         });
         const user = userResponse.data;
 
+        // Check if user is admin
         if (user.id === '1131271104590270606' || user.isAdmin) {
           user.isAdmin = true;
         }
@@ -27,12 +28,18 @@ const Admin = () => {
           navigate('/404');
         } else {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
-            headers: { Authorization: `${token}` },
+            headers: { Authorization: `Bearer ${token}` },
           });
-          setRequests(requestsResponse.data);
+
+          // Ensure requestsResponse.data is an array
+          if (Array.isArray(requestsResponse.data)) {
+            setRequests(requestsResponse.data);
+          } else {
+            console.error('Unexpected data format for requests:', requestsResponse.data);
+          }
         }
       } catch (error) {
-        console.error('Error fetching requests:', error);
+        console.error('Error fetching requests or user data:', error);
         navigate('/404');
       }
     };

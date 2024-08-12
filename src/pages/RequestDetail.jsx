@@ -40,6 +40,10 @@ axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
         <div className="card-body">
           <h2 className="card-title">Request Details</h2>
           <div className="form-control">
+            <label className="label">Review Message</label>
+            <textarea value={request.reviewMessage || 'No review yet'} readOnly className="textarea textarea-bordered" />
+          </div>
+          <div className="form-control">
             <label className="label">Username</label>
             <input type="text" value={request.username} readOnly className="input input-bordered" />
           </div>
@@ -54,10 +58,6 @@ axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
           <div className="form-control">
             <label className="label">Status</label>
             <input type="text" value={request.status} readOnly className="input input-bordered" />
-          </div>
-          <div className="form-control">
-            <label className="label">Review Message</label>
-            <textarea value={request.reviewMessage || 'No review yet'} readOnly className="textarea textarea-bordered" />
           </div>
         </div>
       </div>
