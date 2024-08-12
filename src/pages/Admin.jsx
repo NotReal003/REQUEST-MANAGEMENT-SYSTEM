@@ -31,6 +31,8 @@ const Admin = () => {
             headers: { Authorization: `${token}` },
           });
 
+          console.log('Requests Data:', requestsResponse.data); // Debugging
+
           // Ensure requestsResponse.data is an array
           if (Array.isArray(requestsResponse.data)) {
             setRequests(requestsResponse.data);
@@ -67,53 +69,57 @@ const Admin = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {requests.length > 0 ? (
-          requests.map((request) => (
-            <Card key={request._id} className="p-4 shadow-lg">
-              <h2 className="text-xl font-semibold">{request.username}'s Request</h2>
-              <p>Message Link: {request.messageLink}</p>
-              <p>Additional Info: {request.additionalInfo || 'None provided'}</p>
-              <p>Status: {request.status}</p>
+          requests.map((request) => {
+            // Safeguard against invalid data
+            const { _id, username, messageLink, additionalInfo, status } = request || {};
+            return (
+              <Card key={_id} className="p-4 shadow-lg">
+                <h2 className="text-xl font-semibold">{username || 'Unknown User'}'s Request</h2>
+                <p>Message Link: {messageLink || 'No message link provided'}</p>
+                <p>Additional Info: {additionalInfo || 'None provided'}</p>
+                <p>Status: {status || 'Unknown'}</p>
 
-              {selectedRequest?._id === request._id ? (
-                <div className="mt-4">
-                  <Select
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                    className="mb-2"
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Approved">Approved</option>
-                    <option value="Rejected">Rejected</option>
-                  </Select>
+                {selectedRequest?._id === _id ? (
+                  <div className="mt-4">
+                    <Select
+                      value={status}
+                      onChange={(e) => setStatus(e.target.value)}
+                      className="mb-2"
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Approved">Approved</option>
+                      <option value="Rejected">Rejected</option>
+                    </Select>
 
-                  <Textarea
-                    value={reviewMessage}
-                    onChange={(e) => setReviewMessage(e.target.value)}
-                    placeholder="Leave a review message"
-                    className="mb-2"
-                  />
+                    <Textarea
+                      value={reviewMessage}
+                      onChange={(e) => setReviewMessage(e.target.value)}
+                      placeholder="Leave a review message"
+                      className="mb-2"
+                    />
 
+                    <Button
+                      onClick={() => handleStatusChange(_id)}
+                      className="btn-primary"
+                    >
+                      Update Status
+                    </Button>
+                  </div>
+                ) : (
                   <Button
-                    onClick={() => handleStatusChange(request._id)}
-                    className="btn-primary"
+                    onClick={() => {
+                      setSelectedRequest(request);
+                      setStatus(request.status || 'Pending');
+                      setReviewMessage(request.reviewMessage || '');
+                    }}
+                    className="btn-secondary mt-2"
                   >
-                    Update Status
+                    Manage Request
                   </Button>
-                </div>
-              ) : (
-                <Button
-                  onClick={() => {
-                    setSelectedRequest(request);
-                    setStatus(request.status);
-                    setReviewMessage(request.reviewMessage || '');
-                  }}
-                  className="btn-secondary mt-2"
-                >
-                  Manage Request
-                </Button>
-              )}
-            </Card>
-          ))
+                )}
+              </Card>
+            );
+          })
         ) : (
           <p>No requests available.</p>
         )}
