@@ -24,11 +24,10 @@ const Admin = () => {
         if (user.id !== '1131271104590270606' && !user.isAdmin) {
           navigate('/404');
         } else {
-          const apiData = await axios.get('https://api.notreal003.xyz/requests', {
+          const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
             headers: { Authorization: `${token}` },
           });
-
-          setRequests(apiData.data);
+          setRequests(requestsResponse.data);
         }
       } catch (error) {
         setError('Failed to fetch requests. Please try again later.');
@@ -39,7 +38,7 @@ const Admin = () => {
     };
 
     fetchRequests();
-  }, [token, navigate]);
+  }, [navigate]);
 
   const handleStatusChange = async (requestId) => {
     try {
