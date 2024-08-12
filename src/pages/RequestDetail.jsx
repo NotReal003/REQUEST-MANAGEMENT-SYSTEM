@@ -12,6 +12,7 @@ const RequestDetail = () => {
   useEffect(() => {
     // Fetch the specific request details using the ID
     const fetchRequest = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
       const id = urlParams.get('id');
       const token = localStorage.getItem('jwtToken');
       const response = await fetch(`https://api.notreal003.xyz/requests/${id}`, {
