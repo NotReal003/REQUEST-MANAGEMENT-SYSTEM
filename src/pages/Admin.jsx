@@ -1,26 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Card, Select, Textarea, Button } from 'daisyui';
 
-function Admin() {
+const Admin = () => {
   const [requests, setRequests] = useState([]);
+  const [selectedRequest, setSelectedRequest] = useState(null);
   const [reviewMessage, setReviewMessage] = useState('');
-  const [alert, setAlert] = useState(null);
+  const [status, setStatus] = useState('Pending');
+  const token = localStorage.getItem('jwtToken');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const token = localStorage.getItem('jwtToken');
-        if (!token) {
-          navigate('/login');
-          return;
-        }
-
         const userResponse = await axios.get('https://api.notreal003.xyz/users/@me', {
           headers: { Authorization: `${token}` },
         });
-
         const user = userResponse.data;
 
         if (user.id === '1131271104590270606' || user.isAdmin) {
@@ -35,113 +31,80 @@ function Admin() {
           });
           setRequests(requestsResponse.data);
         }
-      } catch {
-        setAlert({
-          type: 'error',
-          message: 'Failed to fetch requests or user data. Please try again later.',
-        });
+      } catch (error) {
+        console.error('Error fetching requests:', error);
+        navigate('/404'); // Redirect if there's an error
       }
     };
 
     fetchRequests();
-  }, [navigate]);
+  }, [token, navigate]);
 
-  const handleReview = async (requestId) => {
+  const handleStatusChange = async (requestId) => {
     try {
-      const token = localStorage.getItem('jwtToken');
-      await axios.put(`https://api.notreal003.xyz/admin/${requestId}`, { reviewMessage }, {
-        headers: { Authorization: `${token}` },
-      });
-      setAlert({
-        type: 'success',
-        message: 'Request reviewed successfully!',
-      });
-      setReviewMessage('');
-    } catch {
-      setAlert({
-        type: 'error',
-        message: 'Failed to review request. Please try again later.',
-      });
-    }
-  };
-
-  const handleDelete = async (requestId) => {
-    try {
-      const token = localStorage.getItem('jwtToken');
-      await axios.delete(`https://api.notreal003.xyz/admin/${requestId}`, {
-        headers: { Authorization: `${token}` },
-      });
-      setRequests(requests.filter(request => request._id !== requestId));
-      setAlert({
-        type: 'success',
-        message: 'Request deleted successfully.',
-      });
-    } catch {
-      setAlert({
-        type: 'error',
-        message: 'Failed to delete request. Please try again later.',
-      });
+      await axios.put(
+        `https://api.notreal003.xyz/admin/${requestId}`,
+        { status, reviewMessage },
+        { headers: { Authorization: `${token}` } }
+      );
+      alert('Request updated successfully');
+    } catch (error) {
+      console.error('Error updating request status:', error);
+      alert('Failed to update request status');
     }
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {alert && (
-        <div className={`alert alert-${alert.type} shadow-lg mb-4`}>
-          <div>
-            <span>{alert.message}</span>
-          </div>
-        </div>
-      )}
-      <div className="overflow-x-auto">
-        <table className="table w-full">
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Message Link</th>
-              <th>Additional Info</th>
-              <th>Status</th>
-              <th>Review Message</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {requests.map((request) => (
-              <tr key={request._id}>
-                <td>{request.username}</td>
-                <td>{request.messageLink}</td>
-                <td>{request.additionalInfo || 'None provided'}</td>
-                <td>{request.status}</td>
-                <td>{request.reviewMessage || 'No review yet'}</td>
-                <td>
-                  <textarea
-                    value={reviewMessage}
-                    onChange={(e) => setReviewMessage(e.target.value)}
-                    placeholder="Leave a review message"
-                    className="input input-bordered w-full max-w-xs mb-2"
-                  />
-                  <div className="flex space-x-2">
-                    <button
-                      className="btn btn-primary btn-sm"
-                      onClick={() => handleReview(request._id)}
-                    >
-                      Review
-                    </button>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(request._id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {requests.map((request) => (
+          <Card key={request._id} className="p-4 shadow-lg">
+            <h2 className="text-xl font-semibold">{request.username}'s Request</h2>
+            <p>Message Link: {request.messageLink}</p>
+            <p>Additional Info: {request.additionalInfo || 'None provided'}</p>
+            <p>Status: {request.status}</p>
+
+            {selectedRequest?._id === request._id ? (
+              <div className="mt-4">
+                <Select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
+                  className="mb-2"
+                >
+                  <option value="Pending">Pending</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Rejected">Rejected</option>
+                </Select>
+
+                <Textarea
+                  value={reviewMessage}
+                  onChange={(e) => setReviewMessage(e.target.value)}
+                  placeholder="Leave a review message"
+                  className="mb-2"
+                />
+
+                <Button
+                  onClick={() => handleStatusChange(request._id)}
+                  className="btn-primary"
+                >
+                  Update Status
+                </Button>
+              </div>
+            ) : (
+              <Button
+                onClick={() => setSelectedRequest(request)}
+                className="btn-secondary mt-2"
+              >
+                Manage Request
+              </Button>
+            )}
+          </Card>
+        ))}
       </div>
     </div>
   );
-}
+};
 
 export default Admin;
