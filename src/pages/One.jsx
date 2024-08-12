@@ -32,7 +32,7 @@ const One = () => {
   }, []);
 
   const handleRequestClick = (request) => {
-    navigate(`/request?id=${request._id}`, { state: { request } });
+    navigate(`/requestdetail?id=${request._id}`, { state: { request } });
   };
 
   if (loading) {
