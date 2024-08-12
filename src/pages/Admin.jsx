@@ -82,7 +82,7 @@ const Admin = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {requests.map((request) => (
-            <Card
+            <div
               key={request._id}
               className={`p-4 shadow-lg ${selectedRequest?._id === request._id ? 'border-2 border-primary' : ''}`}
             >
@@ -110,22 +110,22 @@ const Admin = () => {
                     className="mb-2"
                   />
 
-                  <Button
+                  <div
                     onClick={() => handleStatusChange(request._id)}
                     className="btn btn-primary"
                   >
                     Update Status
-                  </Button>
+                  </div>
                 </div>
               ) : (
-                <Button
+                <div
                   onClick={() => handleRequestSelect(request)}
                   className="btn btn-secondary mt-4"
                 >
                   Manage Request
-                </Button>
+                </div>
               )}
-            </Card>
+            </div>
           ))}
         </div>
       )}
