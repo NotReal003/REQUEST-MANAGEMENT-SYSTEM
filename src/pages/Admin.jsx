@@ -28,7 +28,7 @@ const Admin = () => {
           navigate('/404');
         } else {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
-            headers: { Authorization: `Bearer ${token}` },
+            headers: { Authorization: `${token}` },
           });
 
           // Ensure requestsResponse.data is an array
