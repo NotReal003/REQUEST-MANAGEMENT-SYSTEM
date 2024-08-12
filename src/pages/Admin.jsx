@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Button, Spinner, Modal, Notification, Badge } from 'daisyui';
 
 const Admin = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedRequest, setSelectedRequest] = useState(null);
-  const [reviewMessage, setReviewMessage] = useState('');
-  const [status, setStatus] = useState('Pending');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [notification, setNotification] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,8 +20,9 @@ const Admin = () => {
         });
 
         const user = userResponse.data;
+
         if (user.id !== '1131271104590270606' && !user.isAdmin) {
-          navigate('/404');
+          navigate('/404'); // Redirect non-admin users to the 404 page
         } else {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
             headers: { Authorization: `${token}` },
@@ -30,7 +31,7 @@ const Admin = () => {
         }
       } catch (error) {
         console.error('Error fetching data:', error);
-        navigate('/404');
+        navigate('/404'); // Redirect in case of error
       } finally {
         setLoading(false);
       }
@@ -39,26 +40,23 @@ const Admin = () => {
     fetchData();
   }, [navigate]);
 
-  const handleStatusChange = async (requestId) => {
+  const handleStatusChange = async (requestId, newStatus, reviewMessage = '') => {
     setLoading(true);
     try {
       const token = localStorage.getItem('jwtToken');
-      await axios.put(
-        `https://api.notreal003.xyz/requests/${requestId}`,
-        { status, reviewMessage },
-        {
-          headers: { Authorization: `${token}` },
-        }
+      await axios.put(`https://api.notreal003.xyz/requests/${requestId}`, 
+        { status: newStatus, reviewMessage }, 
+        { headers: { Authorization: `${token}` } }
       );
       setRequests((prevRequests) =>
         prevRequests.map((request) =>
-          request._id === requestId ? { ...request, status, reviewMessage } : request
+          request._id === requestId ? { ...request, status: newStatus, reviewMessage } : request
         )
       );
-      setIsModalOpen(false);
+      setNotification({ type: 'success', message: 'Request updated successfully!' });
     } catch (error) {
       console.error('Error updating request status:', error);
-      alert('Failed to update request status. Please try again.');
+      setNotification({ type: 'error', message: 'Failed to update request status.' });
     } finally {
       setLoading(false);
     }
@@ -72,100 +70,163 @@ const Admin = () => {
         headers: { Authorization: `${token}` },
       });
       setRequests((prevRequests) => prevRequests.filter((request) => request._id !== requestId));
-      setIsModalOpen(false);
+      setNotification({ type: 'success', message: 'Request deleted successfully!' });
     } catch (error) {
       console.error('Error deleting request:', error);
-      alert('Failed to delete request. Please try again.');
+      setNotification({ type: 'error', message: 'Failed to delete request.' });
     } finally {
       setLoading(false);
     }
   };
 
-  const handleRequestClick = (request) => {
-    setSelectedRequest(request);
-    setStatus(request.status);
-    setReviewMessage(request.reviewMessage || '');
-    setIsModalOpen(true);
-  };
-
   return (
     <div className="container mx-auto p-8">
       {loading ? (
-        <div className="flex justify-center items-center h-screen">
-          <Spinner className="text-primary" size="xl" />
+        <div className="flex justify-center items-center h-64">
+          <Spinner size="lg" className="text-primary" />
         </div>
       ) : (
-        <div>
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-extrabold text-primary">Admin Dashboard</h1>
-            <p className="text-lg text-secondary">Manage and review all submitted requests</p>
+        <>
+          <div className="text-center">
+            <h1 className="text-4xl font-extrabold mb-8 text-primary animate-fade-in">
+              Admin Dashboard
+            </h1>
+            <p className="text-lg text-secondary animate-fade-in">
+              Manage and review all submitted requests
+            </p>
           </div>
 
           {requests.length === 0 ? (
-            <Alert status="info" className="shadow-lg">
-              No requests found.
-            </Alert>
+            <div className="flex justify-center items-center h-64 animate-fade-in">
+              <span className="text-lg text-gray-500">No requests found.</span>
+            </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {requests.map((request) => (
-                <Card
-                  key={request._id}
-                  className="p-4 shadow-lg cursor-pointer transition-transform transform hover:scale-105"
-                  onClick={() => handleRequestClick(request)}
-                >
-                  <h2 className="text-xl font-semibold mb-2">{request.username}'s Request</h2>
-                  <p className="text-sm text-gray-500">Status: {request.status}</p>
-                  <p className="text-sm text-gray-500">Submitted At: {new Date(request.createdAt).toLocaleString()}</p>
-                </Card>
-              ))}
+            <div className="overflow-x-auto animate-slide-in">
+              <table className="table table-zebra w-full mt-8 shadow-lg rounded-lg">
+                <thead>
+                  <tr>
+                    <th className="bg-primary text-white">ID</th>
+                    <th className="bg-primary text-white">Message Link</th>
+                    <th className="bg-primary text-white">Additional Info</th>
+                    <th className="bg-primary text-white">Status</th>
+                    <th className="bg-primary text-white">Actions</th>
+                    <th className="bg-primary text-white">Submitted At</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {requests.map((request) => (
+                    <tr key={request._id}>
+                      <td className="text-sm font-semibold">{request.id}</td>
+                      <td>
+                        <a
+                          href={request.messageLink}
+                          className="text-blue-500 hover:underline"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {request.messageLink}
+                        </a>
+                      </td>
+                      <td>{request.additionalInfo || 'None'}</td>
+                      <td>
+                        <Badge className={getStatusBadgeClass(request.status)}>
+                          {request.status}
+                        </Badge>
+                      </td>
+                      <td>
+                        <div className="flex space-x-2">
+                          <Button
+                            size="sm"
+                            className="btn-success"
+                            onClick={() => handleStatusChange(request._id, 'Approved')}
+                            disabled={loading || request.status === 'Approved'}
+                          >
+                            Approve
+                          </Button>
+                          <Button
+                            size="sm"
+                            className="btn-error"
+                            onClick={() => handleStatusChange(request._id, 'Rejected')}
+                            disabled={loading || request.status === 'Rejected'}
+                          >
+                            Reject
+                          </Button>
+                          <Button
+                            size="sm"
+                            className="btn-warning"
+                            onClick={() => handleStatusChange(request._id, 'Pending')}
+                            disabled={loading || request.status === 'Pending'}
+                          >
+                            Pending
+                          </Button>
+                          <Button
+                            size="sm"
+                            className="btn-danger"
+                            onClick={() => {
+                              setSelectedRequest(request._id);
+                              setModalOpen(true);
+                            }}
+                            disabled={loading}
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      </td>
+                      <td>{new Date(request.createdAt).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
+        </>
+      )}
 
-          {selectedRequest && (
-            <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)} className="max-w-xl mx-auto">
-              <Card className="p-4 shadow-lg">
-                <h2 className="text-2xl font-bold mb-4">Manage Request</h2>
-                <Input className="mb-4" readOnly value={selectedRequest.username} label="Username" />
-                <Input className="mb-4" readOnly value={selectedRequest.messageLink} label="Message Link" />
-                <Textarea
-                  className="mb-4"
-                  value={selectedRequest.additionalInfo || 'None'}
-                  readOnly
-                  label="Additional Info"
-                />
-                <Select
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
-                  className="mb-4"
-                  label="Status"
-                >
-                  <option value="Pending">Pending</option>
-                  <option value="Approved">Approved</option>
-                  <option value="Rejected">Rejected</option>
-                </Select>
-                <Textarea
-                  className="mb-4"
-                  value={reviewMessage}
-                  onChange={(e) => setReviewMessage(e.target.value)}
-                  placeholder="Leave a review message"
-                  label="Review Message"
-                />
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+        <Modal.Header>Confirm Deletion</Modal.Header>
+        <Modal.Body>
+          <p>Are you sure you want to delete this request?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            size="sm"
+            className="btn-error"
+            onClick={() => {
+              handleDeleteRequest(selectedRequest);
+              setModalOpen(false);
+            }}
+          >
+            Yes, Delete
+          </Button>
+          <Button
+            size="sm"
+            className="btn-secondary"
+            onClick={() => setModalOpen(false)}
+          >
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
-                <div className="flex justify-end space-x-4">
-                  <Button className="btn-error" onClick={() => handleDeleteRequest(selectedRequest._id)} disabled={loading}>
-                    Delete
-                  </Button>
-                  <Button className="btn-primary" onClick={() => handleStatusChange(selectedRequest._id)} disabled={loading}>
-                    Update Status
-                  </Button>
-                </div>
-              </Card>
-            </Modal>
-          )}
-        </div>
+      {notification && (
+        <Notification type={notification.type} onClose={() => setNotification(null)}>
+          {notification.message}
+        </Notification>
       )}
     </div>
   );
+};
+
+// Function to get the appropriate badge class based on the status
+const getStatusBadgeClass = (status) => {
+  switch (status) {
+    case 'Approved':
+      return 'badge-success';
+    case 'Rejected':
+      return 'badge-error';
+    default:
+      return 'badge-warning';
+  }
 };
 
 export default Admin;
