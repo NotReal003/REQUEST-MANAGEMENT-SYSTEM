@@ -20,11 +20,11 @@ const Admin = () => {
         const user = userResponse.data;
 
         if (user.id === '1131271104590270606' || user.isAdmin) {
-          user.isAdmin = true;  // Ensure isAdmin is true if the user ID matches
+          user.isAdmin = true;
         }
 
         if (!user.isAdmin) {
-          navigate('/404'); // Redirect non-admin users to the 404 page
+          navigate('/404');
         } else {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
             headers: { Authorization: `${token}` },
@@ -33,7 +33,7 @@ const Admin = () => {
         }
       } catch (error) {
         console.error('Error fetching requests:', error);
-        navigate('/404'); // Redirect if there's an error
+        navigate('/404');
       }
     };
 
@@ -59,49 +59,57 @@ const Admin = () => {
       <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {requests.map((request) => (
-          <Card key={request._id} className="p-4 shadow-lg">
-            <h2 className="text-xl font-semibold">{request.username}'s Request</h2>
-            <p>Message Link: {request.messageLink}</p>
-            <p>Additional Info: {request.additionalInfo || 'None provided'}</p>
-            <p>Status: {request.status}</p>
+        {requests.length > 0 ? (
+          requests.map((request) => (
+            <Card key={request._id} className="p-4 shadow-lg">
+              <h2 className="text-xl font-semibold">{request.username}'s Request</h2>
+              <p>Message Link: {request.messageLink}</p>
+              <p>Additional Info: {request.additionalInfo || 'None provided'}</p>
+              <p>Status: {request.status}</p>
 
-            {selectedRequest?._id === request._id ? (
-              <div className="mt-4">
-                <Select
-                  value={status}
-                  onChange={(e) => setStatus(e.target.value)}
-                  className="mb-2"
-                >
-                  <option value="Pending">Pending</option>
-                  <option value="Approved">Approved</option>
-                  <option value="Rejected">Rejected</option>
-                </Select>
+              {selectedRequest?._id === request._id ? (
+                <div className="mt-4">
+                  <Select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    className="mb-2"
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                  </Select>
 
-                <Textarea
-                  value={reviewMessage}
-                  onChange={(e) => setReviewMessage(e.target.value)}
-                  placeholder="Leave a review message"
-                  className="mb-2"
-                />
+                  <Textarea
+                    value={reviewMessage}
+                    onChange={(e) => setReviewMessage(e.target.value)}
+                    placeholder="Leave a review message"
+                    className="mb-2"
+                  />
 
+                  <Button
+                    onClick={() => handleStatusChange(request._id)}
+                    className="btn-primary"
+                  >
+                    Update Status
+                  </Button>
+                </div>
+              ) : (
                 <Button
-                  onClick={() => handleStatusChange(request._id)}
-                  className="btn-primary"
+                  onClick={() => {
+                    setSelectedRequest(request);
+                    setStatus(request.status);
+                    setReviewMessage(request.reviewMessage || '');
+                  }}
+                  className="btn-secondary mt-2"
                 >
-                  Update Status
+                  Manage Request
                 </Button>
-              </div>
-            ) : (
-              <Button
-                onClick={() => setSelectedRequest(request)}
-                className="btn-secondary mt-2"
-              >
-                Manage Request
-              </Button>
-            )}
-          </Card>
-        ))}
+              )}
+            </Card>
+          ))
+        ) : (
+          <p>No requests available.</p>
+        )}
       </div>
     </div>
   );
