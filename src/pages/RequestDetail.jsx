@@ -1,103 +1,68 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-const RequestDetail = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+function RequestDetail() {
+  const { requestId } = useParams();
   const [request, setRequest] = useState(null);
-  const [messageLink, setMessageLink] = useState('');
-  const [additionalInfo, setAdditionalInfo] = useState('');
-  const [status, setStatus] = useState('');
+  const [alert, setAlert] = useState(null);
 
   useEffect(() => {
-    // Fetch the specific request details using the ID
-    const fetchRequest = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const id = urlParams.get('id');
-      const token = localStorage.getItem('jwtToken');
-      const response = await fetch(`https://api.notreal003.xyz/requests/${id}`, {
-        headers: { Authorization: `${token}` },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setRequest(data);
-        setMessageLink(data.messageLink);
-        setAdditionalInfo(data.additionalInfo);
-      }
-    };
-
-    fetchRequest();
-  }, [id]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+    const urlParams = new URLSearchParams(window.location.search);
+    const requestId = urlParams.get('id');
     const token = localStorage.getItem('jwtToken');
-    if (!token) {
-      setStatus('You must be logged in to submit a request.');
-      return;
-    }
-
-    const payload = {
-      messageLink,
-      additionalInfo,
-    };
-
-    try {
-      const response = await fetch(`https://api.notreal003.xyz/requests/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${token}`,
-        },
-        body: JSON.stringify(payload),
+axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
+        headers: { Authorization: `${token}` },
+      })
+      .then(response => setRequest(response.data))
+      .catch(() => {
+        setAlert({
+          type: 'error',
+          message: 'Failed to fetch request details. Please try again later.',
+        });
       });
-
-      if (response.ok) {
-        setStatus('Request updated successfully');
-        navigate('/requests');
-      } else {
-        setStatus('Error updating the request');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      setStatus('Error while updating the request');
-    }
-  };
+  }, [requestId]);
 
   if (!request) {
-    return <div>Loading...</div>;
+    return <div><span className="loading loading-spinner loading-md"></span></div>;
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="form-container">
-        <h1 className="text-2xl font-bold mb-4">Edit Request</h1>
-        {status && <div className="alert alert-warning">{status}</div>}
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="messageLink" className="label">Discord Message Link</label>
-          <input
-            type="text"
-            id="messageLink"
-            className="input input-bordered w-full"
-            value={messageLink}
-            onChange={(e) => setMessageLink(e.target.value)}
-            required
-          />
-
-          <label htmlFor="additionalInfo" className="label">Additional Information</label>
-          <textarea
-            id="additionalInfo"
-            className="textarea textarea-bordered w-full"
-            value={additionalInfo}
-            onChange={(e) => setAdditionalInfo(e.target.value)}
-          ></textarea>
-
-          <button type="submit" className="btn btn-primary w-full mt-4">Update</button>
-        </form>
+    <div className="container mx-auto px-4 py-8">
+      {alert && (
+        <div className={`alert alert-${alert.type} shadow-lg mb-4`}>
+          <div>
+            <span>{alert.message}</span>
+          </div>
+        </div>
+      )}
+      <div className="card shadow-lg bg-base-100">
+        <div className="card-body">
+          <h2 className="card-title">Request Details</h2>
+          <div className="form-control">
+            <label className="label">Username</label>
+            <input type="text" value={request.username} readOnly className="input input-bordered" />
+          </div>
+          <div className="form-control">
+            <label className="label">Message Link</label>
+            <input type="text" value={request.messageLink} readOnly className="input input-bordered" />
+          </div>
+          <div className="form-control">
+            <label className="label">Additional Info</label>
+            <textarea value={request.additionalInfo || 'None provided'} readOnly className="textarea textarea-bordered" />
+          </div>
+          <div className="form-control">
+            <label className="label">Status</label>
+            <input type="text" value={request.status} readOnly className="input input-bordered" />
+          </div>
+          <div className="form-control">
+            <label className="label">Review Message</label>
+            <textarea value={request.reviewMessage || 'No review yet'} readOnly className="textarea textarea-bordered" />
+          </div>
+        </div>
       </div>
     </div>
   );
-};
+}
 
 export default RequestDetail;

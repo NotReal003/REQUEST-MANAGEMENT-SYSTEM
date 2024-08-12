@@ -1,23 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const Admin = () => {
+function Admin() {
   const [requests, setRequests] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [reviewMessage, setReviewMessage] = useState('');
+  const [alert, setAlert] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchRequests = async () => {
       try {
         const token = localStorage.getItem('jwtToken');
+        if (!token) {
+          navigate('/login');
+          return;
+        }
+
         const userResponse = await axios.get('https://api.notreal003.xyz/users/@me', {
           headers: { Authorization: `${token}` },
         });
 
         const user = userResponse.data;
 
-    if (user.id === '1131271104590270606' || user.isAdmin) {
+        if (user.id === '1131271104590270606' || user.isAdmin) {
           user.isAdmin = true;  // Ensure isAdmin is true if the user ID matches
         }
 
@@ -29,147 +35,113 @@ const Admin = () => {
           });
           setRequests(requestsResponse.data);
         }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        navigate('/404'); // Redirect in case of error
+      } catch {
+        setAlert({
+          type: 'error',
+          message: 'Failed to fetch requests or user data. Please try again later.',
+        });
       }
     };
 
-    fetchData();
+    fetchRequests();
   }, [navigate]);
 
-  const handleStatusChange = async (requestId, newStatus) => {
-    setLoading(true);
+  const handleReview = async (requestId) => {
     try {
       const token = localStorage.getItem('jwtToken');
-      await axios.put(`https://api.notreal003.xyz/admin/${requestId}`, { status: newStatus }, {
+      await axios.put(`https://api.notreal003.xyz/admin/${requestId}`, { reviewMessage }, {
         headers: { Authorization: `${token}` },
       });
-      // Update the request status locally after successful API call
-      setRequests((prevRequests) =>
-        prevRequests.map((request) =>
-          request._id === requestId ? { ...request, status: newStatus } : request
-        )
-      );
-    } catch (error) {
-      console.error('Error updating request status:', error);
-      alert('Failed to update request status. Please try again.');
-    } finally {
-      setLoading(false);
+      setAlert({
+        type: 'success',
+        message: 'Request reviewed successfully!',
+      });
+      setReviewMessage('');
+    } catch {
+      setAlert({
+        type: 'error',
+        message: 'Failed to review request. Please try again later.',
+      });
     }
   };
 
-  const handleDeleteRequest = async (requestId) => {
-    if (window.confirm('Are you sure you want to delete this request?')) {
-      setLoading(true);
-      try {
-        const token = localStorage.getItem('jwtToken');
-        await axios.delete(`https://api.notreal003.xyz/admin/${requestId}`, {
-          headers: { Authorization: `${token}` },
-        });
-        // Remove the deleted request from the local state
-        setRequests((prevRequests) => prevRequests.filter((request) => request._id !== requestId));
-      } catch (error) {
-        console.error('Error deleting request:', error);
-        alert('Failed to delete request. Please try again.');
-      } finally {
-        setLoading(false);
-      }
+  const handleDelete = async (requestId) => {
+    try {
+      const token = localStorage.getItem('jwtToken');
+      await axios.delete(`https://api.notreal003.xyz/admin/${requestId}`, {
+        headers: { Authorization: `${token}` },
+      });
+      setRequests(requests.filter(request => request._id !== requestId));
+      setAlert({
+        type: 'success',
+        message: 'Request deleted successfully.',
+      });
+    } catch {
+      setAlert({
+        type: 'error',
+        message: 'Failed to delete request. Please try again later.',
+      });
     }
   };
 
   return (
-    <div className="container mx-auto p-8">
-      <div className="text-center">
-        <h1 className="text-4xl font-extrabold mb-8 text-primary">Dashboard</h1>
-        <p className="text-lg text-secondary">Manage and review all submitted requests</p>
-      </div>
-
-      {requests.length === 0 ? (
-        <div className="flex justify-center items-center h-64">
-          <span className="text-lg text-gray-500">No requests found.</span>
-        </div>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="table table-zebra w-full mt-8 shadow-lg rounded-lg">
-            <thead>
-              <tr>
-                <th className="bg-primary text-white">ID</th>
-                <th className="bg-primary text-white">Message Link</th>
-                <th className="bg-primary text-white">Additional Info</th>
-                <th className="bg-primary text-white">Status</th>
-                <th className="bg-primary text-white">Actions</th>
-                <th className="bg-primary text-white">Submitted At</th>
-              </tr>
-            </thead>
-            <tbody>
-              {requests.map((request) => (
-                <tr key={request._id}>
-                  <td className="text-sm font-semibold">{request.id}</td>
-                  <td>
-                    <a href={request.messageLink} className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">
-                      {request.messageLink}
-                    </a>
-                  </td>
-                  <td>{request.additionalInfo || 'None'}</td>
-                  <td>
-                    <span className={`badge badge-lg ${getStatusBadgeClass(request.status)}`}>
-                      {request.status}
-                    </span>
-                  </td>
-                  <td>
-                    <div className="flex space-x-2">
-                      <button
-                        className="btn btn-sm btn-success"
-                        onClick={() => handleStatusChange(request._id, 'Approved')}
-                        disabled={loading || request.status === 'Approved'}
-                      >
-                        Approve
-                      </button>
-                      <button
-                        className="btn btn-sm btn-error"
-                        onClick={() => handleStatusChange(request._id, 'Rejected')}
-                        disabled={loading || request.status === 'Rejected'}
-                      >
-                        Reject
-                      </button>
-                      <button
-                        className="btn btn-sm btn-warning"
-                        onClick={() => handleStatusChange(request._id, 'Pending')}
-                        disabled={loading || request.status === 'Pending'}
-                      >
-                        Pending
-                      </button>
-                      <button
-                        className="btn btn-sm btn-danger"
-                        onClick={() => handleDeleteRequest(request._id)}
-                        disabled={loading}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
-                  <td>{new Date(request.createdAt).toLocaleString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    <div className="container mx-auto px-4 py-8">
+      {alert && (
+        <div className={`alert alert-${alert.type} shadow-lg mb-4`}>
+          <div>
+            <span>{alert.message}</span>
+          </div>
         </div>
       )}
+      <div className="overflow-x-auto">
+        <table className="table w-full">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Message Link</th>
+              <th>Additional Info</th>
+              <th>Status</th>
+              <th>Review Message</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {requests.map((request) => (
+              <tr key={request._id}>
+                <td>{request.username}</td>
+                <td>{request.messageLink}</td>
+                <td>{request.additionalInfo || 'None provided'}</td>
+                <td>{request.status}</td>
+                <td>{request.reviewMessage || 'No review yet'}</td>
+                <td>
+                  <textarea
+                    value={reviewMessage}
+                    onChange={(e) => setReviewMessage(e.target.value)}
+                    placeholder="Leave a review message"
+                    className="input input-bordered w-full max-w-xs mb-2"
+                  />
+                  <div className="flex space-x-2">
+                    <button
+                      className="btn btn-primary btn-sm"
+                      onClick={() => handleReview(request._id)}
+                    >
+                      Review
+                    </button>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleDelete(request._id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
-};
-
-// Function to get the appropriate badge class based on the status
-const getStatusBadgeClass = (status) => {
-  switch (status) {
-    case 'Approved':
-      return 'badge-success';
-    case 'Rejected':
-      return 'badge-error';
-    default:
-      return 'badge-warning';
-  }
-};
+}
 
 export default Admin;
