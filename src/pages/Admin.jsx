@@ -1,109 +1,137 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Admin = () => {
+function Admin() {
   const [requests, setRequests] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const token = localStorage.getItem('jwtToken');
+  const [reviewMessage, setReviewMessage] = useState('');
+  const [status, setStatus] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRequests = async () => {
+      const jwtToken = localStorage.getItem('jwtToken');
+      if (!jwtToken) {
+        navigate('/404');
+        return;
+      }
+
       try {
         const userResponse = await axios.get('https://api.notreal003.xyz/users/@me', {
-          headers: { Authorization: `${token}` },
+          headers: { Authorization: `${jwtToken}` },
         });
-
         const user = userResponse.data;
+
         if (user.id === '1131271104590270606' || user.isAdmin) {
-          user.isAdmin = true;
+          user.isAdmin = true;  // Ensure isAdmin is true if the user ID matches
         }
 
         if (!user.isAdmin) {
-          navigate('/404');
+          navigate('/404'); // Redirect non-admin users to the 404 page
         } else {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
-            headers: { Authorization: `${token}` },
+            headers: { Authorization: `${jwtToken}` },
           });
           setRequests(requestsResponse.data);
         }
-
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-        setError('Failed to fetch data');
+      } catch (error) {
+        console.error('Error fetching requests:', error);
       }
     };
 
     fetchRequests();
-  }, [navigate, token]);
+  }, [navigate]);
 
-  const handleStatusChange = async (requestId, status, reviewMessage) => {
+  const handleStatusChange = async (requestId) => {
+    const jwtToken = localStorage.getItem('jwtToken');
+    if (!jwtToken || !status) {
+      return;
+    }
+
     try {
-      await axios.put(`https://api.notreal003.xyz/admin/${requestId}`, { status, reviewMessage }, {
-        headers: { Authorization: `${token}` },
+      await axios.put(
+        `https://api.notreal003.xyz/admin/${requestId}`,
+        { status, reviewMessage },
+        { headers: { Authorization: `${jwtToken}` } }
+      );
+      // Refresh the requests list after update
+      const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
+        headers: { Authorization: `${jwtToken}` },
       });
-      // Update the status and review message in the UI
-      setRequests(prevRequests => prevRequests.map(request =>
-        request._id === requestId ? { ...request, status, reviewMessage } : request
-      ));
+      setRequests(requestsResponse.data);
     } catch (error) {
-      setError('Failed to update status or review message');
+      console.error('Error updating request status:', error);
+    }
+  };
+
+  const handleDeleteRequest = async (requestId) => {
+    const jwtToken = localStorage.getItem('jwtToken');
+    if (!jwtToken) {
+      return;
+    }
+
+    try {
+      await axios.delete(`https://api.notreal003.xyz/admin/${requestId}`, {
+        headers: { Authorization: `${jwtToken}` },
+      });
+      // Refresh the requests list after deletion
+      const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
+        headers: { Authorization: `${jwtToken}` },
+      });
+      setRequests(requestsResponse.data);
+    } catch (error) {
+      console.error('Error deleting request:', error);
     }
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
-      {loading ? (
-        <div className="alert alert-info">Loading...</div>
-      ) : error ? (
-        <div className="alert alert-error">{error}</div>
-      ) : (
-        <div className="grid grid-cols-1 gap-4">
-          {requests.map(request => (
-            <div key={request._id} className="card shadow-lg p-4">
-              <h2 className="text-xl font-semibold">Request by {request.username}</h2>
-              <p className="mb-2"><strong>Message Link:</strong> {request.messageLink}</p>
-              <p className="mb-2"><strong>Additional Info:</strong> {request.additionalInfo || 'None'}</p>
-              <div className="form-control mb-4">
-                <label className="label">
-                  <span className="label-text">Status</span>
-                </label>
-                <select
-                  className="select select-bordered w-full max-w-xs"
-                  value={request.status}
-                  onChange={(e) => handleStatusChange(request._id, e.target.value, request.reviewMessage)}
-                >
-                  <option value="Pending">Pending</option>
-                  <option value="Approved">Approved</option>
-                  <option value="Rejected">Rejected</option>
-                </select>
-              </div>
-              <div className="form-control mb-4">
-                <label className="label">
-                  <span className="label-text">Review Message</span>
-                </label>
-                <textarea
-                  className="textarea textarea-bordered w-full"
-                  value={request.reviewMessage || ''}
-                  onChange={(e) => handleStatusChange(request._id, request.status, e.target.value)}
-                  placeholder="Leave a review message here"
-                ></textarea>
-              </div>
-              {request.reviewMessage && (
-                <div className="alert alert-info mt-4">
-                  <span><strong>Review Message:</strong> {request.reviewMessage}</span>
-                </div>
-              )}
-            </div>
-          ))}
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
+      {requests.map((request) => (
+        <div key={request._id} className="p-4 bg-white shadow rounded mb-4">
+          <h2 className="text-xl font-semibold mb-2">Request by {request.username}</h2>
+          <p className="mb-2"><strong>Message Link:</strong> {request.messageLink}</p>
+          <p className="mb-2"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+          <p className="mb-2"><strong>Status:</strong> {request.status}</p>
+          <p className="mb-2"><strong>Review Message:</strong> {request.reviewMessage || 'No review message yet'}</p>
+          <div className="mt-4">
+            <label htmlFor="status" className="block mb-1">Update Status:</label>
+            <select
+              id="status"
+              className="block w-full border border-gray-300 rounded px-2 py-1 mb-2"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
+              <option value="" disabled>Select Status</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+              <option value="Pending">Pending</option>
+            </select>
+            <label htmlFor="reviewMessage" className="block mb-1">Review Message:</label>
+            <textarea
+              id="reviewMessage"
+              className="block w-full border border-gray-300 rounded px-2 py-1 mb-2"
+              value={reviewMessage}
+              onChange={(e) => setReviewMessage(e.target.value)}
+              placeholder="Leave a review message"
+            />
+            <button
+              className="btn btn-primary mr-2"
+              onClick={() => handleStatusChange(request._id)}
+            >
+              Update Request
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={() => handleDeleteRequest(request._id)}
+            >
+              Delete Request
+            </button>
+          </div>
         </div>
-      )}
+      ))}
     </div>
   );
-};
+}
 
 export default Admin;
