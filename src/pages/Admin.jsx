@@ -72,12 +72,16 @@ const Admin = () => {
           requests.map((request) => {
             // Safeguard against invalid data
             const { _id, username, messageLink, additionalInfo, status } = request || {};
+            if (!_id || !username || !messageLink || !status) {
+              return <p key={_id || Math.random()}>Invalid request data</p>;
+            }
+
             return (
               <Card key={_id} className="p-4 shadow-lg">
-                <h2 className="text-xl font-semibold">{username || 'Unknown User'}'s Request</h2>
-                <p>Message Link: {messageLink || 'No message link provided'}</p>
+                <h2 className="text-xl font-semibold">{username}'s Request</h2>
+                <p>Message Link: {messageLink}</p>
                 <p>Additional Info: {additionalInfo || 'None provided'}</p>
-                <p>Status: {status || 'Unknown'}</p>
+                <p>Status: {status}</p>
 
                 {selectedRequest?._id === _id ? (
                   <div className="mt-4">
