@@ -5,10 +5,6 @@ import { Card, Button, Select, Textarea, Alert } from 'daisyui';
 
 const Admin = () => {
   const [requests, setRequests] = useState([]);
-  const [selectedRequest, setSelectedRequest] = useState(null);
-  const [reviewMessage, setReviewMessage] = useState('');
-  const [status, setStatus] = useState('');
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = localStorage.getItem('jwtToken');
   const navigate = useNavigate();
@@ -27,106 +23,76 @@ const Admin = () => {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
             headers: { Authorization: `${token}` },
           });
+
           setRequests(requestsResponse.data);
         }
       } catch (error) {
         setError('Failed to fetch requests. Please try again later.');
         console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchRequests();
-  }, [navigate]);
+  }, [token, navigate]);
 
-  const handleStatusChange = async (requestId) => {
+  const handleStatusChange = async (requestId, newStatus, reviewMessage) => {
     try {
       await axios.put(
         `https://api.notreal003.xyz/admin/${requestId}`,
-        { status, reviewMessage },
+        { status: newStatus, reviewMessage },
         { headers: { Authorization: `${token}` } }
       );
-      alert('Request updated successfully');
-      // Refresh requests after update
-      setRequests((prev) =>
-        prev.map((req) =>
-          req._id === requestId ? { ...req, status, reviewMessage } : req
+      setRequests((prevRequests) =>
+        prevRequests.map((request) =>
+          request._id === requestId ? { ...request, status: newStatus, reviewMessage } : request
         )
       );
+      alert('Request updated successfully');
     } catch (error) {
       console.error('Error updating request status:', error);
       alert('Failed to update request status');
     }
   };
 
-  const handleRequestSelect = (request) => {
-    setSelectedRequest(request);
-    setStatus(request.status || 'Pending');
-    setReviewMessage(request.reviewMessage || '');
-  };
-
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
 
-      {loading ? (
-      <div className="flex w-52 flex-col gap-4">
-        <div className="skeleton h-32 w-full"></div>
-        <div className="skeleton h-4 w-28"></div>
-        <div className="skeleton h-4 w-full"></div>
-        <div className="skeleton h-4 w-full"></div>
-      </div>
-      ) : error ? (
+      {error ? (
         <Alert className="alert alert-error">{error}</Alert>
       ) : requests.length === 0 ? (
         <p>No requests available.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {requests.map((request) => (
-            <Card
-              key={request._id}
-              className={`p-4 shadow-lg ${selectedRequest?._id === request._id ? 'border-2 border-primary' : ''}`}
-            >
+            <Card key={request._id} className="p-4 shadow-lg">
               <h2 className="text-xl font-semibold">{request.username}'s Request</h2>
               <p className="mt-2"><strong>Message Link:</strong> {request.messageLink}</p>
               <p><strong>Additional Info:</strong> {request.additionalInfo || 'None provided'}</p>
               <p><strong>Status:</strong> {request.status}</p>
 
-              {selectedRequest?._id === request._id ? (
-                <div className="mt-4">
-                  <Select
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                    className="mb-2"
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Approved">Approved</option>
-                    <option value="Rejected">Rejected</option>
-                  </Select>
-
-                  <Textarea
-                    value={reviewMessage}
-                    onChange={(e) => setReviewMessage(e.target.value)}
-                    placeholder="Leave a review message"
-                    className="mb-2"
-                  />
-
-                  <Button
-                    onClick={() => handleStatusChange(request._id)}
-                    className="btn btn-primary"
-                  >
-                    Update Status
-                  </Button>
-                </div>
-              ) : (
-                <Button
-                  onClick={() => handleRequestSelect(request)}
-                  className="btn btn-secondary mt-4"
+              <div className="mt-4">
+                <Select
+                  value={request.status}
+                  onChange={(e) => handleStatusChange(request._id, e.target.value, request.reviewMessage)}
+                  className="mb-2"
                 >
-                  Manage Request
+                  <option value="Pending">Pending</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Rejected">Rejected</option>
+                </Select>
+
+                <Textarea
+                  value={request.reviewMessage || ''}
+                  onChange={(e) => handleStatusChange(request._id, request.status, e.target.value)}
+                  placeholder="Leave a review message"
+                  className="mb-2"
+                />
+
+                <Button className="btn btn-primary" onClick={() => handleStatusChange(request._id, request.status, request.reviewMessage)}>
+                  Update Status
                 </Button>
-              )}
+              </div>
             </Card>
           ))}
         </div>
