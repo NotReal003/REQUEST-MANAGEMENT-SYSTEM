@@ -102,9 +102,9 @@ function Admin() {
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
-              <option value="" disabled>Select Status</option>
-              <option value="Approved">Approved</option>
-              <option value="Rejected">Rejected</option>
+              <option value="" disabled>{request.status}</option>
+              <option value="Approved">Accept</option>
+              <option value="Rejected">Reject</option>
               <option value="Pending">Pending</option>
             </select>
             <label htmlFor="reviewMessage" className="block mb-1">Review Message:</label>
