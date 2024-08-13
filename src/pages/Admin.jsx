@@ -116,7 +116,7 @@ function Admin() {
               placeholder="Leave a review message"
             />
             <button
-              className="btn btn-primary mr-2"
+              className="btn btn-info mr-2"
               onClick={() => handleStatusChange(request._id)}
             >
               Update Request
