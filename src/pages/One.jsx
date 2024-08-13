@@ -77,7 +77,7 @@ const One = () => {
       <span className="loading loading-spinner text-info"></span>
         ) : requests.length > 0 ? (
           requests.map((request) => (
-            <div
+            <Link to={`/requestdetail?id=${request._id}`}
               key={request._id}
               className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)}`}
             >
