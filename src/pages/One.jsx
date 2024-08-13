@@ -78,7 +78,7 @@ const One = () => {
         ) : requests.length > 0 ? (
           requests.map((request) => (
             <Link 
-              to= {`/request/${request._id}`}
+              to= {`/requestdetail?id=${request._id}`}
               key={request._id}
               className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)}`}
             >
@@ -98,8 +98,7 @@ const One = () => {
                     })}
                     </p>
                   </div>
-              </div>
-          )
+              </div
               <div className="flex items-center">
                 <RequestStatus status={request.status} />
                 <FaArrowRight className="text-white ml-4" />
