@@ -97,7 +97,7 @@ const One = () => {
                     })}
                   </p>
                 </div>
-              </div>
+              </Link>
               <div className="flex items-center">
                 <RequestStatus status={request.status} />
                 <Link to={`/requestdetail?id=${request._id}`} className="ml-4">
