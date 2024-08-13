@@ -4,14 +4,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaDiscord, FaArrowRight } from 'react-icons/fa';
 import { MdSupportAgent } from 'react-icons/md';
 
-const statusStyles = {
-  DENIED: 'bg-red-600 text-white',
-  APPROVED: 'bg-green-600 text-white',
-  RESUBMIT_REQUIRED: 'bg-orange-600 text-white',
-  PENDING: 'bg-yellow-600 text-white',
-  CANCELLED: 'bg-red-600 text-white',
-};
-
+const RequestStatus = ({ status }) => {
+  const statusStyles = {
+    DENIED: 'bg-red-600 text-white',
+    APPROVED: 'bg-green-600 text-white',
+    RESUBMIT_REQUIRED: 'bg-orange-600 text-white',
+    PENDING: 'bg-yellow-600 text-white',
+    CANCELLED: 'bg-red-600 text-white',
+  };
+  
   return (
     <span className={`rounded-full px-2 py-1 text-xs font-bold ${statusStyles[status]}`}>
       {status}
