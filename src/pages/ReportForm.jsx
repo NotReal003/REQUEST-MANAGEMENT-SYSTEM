@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { IoSend } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
 import { TbMessageReport } from "react-icons/tb";
-
+import { IoShieldCheckmark } from "react-icons/io5";
 
 const ReportForm = () => {
   const [messageLink, setMessageLink] = useState('');
@@ -15,7 +15,7 @@ const ReportForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem('jwtToken');
+  const token = localStorage.getItem('jwtToken');
     if (!token) {
       setStatus('You must be logged in to submit a request.');
       return;
@@ -23,11 +23,11 @@ const ReportForm = () => {
 
     const payload = {
       messageLink,
-      additionalInfo
+      additionalInfo,
     };
 
     try {
-      const response = await fetch('https://api.notreal003.xyz/requests/report', {
+      const response = await fetch('https://api.notreal003.xyz/requests/support', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,18 +36,24 @@ const ReportForm = () => {
         body: JSON.stringify(payload)
       });
 
+      if (response.status === 403) {
+        setStatus('Your access has been denied, please login again.');
+        return;
+      }
+
       if (response.ok) {
-        setStatus('Report submitted successfully');
+        setStatus('Your report submitted successfully');
         setMessageLink('');
         setAdditionalInfo('');
         setAgree(false);
         navigate('/success');
       } else {
-        setStatus('Please Login again, your accses has been deneid.');
+        const errorData = await response.json();
+        setStatus(`${errorData.message}`);
       }
     } catch (error) {
-      console.error('Error:', error);
-      setStatus('Error while submitting report');
+      console.error('Error: ', error);
+      setStatus(`${errorData.message}`);
     }
   };
 
@@ -55,7 +61,7 @@ const ReportForm = () => {
     <div className="container mx-auto p-4">
       <div className="form-container">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
-          <TbMessageReport className="size-6 mr-2"/>Discord report
+          <IoShieldCheckmark className="size-6 mr-2"/>Discord report
         </h1>
         {status && <div className="mt-4 alert alert-warning mb-4">{status}</div>}
         <div role="alert" className="alert">

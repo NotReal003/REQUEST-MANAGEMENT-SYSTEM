@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoSend } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
-import { MdOutlineSecurity } from "react-icons/md";
+import { IoMdMail } from "react-icons/io";
 
 const Support = () => {
   const [messageLink, setMessageLink] = useState('');
@@ -36,7 +36,7 @@ const Support = () => {
       });
 
       if (response.status === 403) {
-        setStatus('Your access seems denied, please login again.');
+        setStatus('Your access has been denied, please login again.');
         return;
       }
 
@@ -48,11 +48,11 @@ const Support = () => {
         navigate('/success');
       } else {
         const errorData = await response.json();
-        setStatus(`Error while submitting request: ${errorData.message}`);
+        setStatus(`${errorData.message}`);
       }
     } catch (error) {
-      console.error('Error:', error);
-      setStatus('Error while submitting request');
+      console.error('Error: ', error);
+      setStatus(`${errorData.message}`);
     }
   };
 
@@ -60,7 +60,7 @@ const Support = () => {
     <div className="container mx-auto p-4">
       <div className="form-container">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
-          <MdOutlineSecurity className="size-6 mr-2"/>Support
+          <IoMdMail className="size-6 mr-2"/>Support
         </h1>
         {status && <div className="mt-4 alert alert-warning mb-4">{status}</div>}
         <div role="alert" className="alert">
