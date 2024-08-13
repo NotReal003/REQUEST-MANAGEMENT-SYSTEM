@@ -32,7 +32,9 @@ axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
       <div className="skeleton h-6 w-36"></div>
       <div className="skeleton h-6 w-38"></div>
       <div className="skeleton h-6 w-40"></div>
-      
+      <div className="skeleton h-6 w-42"></div>
+      <div className="skeleton h-6 w-44"></div>
+      <div className="skeleton h-6 w-46"></div>
       </div>;
   }
 
