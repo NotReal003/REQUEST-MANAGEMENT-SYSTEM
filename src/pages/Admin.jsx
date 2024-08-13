@@ -80,7 +80,7 @@ function Admin() {
       });
       setRequests(requestsResponse.data);
     } catch (error) {
-      console.error('Error deleting request:', error);
+      console.error('Error while deleting request:', error);
     }
   };
 
@@ -104,7 +104,7 @@ function Admin() {
             >
               <option value="" disabled>{request.status}</option>
               <option value="APPROVED">Accept request</option>
-              <option value="REJECTED">Reject request</option>
+              <option value="DENIED">Deny request</option>
               <option value="PENDING">Set status to pending</option>
             </select>
             <label htmlFor="reviewMessage" className="block mb-1">Review Message:</label>
@@ -122,7 +122,7 @@ function Admin() {
               Update Request
             </button>
             <button
-              className="btn btn-danger"
+              className="btn btn-error"
               onClick={() => handleDeleteRequest(request._id)}
             >
               Delete Request
