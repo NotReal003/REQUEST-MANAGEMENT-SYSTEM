@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';;
+import { Link, useNavigate } from 'react-router-dom';
 import { FaDiscord, FaArrowRight } from 'react-icons/fa';
 import { MdSupportAgent } from 'react-icons/md';
 
-const RequestStatus = ({ status }) => {
-  const statusStyles = {
-    DENIED: 'bg-red-600 text-white',
-    APPROVED: 'bg-green-600 text-white',
-    RESUBMIT_REQUIRED: 'bg-orange-600 text-white',
-    PENDING: 'bg-yellow-600 text-white',
-    CANCELLED: 'bg-red-600 text-white',
-  };
+const statusStyles = {
+  DENIED: 'bg-red-600 text-white',
+  APPROVED: 'bg-green-600 text-white',
+  RESUBMIT_REQUIRED: 'bg-orange-600 text-white',
+  PENDING: 'bg-yellow-600 text-white',
+  CANCELLED: 'bg-red-600 text-white',
+};
 
   return (
     <span className={`rounded-full px-2 py-1 text-xs font-bold ${statusStyles[status]}`}>
@@ -22,9 +21,9 @@ const RequestStatus = ({ status }) => {
 
 const RequestIcon = ({ type }) => {
   if (type === 'report') {
-    return <FaDiscord className="text-3xl mr-4" />;
+    return <FaDiscord className="text-4xl mr-4" />;
   } else if (type === 'support') {
-    return <MdSupportAgent className="text-3xl mr-4" />;
+    return <MdSupportAgent className="text-4xl mr-4" />;
   }
   return null;
 };
@@ -53,7 +52,7 @@ const One = () => {
 
     fetchRequests();
   }, [token]);
-  
+
   const handleRequestClick = (id) => {
     navigate(`/requestdetail?id=${id}`);
   };
@@ -72,48 +71,50 @@ const One = () => {
         return 'bg-gradient-to-r from-yellow-600 to-yellow-700';
     }
   };
+
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Submissions</h1>
+      <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
+
       <div className="space-y-4">
-      {loading ? (
-       <span className="loading loading-spinner text-info"></span>
-      ) : requests.length > 0 ? (
-        requests.map((request) => (
-          <div
-            key={request._id}
-            className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
-            onClick={() => handleRequestClick(request._id)}
-          >
-            <div className="flex items-center">
-              <RequestIcon type={request.type} />
-              <div>
-                <h2 className="text-lg font-bold">{request.type === 'report' ? 'Discord Report' : 'Support Request'}</h2>
-                <p className="text-sm">
-                  {new Date(request.createdAt).toLocaleString('en-US', {
-                    timeZone: 'Asia/Kolkata',
-                    hour12: true,
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric',
-                    hour: 'numeric',
-                    minute: 'numeric',
-                  })}
-                </p>
+        {loading ? (
+      <span className="loading loading-spinner text-info"></span>
+        ) : requests.length > 0 ? (
+          requests.map((request) => (
+            <div
+              key={request._id}
+              className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
+              onClick={() => handleRequestClick(request._id)}
+            >
+              <div className="flex items-center">
+                <RequestIcon type={request.type} />
+                <div>
+                  <h2 className="text-lg font-bold">{request.type === 'report' ? 'Discord Report' : 'Support Request'}</h2>
+                  <p className="text-sm">
+                    {new Date(request.createdAt).toLocaleString('en-US', {
+                      timeZone: 'Asia/Kolkata',
+                      hour12: true,
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                      hour: 'numeric',
+                      minute: 'numeric',
+                    })}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <RequestStatus status={request.status} />
+                <FaArrowRight className="ml-4 text-white" />
               </div>
             </div>
-            <div className="flex items-center">
-              <RequestStatus status={request.status} />
-              <FaArrowRight className="ml-4 text-white" />
-            </div>
-          </div>
-        ))
-      ) : (
-        <p>No requests found.</p>
-      )}
+          ))
+        ) : (
+          <p>You have not submmited any request yet...</p>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
 };
 
 export default One;
