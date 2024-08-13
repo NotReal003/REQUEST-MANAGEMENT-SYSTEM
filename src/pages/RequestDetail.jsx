@@ -56,19 +56,19 @@ axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
           </div>
           <div className="form-control">
             <label className="label">Request</label>
-            <input type="text" value={request.status} readOnly className="input input-bordered hover:border-slate-300" />
+            <input type="text" value={request.status} readOnly className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
           </div>
           <div className="form-control">
             <label className="label">Your Username</label>
-            <input type="text" value={request.username} readOnly className="input input-bordered border-slate-300" />
+            <input type="text" value={request.username} readOnly className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
           </div>
           <div className="form-control">
             <label className="label">Request / Evidence</label>
-            <input type="text" value={request.messageLink} readOnly className="input input-bordered hover:border-sky-700" />
+            <input type="text" value={request.messageLink} readOnly className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
           </div>
           <div className="form-control">
             <label className="label">Anything else you would like to add?</label>
-            <textarea value={request.additionalInfo} readOnly className="textarea textarea-bordered hover:border-sky-700" />
+            <textarea value={request.additionalInfo} readOnly className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
           </div>
         </div>
       </div>
