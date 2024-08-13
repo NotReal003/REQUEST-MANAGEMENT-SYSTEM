@@ -98,7 +98,7 @@ function Admin() {
             <label htmlFor="status" className="block mb-1">Update Status:</label>
             <select
               id="status"
-              className="block w-full border border-gray-300 rounded px-2 py-1 mb-2"
+              className="select select-success w-full border rounded px-2 py-1 mb-2"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
             >
