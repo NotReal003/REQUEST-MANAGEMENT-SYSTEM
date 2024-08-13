@@ -33,6 +33,7 @@ const One = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem('jwtToken');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRequests = async () => {
