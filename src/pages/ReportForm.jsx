@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { IoSend } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
 import { TbMessageReport } from "react-icons/tb";
-import { IoShieldCheckmark } from "react-icons/io5";
+import { FaShieldHalved } from "react-icons/fa6";
 
 const ReportForm = () => {
   const [messageLink, setMessageLink] = useState('');
@@ -61,7 +61,7 @@ const ReportForm = () => {
     <div className="container mx-auto p-4">
       <div className="form-container">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
-          <IoShieldCheckmark className="size-6 mr-2"/>Discord report
+          <FaShieldHalved className="size-6 mr-2"/>Discord report
         </h1>
         {status && <div className="mt-4 alert alert-warning mb-4">{status}</div>}
         <div role="alert" className="alert">
