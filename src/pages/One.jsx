@@ -8,8 +8,8 @@ const RequestStatus = ({ status }) => {
   const statusStyles = {
     DENIED: 'bg-red-600 text-white',
     APPROVED: 'bg-green-600 text-white',
-    RESUBMIT_REQUIRED: 'bg-orange-500 text-white',
-    PENDING: 'bg-yellow-500 text-white',
+    RESUBMIT_REQUIRED: 'bg-orange-600 text-white',
+    PENDING: 'bg-yellow-600 text-white',
     CANCELLED: 'bg-red-600 text-white',
   };
 
@@ -22,9 +22,9 @@ const RequestStatus = ({ status }) => {
 
 const RequestIcon = ({ type }) => {
   if (type === 'report') {
-    return <FaDiscord className="text-4xl mr-4" />;
+    return <FaDiscord className="text-3xl mr-4" />;
   } else if (type === 'support') {
-    return <MdSupportAgent className="text-4xl mr-4" />;
+    return <MdSupportAgent className="text-3xl mr-4" />;
   }
   return null;
 };
@@ -56,14 +56,15 @@ const One = () => {
   const getGradientClass = (status) => {
     switch (status) {
       case 'DENIED':
+        return 'bg-gradient-to-r from-red-600 to-red-700';
       case 'CANCELLED':
-        return 'bg-gradient-to-r from-red-500 to-red-700';
+        return 'bg-gradient-to-r from-orange-600 to-orange-700';
       case 'APPROVED':
-        return 'bg-gradient-to-r from-green-500 to-green-700';
+        return 'bg-gradient-to-r from-green-600 to-green-700';
       case 'RESUBMIT_REQUIRED':
-        return 'bg-gradient-to-r from-orange-500 to-orange-700';
+        return 'bg-gradient-to-r from-orange-600 to-orange-700';
       default:
-        return 'bg-gradient-to-r from-yellow-500 to-yellow-700';
+        return 'bg-gradient-to-r from-yellow-600 to-yellow-700';
     }
   };
 
@@ -73,9 +74,10 @@ const One = () => {
 
       <div className="space-y-4">
         {loading ? (
-          <p>Loading requests...</p>
+      <span className="loading loading-spinner text-info"></span>
         ) : requests.length > 0 ? (
           requests.map((request) => (
+            <Link to={`/requestdetail?id=${request._id}`}>
             <div
               key={request._id}
               className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)}`}
@@ -104,6 +106,7 @@ const One = () => {
                 </Link>
               </div>
             </div>
+            </Link>
           ))
         ) : (
           <p>No requests found.</p>
