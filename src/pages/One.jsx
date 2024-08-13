@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { FaDiscord, FaArrowRight } from 'react-icons/fa';
+import { MdSupportAgent } from "react-icons/md";
 
 const RequestStatus = ({ status }) => {
   const statusStyles = {
@@ -18,6 +20,15 @@ const RequestStatus = ({ status }) => {
   );
 };
 
+const RequestIcon = ({ type }) => {
+  if (type === 'report') {
+    return <FaDiscord className="text-4xl mr-4" />;
+  } else if (type === 'support') {
+    return <MdSupportAgent className="text-4xl mr-4" />;
+  }
+  return null;
+};
+
 const One = () => {
   const [requests, setRequests] = useState([]);
   const token = localStorage.getItem('jwtToken');
@@ -28,7 +39,9 @@ const One = () => {
         const response = await axios.get('https://api.notreal003.xyz/requests', {
           headers: { Authorization: `${token}` },
         });
-        setRequests(response.data);
+        // Sort requests by the creation
+        const sortedRequests = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setRequests(sortedRequests);
       } catch (error) {
         console.error('Error fetching requests:', error);
       }
@@ -55,12 +68,9 @@ const One = () => {
               }`}
             >
               <div className="flex items-center">
-                <div className="text-4xl mr-4">
-                  {/* Assuming you use an icon library for the Discord icon */}
-                  <i className="fab fa-discord"></i>
-                </div>
+                <RequestIcon type={request.type} />
                 <div>
-                  <h2 className="text-lg font-bold">Discord Report</h2>
+                  <h2 className="text-lg font-bold">{request.type === 'report' ? 'Discord Report' : 'Support Request'}</h2>
                   <p className="text-sm">
                     {new Date(request.createdAt).toLocaleString('en-US', {
                       timeZone: 'Asia/Kolkata',
@@ -70,7 +80,6 @@ const One = () => {
                       year: 'numeric',
                       hour: 'numeric',
                       minute: 'numeric',
-                      second: 'numeric',
                     })}
                   </p>
                 </div>
@@ -78,7 +87,7 @@ const One = () => {
               <div className="flex items-center">
                 <RequestStatus status={request.status} />
                 <Link to={`/requestdetail?id=${request._id}`} className="ml-4">
-                  <i className="fas fa-arrow-right text-white"></i>
+                  <FaArrowRight className="text-white" />
                 </Link>
               </div>
             </div>
