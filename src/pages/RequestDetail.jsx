@@ -45,12 +45,12 @@ axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
         <div className="card-body">
           <h2 className="card-title">Request Details</h2>
           <div className="form-control">
-            <label className="label">Request</label>
-            <input type="text" value={request.status} readOnly className="input input-bordered" />
+            <label className="label">Reviewe Message</label>
+            <textarea value={request.reviewMessage || "This request hasn't been reviewed yet."} readOnly className="textarea textarea-bordered bg-orange-400" />
           </div>
           <div className="form-control">
-            <label className="label">Reviewe Message</label>
-            <textarea value={request.reviewMessage || "This request hasn't been reviewed yet."} readOnly className="textarea textarea-bordered bg-orange-500" />
+            <label className="label">Request</label>
+            <input type="text" value={request.status} readOnly className="input input-bordered" />
           </div>
           <div className="form-control">
             <label className="label">Your Username</label>
