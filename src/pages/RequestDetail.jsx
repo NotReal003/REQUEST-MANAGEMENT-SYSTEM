@@ -64,11 +64,11 @@ axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
           </div>
           <div className="form-control">
             <label className="label">Request / Evidence</label>
-            <input type="text" value={request.messageLink} readOnly className="input input-bordered" />
+            <input type="text" value={request.messageLink} readOnly className="input input-bordered hover:bg-sky-700" />
           </div>
           <div className="form-control">
             <label className="label">Anything else you would like to add?</label>
-            <textarea value={request.additionalInfo} readOnly className="textarea textarea-bordered border-blue" />
+            <textarea value={request.additionalInfo} readOnly className="textarea textarea-bordered hover:bg-sky-700" />
           </div>
         </div>
       </div>
