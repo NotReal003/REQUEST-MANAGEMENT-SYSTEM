@@ -56,19 +56,19 @@ axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
           </div>
           <div className="form-control">
             <label className="label">Request</label>
-            <input type="text" value={request.status} readOnly className="input input-bordered" />
+            <input type="text" value={request.status} readOnly className="input input-bordered hover:border-slate-300" />
           </div>
           <div className="form-control">
             <label className="label">Your Username</label>
-            <input type="text" value={request.username} readOnly className="input input-bordered" />
+            <input type="text" value={request.username} readOnly className="input input-bordered border-slate-300" />
           </div>
           <div className="form-control">
             <label className="label">Request / Evidence</label>
-            <input type="text" value={request.messageLink} readOnly className="input input-bordered hover:bg-sky-700" />
+            <input type="text" value={request.messageLink} readOnly className="input input-bordered hover:border-sky-700" />
           </div>
           <div className="form-control">
             <label className="label">Anything else you would like to add?</label>
-            <textarea value={request.additionalInfo} readOnly className="textarea textarea-bordered hover:bg-sky-700" />
+            <textarea value={request.additionalInfo} readOnly className="textarea textarea-bordered hover:border-sky-700" />
           </div>
         </div>
       </div>
