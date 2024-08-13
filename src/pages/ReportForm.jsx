@@ -53,7 +53,7 @@ const ReportForm = () => {
       }
     } catch (error) {
       console.error('Error: ', error);
-      setStatus(`${errorData.message}`);
+      setStatus(`An error occurred while submitting your report. Please try again later.`);
     }
   };
 
