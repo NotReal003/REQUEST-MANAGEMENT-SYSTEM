@@ -25,7 +25,7 @@ axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
 
   if (!request) {
     return <div className="flex w-52 flex-col gap-4 container mx-auto px-4 py-8">
-      <div className="skeleton h-30 w-55"></div>
+      <div className="skeleton h-32 w-full"></div>
       <div className="skeleton h-6 w-30"></div>
       <div className="skeleton h-6 w-32"></div>
       <div className="skeleton h-6 w-34"></div>
