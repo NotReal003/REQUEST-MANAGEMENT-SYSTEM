@@ -18,17 +18,17 @@ axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
       .catch(() => {
         setAlert({
           type: 'error',
-          message: 'Failed to fetch request details. Please try again later.',
+          message: response.error,
         });
       });
   }, [requestId]);
 
   if (!request) {
     return <div className="flex w-52 flex-col gap-4 container mx-auto px-4 py-8">
-        <div className="skeleton h-64 w-full"></div>
-        <div className="skeleton h-8 w-28"></div>
-        <div className="skeleton h-8 w-full"></div>
-        <div className="skeleton h-8 w-full"></div>
+        <div className="skeleton h-32 w-full"></div>
+        <div className="skeleton h-4 w-28"></div>
+        <div className="skeleton h-4 w-full"></div>
+        <div className="skeleton h-4 w-full"></div>
       </div>;
   }
 
