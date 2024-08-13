@@ -74,11 +74,10 @@ const One = () => {
 
       <div className="space-y-4">
         {loading ? (
-      <p>Please wait...<span className="loading loading-spinner text-info"></span></p>
+      <span className="loading loading-spinner text-info"></span>
         ) : requests.length > 0 ? (
           requests.map((request) => (
-            <Link to={`/requestdetail?id=${request._id}`}>
-            <div
+            <Link to={`/request/${request._id}`}>
               key={request._id}
               className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)}`}
             >
@@ -105,7 +104,6 @@ const One = () => {
                   <FaArrowRight className="text-white" />
                 </Link>
               </div>
-            </div>
             </Link>
           ))
         ) : (
