@@ -79,7 +79,7 @@ const One = () => {
           requests.map((request) => (
             <div
               key={request._id}
-              className={`flex justify-between items-center p-4 rounded-full shadow-lg text-white ${getGradientClass(request.status)}`}
+              className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)}`}
             >
               <div className="flex items-center">
                 <RequestIcon type={request.type} />
