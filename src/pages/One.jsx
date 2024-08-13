@@ -79,13 +79,13 @@ const One = () => {
           requests.map((request) => (
             <div
               key={request._id}
-              className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)}`}
+              className={`flex justify-between items-center p-4 rounded-full shadow-lg text-white ${getGradientClass(request.status)}`}
             >
               <div className="flex items-center">
                 <RequestIcon type={request.type} />
                 <div>
                   <Link to={`/requestdetail?id=${request._id}`}><h2 className="text-lg font-bold">{request.type === 'report' ? 'Discord Report' : 'Support Request'}</h2></Link>
-                  <p className="text-sm">
+                  <Link to={`/requestdetail?id=${request._id}`}><p className="text-sm">
                     {new Date(request.createdAt).toLocaleString('en-US', {
                       timeZone: 'Asia/Kolkata',
                       hour12: true,
@@ -96,6 +96,7 @@ const One = () => {
                       minute: 'numeric',
                     })}
                   </p>
+                  </Link>
                 </div>
               </div>
               <div className="flex items-center">
