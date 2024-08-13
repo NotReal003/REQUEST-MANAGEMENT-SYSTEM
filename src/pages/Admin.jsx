@@ -103,9 +103,9 @@ function Admin() {
               onChange={(e) => setStatus(e.target.value)}
             >
               <option value="" disabled>{request.status}</option>
-              <option value="Approved">Accept</option>
-              <option value="Rejected">Reject</option>
-              <option value="Pending">Pending</option>
+              <option value="APPROVED">Accept</option>
+              <option value="REJECTED">Reject</option>
+              <option value="PENDING">Pending</option>
             </select>
             <label htmlFor="reviewMessage" className="block mb-1">Review Message:</label>
             <textarea
