@@ -74,7 +74,7 @@ const One = () => {
 
       <div className="space-y-4">
         {loading ? (
-      <span className="loading loading-spinner text-info"></span>
+      <p>Please wait...<span className="loading loading-spinner text-info"></span></p>
         ) : requests.length > 0 ? (
           requests.map((request) => (
             <Link to={`/requestdetail?id=${request._id}`}>
