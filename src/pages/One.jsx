@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+  import { Link, useNavigate } from 'react-router-dom';;
 import { FaDiscord, FaArrowRight } from 'react-icons/fa';
 import { MdSupportAgent } from 'react-icons/md';
 
@@ -52,6 +52,10 @@ const One = () => {
 
     fetchRequests();
   }, [token]);
+  
+  const handleRequestClick = (id) => {
+    navigate(`/requestdetail?id=${id}`);
+  };
 
   const getGradientClass = (status) => {
     switch (status) {
@@ -67,50 +71,48 @@ const One = () => {
         return 'bg-gradient-to-r from-yellow-600 to-yellow-700';
     }
   };
-
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Submissions</h1>
-
       <div className="space-y-4">
-        {loading ? (
-      <span className="loading loading-spinner text-info"></span>
-        ) : requests.length > 0 ? (
-          requests.map((request) => (
-            <Link 
-              to= {`/requestdetail?id=${request._id}`}
-              key={request._id}
-              className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)}`}
-            >
-              <div className="flex items-center">
-                <RequestIcon type={request.type} />
-                  <div>
-                    <h2 className="text-lg font-bold">{request.type === 'report' ? 'Discord Report' : 'Support Request'}</h2>
-                    <p className="text-sm">
-                    {new Date(request.createdAt).toLocaleString('en-US', {
-                      timeZone: 'Asia/Kolkata',
-                      hour12: true,
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                      hour: 'numeric',
-                      minute: 'numeric',
-                    })}
-                    </p>
-                  </div>
-              </div
-              <div className="flex items-center">
-                <RequestStatus status={request.status} />
-                <FaArrowRight className="text-white ml-4" />
+      {loading ? (
+       <span className="loading loading-spinner text-info"></span>
+      ) : requests.length > 0 ? (
+        requests.map((request) => (
+          <div
+            key={request._id}
+            className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
+            onClick={() => handleRequestClick(request._id)}
+          >
+            <div className="flex items-center">
+              <RequestIcon type={request.type} />
+              <div>
+                <h2 className="text-lg font-bold">{request.type === 'report' ? 'Discord Report' : 'Support Request'}</h2>
+                <p className="text-sm">
+                  {new Date(request.createdAt).toLocaleString('en-US', {
+                    timeZone: 'Asia/Kolkata',
+                    hour12: true,
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                  })}
+                </p>
               </div>
-              </Link>
-          ))
-        ) : (
-          <p>No requests found.</p>
-        )}
-      </div>
+            </div>
+            <div className="flex items-center">
+              <RequestStatus status={request.status} />
+              <FaArrowRight className="ml-4 text-white" />
+            </div>
+          </div>
+        ))
+      ) : (
+        <p>No requests found.</p>
+      )}
     </div>
-  );
+  </div>
+);
 };
 
 export default One;
