@@ -77,15 +77,16 @@ const One = () => {
       <span className="loading loading-spinner text-info"></span>
         ) : requests.length > 0 ? (
           requests.map((request) => (
-            <div
+            <Link 
+              to= {`/request/${request._id}`}
               key={request._id}
               className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)}`}
             >
               <div className="flex items-center">
                 <RequestIcon type={request.type} />
-                <div>
-                  <Link to={`/requestdetail?id=${request._id}`}><h2 className="text-lg font-bold">{request.type === 'report' ? 'Discord Report' : 'Support Request'}</h2></Link>
-                  <Link to={`/requestdetail?id=${request._id}`}><p className="text-sm">
+                  <div>
+                    <h2 className="text-lg font-bold">{request.type === 'report' ? 'Discord Report' : 'Support Request'}</h2>
+                    <p className="text-sm">
                     {new Date(request.createdAt).toLocaleString('en-US', {
                       timeZone: 'Asia/Kolkata',
                       hour12: true,
@@ -95,17 +96,15 @@ const One = () => {
                       hour: 'numeric',
                       minute: 'numeric',
                     })}
-                  </p>
-                  </Link>
-                </div>
+                    </p>
+                  </div>
               </div>
+          )
               <div className="flex items-center">
                 <RequestStatus status={request.status} />
-                <Link to={`/requestdetail?id=${request._id}`} className="ml-4">
-                  <FaArrowRight className="text-white" />
-                </Link>
+                <FaArrowRight className="text-white ml-4" />
               </div>
-            </div>
+              </Link>
           ))
         ) : (
           <p>No requests found.</p>
