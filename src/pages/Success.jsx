@@ -16,7 +16,7 @@ const Success = () => {
           <CircleCheck className='size-4'/> Your Requests
         </Link>
         <a target="_blank" href="https://discord.gg/sqVBrMVQmp" className="btn btn-outline btn-primary w-full mt-5"><FaDiscord /> Join our Discord Server</a>
-        <Link to="/" className="btn btn-outline btn-info mt-4 w-full">
+        <Link to="/" className="btn btn-outline btn-warning mt-4 w-full">
           <House className='size-4'/> Back to Home Page
         </Link>
       </div>
