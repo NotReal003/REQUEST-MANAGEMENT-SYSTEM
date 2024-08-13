@@ -88,7 +88,7 @@ function Admin() {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
       {requests.map((request) => (
-        <div key={request._id} className="p-4 bg-white shadow rounded mb-4">
+        <div key={request._id} className="p-4 shadow rounded mb-4">
           <h2 className="text-xl font-semibold mb-2">Request by {request.username}</h2>
           <p className="mb-2"><strong>Message Link:</strong> {request.messageLink}</p>
           <p className="mb-2"><strong>Additional Info:</strong> {request.additionalInfo}</p>
