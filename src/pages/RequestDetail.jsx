@@ -18,7 +18,7 @@ axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
       .catch(() => {
         setAlert({
           type: 'error',
-          message: response.error,
+          message: 'You do not have permission to check this this request.',
         });
       });
   }, [requestId]);
