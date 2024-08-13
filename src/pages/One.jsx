@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { FaDiscord, FaArrowRight } from 'react-icons/fa';
-import { MdSupportAgent } from "react-icons/md";
+import { MdSupportAgent } from 'react-icons/md';
 
 const RequestStatus = ({ status }) => {
   const statusStyles = {
@@ -31,6 +31,7 @@ const RequestIcon = ({ type }) => {
 
 const One = () => {
   const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem('jwtToken');
 
   useEffect(() => {
@@ -39,33 +40,45 @@ const One = () => {
         const response = await axios.get('https://api.notreal003.xyz/requests', {
           headers: { Authorization: `${token}` },
         });
-        // Sort requests by the creation
+        // Sort requests by the creation date, showing the newest at the top
         const sortedRequests = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setRequests(sortedRequests);
       } catch (error) {
         console.error('Error fetching requests:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchRequests();
   }, [token]);
 
+  const getGradientClass = (status) => {
+    switch (status) {
+      case 'DENIED':
+      case 'CANCELLED':
+        return 'bg-gradient-to-r from-red-500 to-red-700';
+      case 'APPROVED':
+        return 'bg-gradient-to-r from-green-500 to-green-700';
+      case 'RESUBMIT_REQUIRED':
+        return 'bg-gradient-to-r from-orange-500 to-orange-700';
+      default:
+        return 'bg-gradient-to-r from-yellow-500 to-yellow-700';
+    }
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Submissions</h1>
 
       <div className="space-y-4">
-        {requests.length > 0 ? (
+        {loading ? (
+          <p>Loading requests...</p>
+        ) : requests.length > 0 ? (
           requests.map((request) => (
             <div
               key={request._id}
-              className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${
-                request.status === 'DENIED' || request.status === 'CANCELLED'
-                  ? 'bg-red-500'
-                  : request.status === 'APPROVED'
-                  ? 'bg-green-500'
-                  : 'bg-orange-500'
-              }`}
+              className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)}`}
             >
               <div className="flex items-center">
                 <RequestIcon type={request.type} />
