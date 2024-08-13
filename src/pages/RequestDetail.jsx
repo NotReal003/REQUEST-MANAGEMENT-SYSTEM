@@ -45,24 +45,24 @@ axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
         <div className="card-body">
           <h2 className="card-title">Request Details</h2>
           <div className="form-control">
-            <label className="label">Review Message</label>
-            <textarea value={request.reviewMessage || 'No review yet'} readOnly className="textarea textarea-bordered" />
+            <label className="label">Status</label>
+            <input type="text" value={request.status} readOnly className="input input-bordered" />
           </div>
           <div className="form-control">
-            <label className="label">Username</label>
+            <label className="label">Reviewer Message</label>
+            <textarea value={request.reviewMessage || "This request hasn't been reviewed yet."} readOnly className="textarea textarea-bordered" />
+          </div>
+          <div className="form-control">
+            <label className="label">Your Username</label>
             <input type="text" value={request.username} readOnly className="input input-bordered" />
           </div>
           <div className="form-control">
-            <label className="label">Message Link</label>
+            <label className="label">Request / Evidence</label>
             <input type="text" value={request.messageLink} readOnly className="input input-bordered" />
           </div>
           <div className="form-control">
-            <label className="label">Additional Info</label>
+            <label className="label">Anything else you would like to add?</label>
             <textarea value={request.additionalInfo || 'None provided'} readOnly className="textarea textarea-bordered" />
-          </div>
-          <div className="form-control">
-            <label className="label">Status</label>
-            <input type="text" value={request.status} readOnly className="input input-bordered" />
           </div>
         </div>
       </div>

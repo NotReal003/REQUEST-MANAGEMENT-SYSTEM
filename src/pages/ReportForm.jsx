@@ -65,7 +65,7 @@ const ReportForm = () => {
           <span>If you believe the user is violating the Discord Terms of Service or Community Guidelines, right-click the message and choose "Report message" button.</span>
         </div>
         <form id="reportForm" onSubmit={handleSubmit}>
-          <label htmlFor="messageLink" className="label">Discord Message Link (required)</label>
+          <label htmlFor="messageLink" className="label">Discord Message Link / Evidence (required)</label>
           <input 
             type="text" 
             id="messageLink" 
