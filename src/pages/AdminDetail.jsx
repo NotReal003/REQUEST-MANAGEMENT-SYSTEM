@@ -36,7 +36,7 @@ function AdminDetail() {
     try {
       const token = localStorage.getItem('jwtToken');
       await axios.put(
-        `https://api.notreal003.xyz/admin/${requestId}`,
+        `https://api.notreal003.xyz/admin/${reqId}`,
         { status, reviewMessage },
         { headers: { Authorization: `${token}` } }
       );
