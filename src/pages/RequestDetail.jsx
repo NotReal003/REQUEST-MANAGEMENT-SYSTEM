@@ -50,14 +50,14 @@ function RequestDetail() {
     return <div className="flex w-52 flex-col gap-4 container mx-auto px-4 py-8">
       <div className="skeleton h-32 w-full"></div>
       <div className="skeleton h-6 w-30"></div>
-      <div className="skeleton h-6 w-32"></div>
-      <div className="skeleton h-6 w-34"></div>
-      <div className="skeleton h-6 w-36"></div>
-      <div className="skeleton h-6 w-38"></div>
-      <div className="skeleton h-6 w-40"></div>
-      <div className="skeleton h-6 w-42"></div>
-      <div className="skeleton h-6 w-44"></div>
-      <div className="skeleton h-6 w-46"></div>
+      <div className="skeleton h-6 w-30"></div>
+      <div className="skeleton h-6 w-30"></div>
+      <div className="skeleton h-6 w-30"></div>
+      <div className="skeleton h-6 w-30"></div>
+      <div className="skeleton h-6 w-30"></div>
+      <div className="skeleton h-6 w-30"></div>
+      <div className="skeleton h-6 w-30"></div>
+      <div className="skeleton h-6 w-30"></div>
     </div>;
   }
 
@@ -72,7 +72,7 @@ function RequestDetail() {
       )}
       <div className="card shadow-lg bg-base-100">
         <div className="card-body">
-          <h2 className="card-title">Request Details</h2>
+          <h2 className="card-title">Request Details ({request.status}</h2>
           <div className="form-control">
             <label className="label">Review Message</label>
             <textarea
@@ -80,15 +80,6 @@ function RequestDetail() {
               value={request.reviewMessage || "This request hasn't been reviewed yet."}
               readOnly
               className="textarea text-white textarea-bordered bg-orange-600 focus:outline-none"
-            />
-          </div>
-          <div className="form-control">
-            <label className="label">Request</label>
-            <input
-              type="text"
-              value={request.status}
-              readOnly
-              className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
             />
           </div>
           <div className="form-control">
@@ -119,14 +110,6 @@ function RequestDetail() {
             />
           </div>
         </div>
-      </div>
-      <div className="mt-4">
-        <button
-          className="btn btn-info btn-outline"
-          onClick={() => navigate(-1)}
-        >
-          Back
-        </button>
       </div>
       <div className="mt-4">
         <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}
