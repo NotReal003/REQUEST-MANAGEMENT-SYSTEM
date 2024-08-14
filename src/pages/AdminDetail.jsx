@@ -1,41 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 function AdminDetail() {
-  const { id } = useParams();
+  const { requestId } = useParams();
   const [request, setRequest] = useState(null);
   const [alert, setAlert] = useState(null);
   const [status, setStatus] = useState('');
   const [reviewMessage, setReviewMessage] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRequest = async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const id = urlParams.get('id');
-      const token = localStorage.getItem('jwtToken');
       try {
-        const response = await axios.get(`https://api.notreal003.xyz/admin/requests/${id}`, {
+        const urlParams = new URLSearchParams(window.location.search);
+        const ids = urlParams.get('id');
+        const token = localStorage.getItem('jwtToken');
+        const response = await axios.get(`https://api.notreal003.xyz/requests/${ids}`, {
           headers: { Authorization: `${token}` },
         });
         setRequest(response.data);
         setStatus(response.data.status);
         setReviewMessage(response.data.reviewMessage || '');
       } catch (error) {
-        setAlert({ type: 'error', message: 'Error fetching request.' });
+        setAlert({
+          type: 'error',
+          message: 'Error while fetching the request details.',
+        });
       }
     };
 
     fetchRequest();
-  }, [id]);
+  }, [requestId]);
 
-  const handleDeleteRequest = async () => {
+  const handleDelete = async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
+    const ids = urlParams.get('id');
     const token = localStorage.getItem('jwtToken');
     try {
-      await axios.delete(`https://api.notreal003.xyz/admin/${id}`, {
+      await axios.delete(`https://api.notreal003.xyz/admin/${ids}`, {
         headers: { Authorization: `${token}` },
       });
       setAlert({ type: 'success', message: 'Request deleted successfully.' });
@@ -46,28 +48,62 @@ function AdminDetail() {
   };
 
   const handleUpdateRequest = async () => {
-    const token = localStorage.getItem('jwtToken');
     try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ids = urlParams.get('id');
+      const token = localStorage.getItem('jwtToken');
       const response = await axios.put(
-        `https://api.notreal003.xyz/admin/${id}`,
+        `https://api.notreal003.xyz/admin/${ids}`,
         { status, reviewMessage },
         { headers: { Authorization: `${token}` } }
       );
-      setAlert({ type: 'success', message: response.data.message });
+
+      // Check the response status code
+      if (response.status === 200) {
+        setAlert({
+          type: 'success',
+          message: response.data.message || 'Request updated successfully.',
+        });
+      } else {
+        setAlert({
+          type: 'warning',
+          message: response.data.message || 'Request was updated but something might have gone wrong.',
+        });
+      }
     } catch (error) {
-      setAlert({ type: 'error', message: 'Error updating request.' });
+      // If the API returns an error
+      if (error.response) {
+        setAlert({
+          type: 'error',
+          message: error.response.data.message || 'Error updating the request.',
+        });
+      } else {
+        setAlert({
+          type: 'error',
+          message: 'An unknown error occurred while updating the request.',
+        });
+      }
     }
   };
 
   if (!request) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex w-52 flex-col gap-4 container mx-auto px-4 py-8">
+        {/* Skeleton loaders */}
+        <div className="skeleton h-32 w-full"></div>
+        <div className="skeleton h-6 w-30"></div>
+        {/* Additional skeleton elements */}
+      </div>
+    );
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto px-4 py-8">
       {alert && (
         <div className={`alert alert-${alert.type} shadow-lg mb-4`}>
-          <div>{alert.message}</div>
+          <div>
+            <span>{alert.message}</span>
+          </div>
         </div>
       )}
       <div className="card shadow-lg bg-base-100">
@@ -78,24 +114,46 @@ function AdminDetail() {
             <textarea
               value={reviewMessage}
               onChange={(e) => setReviewMessage(e.target.value)}
-              className="textarea textarea-bordered bg-orange-600 focus:outline-none"
+              className="textarea text-white textarea-bordered bg-orange-600 focus:outline-none"
+              placeholder="Enter your review message"
             />
           </div>
           <div className="form-control">
-            <label className="label">Status</label>
-            <input
-              type="text"
+            <label className="label">Request Status</label>
+            <select
+              className="select select-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              className="input input-bordered focus:outline-none"
-            />
+            >
+              <option value="APPROVED">Approved</option>
+              <option value="DENIED">Denied</option>
+              <option value="PENDING">Pending</option>
+              <option value="RESUBMIT_REQUIRED">Resubmit Required</option>
+              <option value="CANCELLED">Cancelled</option>
+            </select>
           </div>
-          <button className="btn btn-success mt-4" onClick={handleUpdateRequest}>
-            Update Request
-          </button>
-          <button className="btn btn-error mt-4 ml-2" onClick={handleDeleteRequest}>
-            Delete Request
-          </button>
+          <div className="form-control">
+            <label className="label">Your Username</label>
+            <input type="text" value={request.username} readOnly className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
+          </div>
+          <div className="form-control">
+            <label className="label">Request / Evidence</label>
+            <input type="text" value={request.messageLink} readOnly className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
+          </div>
+          <div className="form-control">
+            <label className="label">Additional Information</label>
+            <textarea value={request.additionalInfo} readOnly className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
+          </div>
+          <div className="form-control mt-4">
+            <button onClick={handleUpdateRequest} className="btn btn-primary">
+              Update Request
+            </button>
+          </div>
+            <div className="form-control mt-4">
+            <button onClick={handleDelete} className="btn btn-warning">
+              Delete Request
+            </button>
+            </div>
         </div>
       </div>
     </div>
