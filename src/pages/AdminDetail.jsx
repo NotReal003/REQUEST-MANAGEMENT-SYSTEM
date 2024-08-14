@@ -37,19 +37,21 @@ function AdminDetail() {
       const token = localStorage.getItem('jwtToken');
       const urlParams = new URLSearchParams(window.location.search);
       const reqId = urlParams.get('id');
-      await axios.put(
+      const put = await axios.put(
         `https://api.notreal003.xyz/admi/${reqId}`,
         { status, reviewMessage },
         { headers: { Authorization: `${token}` } }
       );
       setAlert({
         type: 'success',
-        message: 'Request updated successfully.',
+        message: put.message,
+        type: 'error',
+        message: put.response,
       });
     } catch (error) {
       setAlert({
         type: 'error',
-        message: response.message,
+        message: 'Error while updating request.',
       });
     }
   };
