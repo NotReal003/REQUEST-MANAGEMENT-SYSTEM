@@ -89,22 +89,20 @@ function Admin() {
       {filteredRequests.map((request) => (
         <div
           key={request._id}
-          className={`p-4 shadow rounded mb-4 cursor-pointer ${
+          className={`p-4 shadow rounded-lg mb-4 cursor-pointer ${
             request.status === 'APPROVED'
               ? 'bg-green-700'
               : request.status === 'DENIED'
               ? 'bg-red-700'
               : request.status === 'CANCELED'
               ? 'bg-yellow-700'
-              : 'bg-gray-400'
+              : 'bg-gray-700'
           }`}
           onClick={() => handleRequestClick(request._id)}
         >
-          <h2 className="text-xl font-semibold mb-2">Request by {request.username}</h2>
-          <p className="mb-2"><strong>{request.type} request</strong> {request.messageLink}</p>
-          <p className="mb-2"><strong>Additional Info:</strong> {request.additionalInfo}</p>
+          <h2 className="text-xl font-semibold mb-2">Request by: {request.username}</h2>
+          <p className="mb-2"><strong>{request.type} request:</strong> {request.messageLink}</p>
           <p className="mb-2"><strong>Status:</strong> {request.status}</p>
-          <p className="mb-2"><strong>Review Message:</strong> {request.reviewMessage || 'No review message yet'}</p>
         </div>
       ))}
       <div className="mt-4">
