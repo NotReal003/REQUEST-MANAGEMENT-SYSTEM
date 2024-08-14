@@ -50,7 +50,7 @@ function Admin() {
   const filteredRequests = requests
     .filter((request) => {
       return (
-        (!searchQuery || request.username.includes(searchQuery)) &&
+        (!searchQuery || request.id.includes(searchQuery)) &&
         (!filterStatus || request.status === filterStatus)
       );
     })
