@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function AdminDetail() {
@@ -8,6 +8,7 @@ function AdminDetail() {
   const [alert, setAlert] = useState(null);
   const [status, setStatus] = useState('');
   const [reviewMessage, setReviewMessage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRequest = async () => {
