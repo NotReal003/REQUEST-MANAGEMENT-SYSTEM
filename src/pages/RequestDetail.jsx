@@ -92,7 +92,7 @@ function RequestDetail() {
             />
           </div>
           <div className="form-control">
-            <label className="label">Request / Evidence</label>
+            <label className="label">{request.type} Request</label>
             <textarea
               ref={messageLinkRef}
               value={request.messageLink}

@@ -82,6 +82,7 @@ function Admin() {
           <option value="PENDING">Pending</option>
           <option value="APPROVED">Approved</option>
           <option value="DENIED">Denied</option>
+          <option value="CANCELLED">Cancelled</option>
         </select>
       </div>
 
@@ -90,17 +91,17 @@ function Admin() {
           key={request._id}
           className={`p-4 shadow rounded mb-4 cursor-pointer ${
             request.status === 'APPROVED'
-              ? 'bg-green-100'
+              ? 'bg-green-700'
               : request.status === 'DENIED'
-              ? 'bg-red-100'
+              ? 'bg-red-700'
               : request.status === 'CANCELED'
-              ? 'bg-yellow-100'
-              : 'bg-gray-100'
+              ? 'bg-yellow-700'
+              : 'bg-gray-400'
           }`}
           onClick={() => handleRequestClick(request._id)}
         >
           <h2 className="text-xl font-semibold mb-2">Request by {request.username}</h2>
-          <p className="mb-2"><strong>Message Link:</strong> {request.messageLink}</p>
+          <p className="mb-2"><strong>{request.type} request</strong> {request.messageLink}</p>
           <p className="mb-2"><strong>Additional Info:</strong> {request.additionalInfo}</p>
           <p className="mb-2"><strong>Status:</strong> {request.status}</p>
           <p className="mb-2"><strong>Review Message:</strong> {request.reviewMessage || 'No review message yet'}</p>

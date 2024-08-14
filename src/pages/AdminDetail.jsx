@@ -140,7 +140,7 @@ function AdminDetail() {
             <input type="text" value={request.username} readOnly className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
           </div>
           <div className="form-control">
-            <label className="label">Request / Evidence</label>
+            <label className="label">{request.type} Request</label>
             <input type="text" value={request.messageLink} readOnly className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
           </div>
           <div className="form-control">
