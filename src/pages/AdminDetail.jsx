@@ -35,6 +35,7 @@ function AdminDetail() {
   const handleUpdateRequest = async () => {
     try {
       const token = localStorage.getItem('jwtToken');
+      const reqId = urlParams.get('id');
       await axios.put(
         `https://api.notreal003.xyz/admin/${reqId}`,
         { status, reviewMessage },
