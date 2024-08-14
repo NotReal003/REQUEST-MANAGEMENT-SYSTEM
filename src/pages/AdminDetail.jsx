@@ -156,6 +156,14 @@ function AdminDetail() {
             </button>
             </div>
         </div>
+        <div className="mt-4">
+          <button
+            className="btn btn-info btn-outline"
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </button>
+        </div>
       </div>
     </div>
   );
