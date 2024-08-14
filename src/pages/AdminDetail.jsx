@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 
 function AdminDetail() {
   const { requestId } = useParams();
@@ -156,14 +157,12 @@ function AdminDetail() {
             </button>
             </div>
         </div>
-        <div className="mt-4">
-          <button
-            className="btn btn-info btn-outline"
-            onClick={() => navigate(-1)}
+      </div>
+      <div className="mt-4">
+        <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}
           >
-            Back
-          </button>
-        </div>
+          <IoMdArrowRoundBack /> Back
+        </button>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 
 function Admin() {
   const [requests, setRequests] = useState([]);
@@ -105,6 +106,12 @@ function Admin() {
           <p className="mb-2"><strong>Review Message:</strong> {request.reviewMessage || 'No review message yet'}</p>
         </div>
       ))}
+      <div className="mt-4">
+        <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}
+          >
+          <IoMdArrowRoundBack /> Back
+        </button>
+      </div>
     </div>
   );
 }

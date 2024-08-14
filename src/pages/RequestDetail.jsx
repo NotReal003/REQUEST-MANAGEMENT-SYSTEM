@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 
 function RequestDetail() {
   const { requestId } = useParams();
@@ -125,6 +126,12 @@ function RequestDetail() {
           onClick={() => navigate(-1)}
         >
           Back
+        </button>
+      </div>
+      <div className="mt-4">
+        <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}
+          >
+          <IoMdArrowRoundBack /> Back
         </button>
       </div>
     </div>

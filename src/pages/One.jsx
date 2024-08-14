@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaDiscord, FaArrowRight } from 'react-icons/fa';
 import { MdSupportAgent } from 'react-icons/md';
-
+import { IoMdArrowRoundBack } from "react-icons/io";
 const RequestStatus = ({ status }) => {
   const statusStyles = {
     DENIED: 'bg-red-600 text-white',
@@ -69,7 +69,7 @@ const One = () => {
       case 'RESUBMIT_REQUIRED':
         return 'bg-gradient-to-r from-orange-600 to-orange-700';
       default:
-        return 'bg-gradient-to-r from-yellow-600 to-yellow-700';
+        return 'bg-gradient-to-r from-yellow-500 to-yellow-600';
     }
   };
 
@@ -111,8 +111,14 @@ const One = () => {
             </div>
           ))
         ) : (
-          <p>You have not submmited any request yet...</p>
+          <p>Hold on! You have not submmited any request yet...</p>
         )}
+      </div>
+      <div className="mt-4">
+        <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}
+          >
+          <IoMdArrowRoundBack />Back
+        </button>
       </div>
     </div>
   );
