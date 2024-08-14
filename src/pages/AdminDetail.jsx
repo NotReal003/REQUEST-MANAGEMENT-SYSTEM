@@ -38,7 +38,7 @@ function AdminDetail() {
       const urlParams = new URLSearchParams(window.location.search);
       const reqId = urlParams.get('id');
       await axios.put(
-        `https://api.notreal003.xyz/admin/${reqId}`,
+        `https://api.notreal003.xyz/admi/${reqId}`,
         { status, reviewMessage },
         { headers: { Authorization: `${token}` } }
       );
@@ -49,7 +49,7 @@ function AdminDetail() {
     } catch (error) {
       setAlert({
         type: 'error',
-        message: error.message,
+        message: response.message,
       });
     }
   };
