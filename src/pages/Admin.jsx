@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 function Admin() {
   const [requests, setRequests] = useState([]);
-  const [filteredRequests, setFilteredRequests] = useState([]);
-  const [filterUserId, setFilterUserId] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,28 +23,16 @@ function Admin() {
         const user = userResponse.data;
 
         if (user.id === '1131271104590270606' || user.isAdmin) {
-          user.isAdmin = true; // Ensure isAdmin is true if the user ID matches
+          user.isAdmin = true;
         }
 
         if (!user.isAdmin) {
-          navigate('/404'); // Redirect non-admin users to the 404 page
+          navigate('/404');
         } else {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/admin/requests', {
             headers: { Authorization: `${jwtToken}` },
           });
-
-          const sortedRequests = requestsResponse.data.sort((a, b) => {
-            if (a.status === 'PENDING' && b.status !== 'PENDING') {
-              return -1;
-            }
-            if (a.status !== 'PENDING' && b.status === 'PENDING') {
-              return 1;
-            }
-            return new Date(b.createdAt) - new Date(a.createdAt);
-          });
-
-          setRequests(sortedRequests);
-          setFilteredRequests(sortedRequests);
+          setRequests(requestsResponse.data);
         }
       } catch (error) {
         console.error('Error fetching requests:', error);
@@ -54,41 +42,67 @@ function Admin() {
     fetchRequests();
   }, [navigate]);
 
-  const handleFilterChange = (e) => {
-    const userId = e.target.value;
-    setFilterUserId(userId);
-
-    if (userId) {
-      const filtered = requests.filter(request => request.username.includes(userId));
-      setFilteredRequests(filtered);
-    } else {
-      setFilteredRequests(requests);
-    }
+  const handleRequestClick = (requestId) => {
+    navigate(`/admindetail?id=${requestId}`);
   };
+
+  const filteredRequests = requests
+    .filter((request) => {
+      return (
+        (!searchQuery || request.username.includes(searchQuery)) &&
+        (!filterStatus || request.status === filterStatus)
+      );
+    })
+    .sort((a, b) => {
+      if (filterStatus === 'PENDING') {
+        return a.status === 'PENDING' ? -1 : 1;
+      }
+      return 0;
+    });
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
 
-      <div className="mb-4">
+      <div className="flex mb-4">
         <input
           type="text"
-          placeholder="Filter by User ID"
-          value={filterUserId}
-          onChange={handleFilterChange}
-          className="input input-bordered w-full"
+          placeholder="Search by User ID"
+          className="input input-bordered w-full max-w-xs mr-2"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
+        <select
+          className="select select-bordered"
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+        >
+          <option value="">Filter by Status</option>
+          <option value="PENDING">Pending</option>
+          <option value="APPROVED">Approved</option>
+          <option value="DENIED">Denied</option>
+        </select>
       </div>
 
       {filteredRequests.map((request) => (
         <div
           key={request._id}
-          className="p-4 shadow-lg rounded mb-4 bg-gradient-to-r from-orange-400 to-orange-500 text-white cursor-pointer"
-          onClick={() => navigate(`/admindetail?id=${request._id}`)}
+          className={`p-4 shadow rounded mb-4 cursor-pointer ${
+            request.status === 'APPROVED'
+              ? 'bg-green-100'
+              : request.status === 'DENIED'
+              ? 'bg-red-100'
+              : request.status === 'CANCELED'
+              ? 'bg-yellow-100'
+              : 'bg-gray-100'
+          }`}
+          onClick={() => handleRequestClick(request._id)}
         >
           <h2 className="text-xl font-semibold mb-2">Request by {request.username}</h2>
+          <p className="mb-2"><strong>Message Link:</strong> {request.messageLink}</p>
+          <p className="mb-2"><strong>Additional Info:</strong> {request.additionalInfo}</p>
           <p className="mb-2"><strong>Status:</strong> {request.status}</p>
-          <p className="mb-2"><strong>Created At:</strong> {new Date(request.createdAt).toLocaleString()}</p>
+          <p className="mb-2"><strong>Review Message:</strong> {request.reviewMessage || 'No review message yet'}</p>
         </div>
       ))}
     </div>
