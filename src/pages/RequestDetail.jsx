@@ -1,27 +1,49 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function RequestDetail() {
   const { requestId } = useParams();
   const [request, setRequest] = useState(null);
   const [alert, setAlert] = useState(null);
+  const navigate = useNavigate();
+
+  const reviewMessageRef = useRef(null);
+  const additionalInfoRef = useRef(null);
+  const messageLinkRef = useRef(null);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const requestId = urlParams.get('id');
     const token = localStorage.getItem('jwtToken');
-axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
-        headers: { Authorization: `${token}` },
-      })
+
+    axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
+      headers: { Authorization: `${token}` },
+    })
       .then(response => setRequest(response.data))
       .catch(() => {
         setAlert({
           type: 'error',
-          message: 'You do not have permission to check this this request.',
+          message: 'You do not have permission to check this request.',
         });
       });
   }, [requestId]);
+
+  useEffect(() => {
+    // Adjust height for textareas
+    if (reviewMessageRef.current) {
+      reviewMessageRef.current.style.height = 'auto';
+      reviewMessageRef.current.style.height = `${reviewMessageRef.current.scrollHeight}px`;
+    }
+    if (additionalInfoRef.current) {
+      additionalInfoRef.current.style.height = 'auto';
+      additionalInfoRef.current.style.height = `${additionalInfoRef.current.scrollHeight}px`;
+    }
+    if (messageLinkRef.current) {
+      messageLinkRef.current.style.height = 'auto';
+      messageLinkRef.current.style.height = `${messageLinkRef.current.scrollHeight}px`;
+    }
+  }, [request]);
 
   if (!request) {
     return <div className="flex w-52 flex-col gap-4 container mx-auto px-4 py-8">
@@ -35,7 +57,7 @@ axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
       <div className="skeleton h-6 w-42"></div>
       <div className="skeleton h-6 w-44"></div>
       <div className="skeleton h-6 w-46"></div>
-      </div>;
+    </div>;
   }
 
   return (
@@ -51,26 +73,59 @@ axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
         <div className="card-body">
           <h2 className="card-title">Request Details</h2>
           <div className="form-control">
-            <label className="label">Reviewe Message</label>
-            <textarea value={request.reviewMessage || "This request hasn't been reviewed yet."} readOnly className="textarea text-white textarea-bordered bg-orange-600 focus:outline-none" />
+            <label className="label">Review Message</label>
+            <textarea
+              ref={reviewMessageRef}
+              value={request.reviewMessage || "This request hasn't been reviewed yet."}
+              readOnly
+              className="textarea text-white textarea-bordered bg-orange-600 focus:outline-none"
+            />
           </div>
           <div className="form-control">
             <label className="label">Request</label>
-            <input type="text" value={request.status} readOnly className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
+            <input
+              type="text"
+              value={request.status}
+              readOnly
+              className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+            />
           </div>
           <div className="form-control">
             <label className="label">Your Username</label>
-            <input type="text" value={request.username} readOnly className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
+            <input
+              type="text"
+              value={request.username}
+              readOnly
+              className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+            />
           </div>
           <div className="form-control">
             <label className="label">Request / Evidence</label>
-            <input type="text" value={request.messageLink} readOnly className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
+            <textarea
+              ref={messageLinkRef}
+              value={request.messageLink}
+              readOnly
+              className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+            />
           </div>
           <div className="form-control">
             <label className="label">Anything else you would like to add?</label>
-            <textarea value={request.additionalInfo} readOnly className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
+            <textarea
+              ref={additionalInfoRef}
+              value={request.additionalInfo}
+              readOnly
+              className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+            />
           </div>
         </div>
+      </div>
+      <div className="mt-4">
+        <button
+          className="btn btn-info btn-outline"
+          onClick={() => navigate(-1)}
+        >
+          Back
+        </button>
       </div>
     </div>
   );

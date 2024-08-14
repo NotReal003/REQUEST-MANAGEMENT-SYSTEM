@@ -134,7 +134,7 @@ function AdminDetail() {
             </select>
           </div>
           <div className="form-control">
-            <label className="label">Your Username</label>
+            <label className="label">Request User Username</label>
             <input type="text" value={request.username} readOnly className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
           </div>
           <div className="form-control">
