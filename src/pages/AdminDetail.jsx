@@ -42,12 +42,18 @@ function AdminDetail() {
         { status, reviewMessage },
         { headers: { Authorization: `${token}` } }
       );
+      if (put.status === 200) {
       setAlert({
         type: 'success',
         message: put.message,
-        type: 'error',
-        message: put.response,
       });
+      }
+      else {
+        setAlert({
+          type: 'error',
+          message: put.message,
+        });
+      }
     } catch (error) {
       setAlert({
         type: 'error',
