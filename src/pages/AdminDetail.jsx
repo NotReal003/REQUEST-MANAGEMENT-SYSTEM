@@ -32,35 +32,44 @@ function AdminDetail() {
     fetchRequest();
   }, [requestId]);
 
-  const handleUpdateRequest = async () => {
-    try {
-      const token = localStorage.getItem('jwtToken');
-      const urlParams = new URLSearchParams(window.location.search);
-      const reqId = urlParams.get('id');
-      const put = await axios.put(
-        `https://api.notreal003.xyz/admi/${reqId}`,
-        { status, reviewMessage },
-        { headers: { Authorization: `${token}` } }
-      );
-      if (put.status === 200) {
+const handleUpdateRequest = async () => {
+  try {
+    const token = localStorage.getItem('jwtToken');
+    const requestId = localStorage.getItem('requestId');
+    const response = await axios.put(
+      `https://api.notreal003.xyz/admin/${requestId}`,
+      { status, reviewMessage },
+      { headers: { Authorization: `${token}` } }
+    );
+
+    // Check the response status code
+    if (response.status === 200) {
       setAlert({
         type: 'success',
-        message: put.message,
+        message: response.data.message || 'Request updated successfully.',
       });
-      }
-      else {
-        setAlert({
-          type: 'error',
-          message: put.message,
-        });
-      }
-    } catch (error) {
+    } else {
       setAlert({
-        type: 'error',
-        message: 'Error while updating request.',
+        type: 'warning',
+        message: response.data.message || 'Request was not updated, something might have gone wrong.',
       });
     }
-  };
+  } catch (error) {
+    // If the API returns an error
+    if (error.response) {
+      setAlert({
+        type: 'error',
+        message: error.response.data.message || 'Error updating the request.',
+      });
+    } else {
+      setAlert({
+        type: 'error',
+        message: 'An unknown error occurred while updating the request.',
+      });
+    }
+  }
+};
+
 
   if (!request) {
     return (
