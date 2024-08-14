@@ -15,7 +15,7 @@ function AdminDetail() {
         const urlParams = new URLSearchParams(window.location.search);
         const ids = urlParams.get('id');
         const token = localStorage.getItem('jwtToken');
-        const response = await axios.get(`https://api.notreal003.xyz/requests/${ids}`, {
+        const response = await axios.get(`https://api.notreal003.xyz/admin/requests/${ids}`, {
           headers: { Authorization: `${token}` },
         });
         setRequest(response.data);
