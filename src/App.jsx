@@ -21,7 +21,7 @@ const App = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const callback = urlParams.get('callback');
     if (callback) {
-      localStorage.setItem('jwtToken', token);
+      localStorage.setItem('jwtToken', callback);
       setIsAuthenticated(true);
       window.history.replaceState({}, document.title, "/");
     } else {
