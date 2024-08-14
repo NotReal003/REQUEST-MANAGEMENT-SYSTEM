@@ -19,8 +19,8 @@ const App = () => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
-    if (token) {
+    const callback = urlParams.get('callback');
+    if (callback) {
       localStorage.setItem('jwtToken', token);
       setIsAuthenticated(true);
       window.history.replaceState({}, document.title, "/");
