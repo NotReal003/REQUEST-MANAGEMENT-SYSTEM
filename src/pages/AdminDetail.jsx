@@ -47,7 +47,7 @@ function AdminDetail() {
     } catch (error) {
       setAlert({
         type: 'error',
-        message: 'Error updating the request.',
+        message: error.message,
       });
     }
   };
