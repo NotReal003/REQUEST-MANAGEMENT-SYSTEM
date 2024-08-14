@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import { MdDelete, MdUpdate } from "react-icons/md";
 
 function AdminDetail() {
   const { requestId } = useParams();
@@ -147,13 +148,13 @@ function AdminDetail() {
             <textarea value={request.additionalInfo} readOnly className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
           </div>
           <div className="form-control mt-4">
-            <button onClick={handleUpdateRequest} className="btn btn-primary">
-              Update Request
+            <button onClick={handleUpdateRequest} className="btn btn-info">
+              <MdUpdate /> Update Request
             </button>
           </div>
             <div className="form-control mt-4">
-            <button onClick={handleDelete} className="btn btn-warning">
-              Delete Request
+            <button onClick={handleDelete} className="btn btn-error">
+              <MdDelete /> Delete Request
             </button>
             </div>
         </div>

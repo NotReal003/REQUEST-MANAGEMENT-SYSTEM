@@ -72,7 +72,7 @@ function RequestDetail() {
       )}
       <div className="card shadow-lg bg-base-100">
         <div className="card-body">
-          <h2 className="card-title">Request Details ({request.status}</h2>
+          <h2 className="card-title">Request Details ({request.status})</h2>
           <div className="form-control">
             <label className="label">Review Message</label>
             <textarea
