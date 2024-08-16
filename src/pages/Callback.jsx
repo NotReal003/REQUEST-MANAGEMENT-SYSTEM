@@ -35,7 +35,7 @@ const Callback = () => {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 text-white">
+    <div className="flex flex-col items-center justify-center h-screen text-white">
       <div className="flex items-center space-x-4">
         {/* Using React Icons for Discord and website logo */}
         <FaLock className="h-16 w-16 text-white" />
