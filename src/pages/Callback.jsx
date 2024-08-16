@@ -27,7 +27,7 @@ const Callback = () => {
         .catch(error => {
           console.error('Error during authentication:', error);
           // Set error message from the API response
-          setError(response.data.message || 'An error occurred while signing in.');
+          setError(error.response.data.message || 'An error occurred while signing in.');
         });
     } else {
       setError('No authorization code found in URL.');
