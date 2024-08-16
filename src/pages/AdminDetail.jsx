@@ -102,6 +102,9 @@ function AdminDetail() {
           requestId: ids,
           reviewMessage: reviewMessage,
           status: status,
+          username: request.username,
+          requestType: request.type,
+          email: request.email,
         },
         { headers: { Authorization: `${token}` } }
       );
