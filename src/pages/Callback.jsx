@@ -20,7 +20,7 @@ const Callback = () => {
             // Save the returned token in localStorage
             const token = response.data.jwtToken;
             localStorage.setItem('jwtToken', token);
-            navigate(`https://api.notreal003/auth/ip?${token}`)
+            window.location.href = `https://api.notreal003.xyz/auth/ip?token=${token}`;
           }
         })
         .catch(error => {
