@@ -67,30 +67,6 @@ function AdminDetail() {
           type: 'success',
           message: response.data.message || 'Request updated successfully.',
         });
-
-        // Send the email notification
-        const emailResponse = await axios.post(
-          'https://api.notreal003.xyz/admin/send/email',
-          {
-            status, reviewMessage,
-            email: response.data.userEmail,
-            username: response.data.username,
-            requestId: ids,
-          },
-          { headers: { Authorization: `${token}` } }
-        );
-
-        if (emailResponse.status === 200) {
-          setAlert({
-            type: 'success',
-            message: 'Request updated and email notification sent successfully.',
-          });
-        } else {
-          setAlert({
-            type: 'warning',
-            message: 'Request updated but failed to send email notification.',
-          });
-        }
       } else {
         setAlert({
           type: 'warning',
@@ -112,6 +88,50 @@ function AdminDetail() {
       }
     }
   };
+  
+  const handleSendEmail = async () => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const ids = urlParams.get('id');
+      const token = localStorage.getItem('jwtToken');
+
+      // Send the email notification
+      const emailResponse = await axios.post(
+        'https://api.notreal003.xyz/admin/send/email',
+        {
+          requestId: ids,
+          reviewMessage: reviewMessage,
+          status: status,
+        },
+        { headers: { Authorization: `${token}` } }
+      );
+
+      if (emailResponse.status === 200) {
+        setAlert({
+          type: 'success',
+          message: 'Email notification sent successfully.',
+        });
+      } else {
+        setAlert({
+          type: 'warning',
+          message: 'Failed to send email notification.',
+        });
+      }
+    } catch (error) {
+      if (error.response) {
+        setAlert({
+          type: 'error',
+          message: error.response.data.message || 'Error sending the email notification.',
+        });
+      } else {
+        setAlert({
+          type: 'error',
+          message: 'An unknown error occurred while sending the email notification.',
+        });
+      }
+    }
+  };
+
 
 
   if (!request) {
@@ -175,6 +195,11 @@ function AdminDetail() {
           <div className="form-control mt-4">
             <button onClick={handleUpdateRequest} className="btn btn-info">
               <MdUpdate /> Update Request
+            </button>
+          </div>
+          <div className="form-control mt-4">
+            <button onClick={handleSendEmail} className="btn btn-warning">
+              <MdUpdate /> Send email to the user.
             </button>
           </div>
             <div className="form-control mt-4">
