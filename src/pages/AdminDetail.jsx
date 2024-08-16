@@ -67,6 +67,29 @@ function AdminDetail() {
           type: 'success',
           message: response.data.message || 'Request updated successfully.',
         });
+
+        // Send the email notification
+        const emailResponse = await axios.post(
+          'https://api.notreal003.xyz/admin/send/email',
+          {
+            email: response.data.userEmail,
+            username: response.data.username,
+            requestId: ids,
+          },
+          { headers: { Authorization: `${token}` } }
+        );
+
+        if (emailResponse.status === 200) {
+          setAlert({
+            type: 'success',
+            message: 'Request updated and email notification sent successfully.',
+          });
+        } else {
+          setAlert({
+            type: 'warning',
+            message: 'Request updated but failed to send email notification.',
+          });
+        }
       } else {
         setAlert({
           type: 'warning',
@@ -88,6 +111,7 @@ function AdminDetail() {
       }
     }
   };
+
 
   if (!request) {
     return (
