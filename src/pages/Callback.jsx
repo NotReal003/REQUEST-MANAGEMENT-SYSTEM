@@ -44,7 +44,7 @@ const Callback = () => {
       </div>
       <p className="mt-8 m-4">Please wait while we are connecting your Discord account.</p>
       <div className="mt-4">
-        <span className="loading loading-spinner loading-lg text-yellow-500"></span>
+        <span className="loading loading-spinner text-info"></span>
       </div>
 
       {/* Displaying error message if there is one */}

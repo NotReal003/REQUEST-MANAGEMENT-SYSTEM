@@ -24,7 +24,7 @@ export default function Navbar({ isAuthenticated }) {
         });
 
         if (res.status === 403) {
-          localStorage.removeItem('jwtToken');
+          localStorage.removeItem('jwtToke');
           window.location.href = '/';
           setShowAlert(true);
         }
