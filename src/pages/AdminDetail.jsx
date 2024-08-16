@@ -72,6 +72,7 @@ function AdminDetail() {
         const emailResponse = await axios.post(
           'https://api.notreal003.xyz/admin/send/email',
           {
+            status, reviewMessage,
             email: response.data.userEmail,
             username: response.data.username,
             requestId: ids,

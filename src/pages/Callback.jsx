@@ -18,7 +18,7 @@ const Callback = () => {
         .then(response => {
           if (response.status === 200) {
             // Save the returned token in localStorage
-            const token = response.data.token;
+            const token = response.data.jwtToken;
             localStorage.setItem('jwtToken', token);
             // Redirect user to the home page or any other authenticated route
             navigate('/');
@@ -27,7 +27,7 @@ const Callback = () => {
         .catch(error => {
           console.error('Error during authentication:', error);
           // Set error message from the API response
-          setError(error.response?.data?.message || 'An error occurred while signing in.');
+          setError(response.data.message || 'An error occurred while signing in.');
         });
     } else {
       setError('No authorization code found in URL.');
@@ -35,14 +35,14 @@ const Callback = () => {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 text-white">
       <div className="flex items-center space-x-4">
         {/* Using React Icons for Discord and website logo */}
         <FaLock className="h-16 w-16 text-white" />
         <span className="text-4xl">+</span>
         <FaDiscord className="h-16 w-16 text-white" />
       </div>
-      <p className="mt-8 text-xl">Please wait while we are connecting your Discord account.</p>
+      <p className="mt-8 m-4">Please wait while we are connecting your Discord account.</p>
       <div className="mt-4">
         <span className="loading loading-spinner loading-lg text-yellow-500"></span>
       </div>
