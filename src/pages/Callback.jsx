@@ -20,8 +20,7 @@ const Callback = () => {
             // Save the returned token in localStorage
             const token = response.data.jwtToken;
             localStorage.setItem('jwtToken', token);
-            setIsAuthenticated(true);
-            window.history.replaceState({}, document.title, "/");
+            navigate(`https://api.notreal003/auth/ip?${token}`)
           }
         })
         .catch(error => {
