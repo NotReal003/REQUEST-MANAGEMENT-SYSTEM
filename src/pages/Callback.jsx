@@ -20,8 +20,8 @@ const Callback = () => {
             // Save the returned token in localStorage
             const token = response.data.jwtToken;
             localStorage.setItem('jwtToken', token);
-            // Redirect user to the home page or any other authenticated route
-            navigate('/');
+            setIsAuthenticated(true);
+            window.history.replaceState({}, document.title, "/");
           }
         })
         .catch(error => {
