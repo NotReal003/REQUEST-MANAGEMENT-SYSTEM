@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import { MdDelete, MdUpdate } from "react-icons/md";
+import { MdDelete, MdUpdate, MdEmail } from "react-icons/md";
 
 function AdminDetail() {
   const { requestId } = useParams();
@@ -202,7 +202,7 @@ function AdminDetail() {
           </div>
           <div className="form-control mt-4">
             <button onClick={handleSendEmail} className="btn btn-warning">
-              <MdUpdate /> Send email to the user.
+              <MdEmail /> Send email to the user.
             </button>
           </div>
             <div className="form-control mt-4">
