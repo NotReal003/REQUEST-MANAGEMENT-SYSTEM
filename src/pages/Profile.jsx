@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { IoMdSettings, IoMdListBox } from "react-icons/io";
 import { FaDiscord } from "react-icons/fa";
 import axios from 'axios';
+import Eprofile from '../components/Eprofile';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [requestCount, setRequestCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -36,6 +39,12 @@ const Profile = () => {
 
     fetchProfileData();
   }, []);
+  const handleUpdateDisplayName = (newDisplayName) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      displayName: newDisplayName,
+    }));
+  };
 
   if (loading) {
     return (
@@ -75,6 +84,7 @@ const Profile = () => {
           <div className="text-sm">
             <p><strong>Email:</strong> {user.email}</p>
             <p><strong>Joined:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
+            <p>Discord ID:<strong>{user.id}</strong></p>
           </div>
         </div>
 
@@ -88,13 +98,22 @@ const Profile = () => {
       </div>
 
       <div className="flex justify-between items-center mt-8">
-        <button className="btn btn-outline btn-info flex items-center">
+        <button className="btn btn-outline btn-info flex items-center" onClick={() => navigate(`discord:/users/${user.id}`)}>
           <FaDiscord className="mr-2" /> View Discord Profile
         </button>
-        <button className="btn btn-outline btn-warning flex items-center">
-          <IoMdSettings className="mr-2" /> Edit Profile
+        <button
+          className="btn btn-outline btn-secondary mt-4"
+          onClick={() => setEditModalOpen(true)}
+        >
+          <IoMdSettings /> Edit Profile
         </button>
       </div>
+      <Eprofile
+          isOpen={isEditModalOpen}
+          onClose={() => setEditModalOpen(false)}
+          currentDisplayName={user?.displayName || user?.username}
+          onUpdate={handleUpdateDisplayName}
+        />
     </div>
   );
 };
