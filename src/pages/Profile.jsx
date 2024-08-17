@@ -6,6 +6,7 @@ import axios from 'axios';
 import Eprofile from '../components/Eprofile';
 
 const Profile = () => {
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [requestCount, setRequestCount] = useState(0);
   const [loading, setLoading] = useState(true);
