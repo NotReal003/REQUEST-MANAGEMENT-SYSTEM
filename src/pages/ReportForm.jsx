@@ -42,14 +42,13 @@ const ReportForm = () => {
         return;
       }
       const requests = await response.json();
-      const requestId = requests._id;
 
       if (response.ok) {
         setStatus('Your report submitted successfully');
         setMessageLink('');
         setAdditionalInfo('');
         setAgree(false);
-        navigate(`/success?request=${requestId}`);
+        navigate(`/success?request=${requests.requestId}`);
       } else {
         const errorData = await response.json();
         setStatus(`${errorData.message}`);
