@@ -17,12 +17,8 @@ const Success = () => {
       } catch (error) {
         console.error('Error fetching user data:', error)
       };
-      const userData = {
-      email = res.data.email,
-      name = res.data.username
-    };
-        setUser(userData);
-        
+      const userData = res.json();
+        setUser(userData);    
     };
   return (
     <div className="flex items-center justify-center bg-base-50">
