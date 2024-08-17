@@ -1,21 +1,24 @@
 import React from 'react';
-import { Link, useEffect } from 'react-router-dom';
+import { Link, useEffect, useNavigaye } from 'react-router-dom';
 import { CircleCheck, House } from 'lucide-react';
 import { FaDiscord } from "react-icons/fa6";
 import { IoShieldCheckmark } from "react-icons/io5";
 const Success = () => {
   useEffect(() => {
     const fetchUserData = async () => {
-
+      const navigate = useNavigate();
       try {
-        const token = localStorage.getItem('jwtToken');
+      const token = localStorage.getItem('jwtToken');
         const res = await fetch('https://api.notreal003.xyz/users/@me', {
           headers: {
             'Authorization': `${token}`
           }
         });
-        const email = res.data.email;
-        const name = res.data.username;
+      } catch (error) {
+        console.error('Error fetching user data:', error)
+      };
+      const email = res.data.email;
+      const name = res.data.username;
   return (
     <div className="flex items-center justify-center bg-base-50">
       <div className="text-center">
