@@ -4,9 +4,7 @@ import { CircleCheck, House } from 'lucide-react';
 import { FaDiscord } from "react-icons/fa6";
 import { IoShieldCheckmark } from "react-icons/io5";
 const Success = () => {
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const navigate = useNavigate();
+  useEffect(() => { async () => {
       try {
       const token = localStorage.getItem('jwtToken');
         const res = await fetch('https://api.notreal003.xyz/users/@me', {
@@ -14,11 +12,11 @@ const Success = () => {
             'Authorization': `${token}`
           }
         });
+        const userData = res.json();
+        setUser(userData);
       } catch (error) {
         console.error('Error fetching user data:', error)
-      };
-      const userData = res.json();
-        setUser(userData);    
+      };    
     };
   return (
     <div className="flex items-center justify-center bg-base-50">
