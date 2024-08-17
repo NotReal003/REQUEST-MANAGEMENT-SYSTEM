@@ -43,7 +43,7 @@ const Success = () => {
     return (
       <div className="flex items-center justify-center min-h-screen bg-base-50">
         <div className="text-center">
-          <div className="loader">Loading...</div>
+          <span className="loading loading-spinner text-info"></span>
         </div>
       </div>
     );
@@ -66,8 +66,8 @@ const Success = () => {
           <IoShieldCheckmark className="w-20 h-20 text-green-500 animate-pulse" />
         </div>
         <h1 className="text-2xl font-bold mb-2">Success!</h1>
-        <p className="text-lg">Thanks for submitting a request {request.username}. We will notify you at {request.email}. Join our Discord Server so we may contact you :)</p>
-        <p className="text-lg">Your request ID: {request._id}</p>
+        <p className="text-lg">Thanks for submitting a request <strong>{request.username}</strong>. We will notify you at your email <strong>{request.email}</strong>. Join our Discord Server so we may contact you :)</p>
+        <p className="text-sm">Your request ID: {request._id}</p>
         <Link to="/one" className="btn btn-outline btn-info mt-4 w-full">
           <CircleCheck className='size-4' /> Your Requests
         </Link>

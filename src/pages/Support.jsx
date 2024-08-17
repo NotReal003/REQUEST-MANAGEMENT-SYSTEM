@@ -39,15 +39,14 @@ const Support = () => {
         setStatus('Your access has been denied, please login again.');
         return;
       }
-      const requests = await response.json();
-      const requestId = requests._id;
+        const requests = await response.json();
 
-      if (response.ok) {
-        setStatus('Your request submitted successfully');
-        setMessageLink('');
-        setAdditionalInfo('');
-        setAgree(false);
-        navigate(`/success?request=${requestId}`);
+        if (response.ok) {
+          setStatus('Your request submitted successfully');
+          setMessageLink('');
+          setAdditionalInfo('');
+          setAgree(false);
+          navigate(`/success?request=${requests.requestId}`);
       } else {
         const errorData = await response.json();
         setStatus(`${errorData.message}`);
