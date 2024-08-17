@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { CircleCheck, House } from 'lucide-react';
 import { FaDiscord } from "react-icons/fa6";
 import { IoShieldCheckmark } from "react-icons/io5";
