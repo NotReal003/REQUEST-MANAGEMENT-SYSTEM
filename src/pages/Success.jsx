@@ -1,9 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useEffect } from 'react-router-dom';
 import { CircleCheck, House } from 'lucide-react';
 import { FaDiscord } from "react-icons/fa6";
 import { IoShieldCheckmark } from "react-icons/io5";
 const Success = () => {
+  useEffect(() => {
+    const fetchUserData = async () => {
+
+      try {
+        const token = localStorage.getItem('jwtToken');
+        const res = await fetch('https://api.notreal003.xyz/users/@me', {
+          headers: {
+            'Authorization': `${token}`
+          }
+        });
+        const email = res.data.email;
+        const name = res.data.username;
   return (
     <div className="flex items-center justify-center bg-base-50">
       <div className="text-center">
@@ -11,7 +23,7 @@ const Success = () => {
           <IoShieldCheckmark className="w-20 h-20 text-green-500 animate-pulse" />
         </div>
         <h1 className="text-2xl font-bold mb-2">Success!</h1>
-        <p className="text-lg">Your request was submitted successfully, join our Discord Server so we may contact you :)</p>
+        <p className="text-lg">Thanks for submitting a request ${name}. We will notify you on your ${email}. Join our Discord Server so we may contact you :)</p>
         <Link to="/one" className="btn btn-outline btn-info mt-4 w-full">
           <CircleCheck className='size-4'/> Your Requests
         </Link>
