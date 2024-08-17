@@ -54,7 +54,7 @@ const Success = () => {
     return (
       <div className="flex items-center justify-center min-h-screen bg-base-50">
         <div className="text-center">
-          <p className="text-lg text-red-500">{error}</p>
+          <strong className="text-lg text-red-500">{error}</strong>
         </div>
       </div>
     );
