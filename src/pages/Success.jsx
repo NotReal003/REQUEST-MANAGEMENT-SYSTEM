@@ -31,7 +31,7 @@ const Success = () => {
         setRequest(requestData);
       } catch (error) {
         console.error('Error fetching request details:', error);
-        setError(requestData.message || 'Failed to load request.');
+        setError(error.data.message || 'Failed to load request.');
       } finally {
         setLoading(false);
       }
