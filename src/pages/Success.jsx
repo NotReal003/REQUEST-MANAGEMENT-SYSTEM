@@ -13,6 +13,8 @@ const Success = () => {
   useEffect(() => {
     const fetchRequestDetails = async () => {
       try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const requestId = urlParams.get('request');
         const token = localStorage.getItem('jwtToken');
         const res = await fetch(`https://api.notreal003.xyz/requests/${requestId}`, {
           headers: {
