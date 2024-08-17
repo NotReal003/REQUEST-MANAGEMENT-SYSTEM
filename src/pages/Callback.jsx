@@ -39,7 +39,7 @@ const Callback = () => {
       <div className="flex items-center space-x-4">
         {/* Using React Icons for Discord and website logo */}
         <FaLock className="h-16 w-16 text-white" />
-        <span className="text-sm"><GiProcessor className="mr-2 ml-2"/></span>
+        <span className="text-3xl"><GiProcessor className="mr-2 ml-2"/></span>
         <FaDiscord className="h-16 w-16 text-white" />
       </div>
       <p className="mt-8 m-4">Please wait while we are connecting your Discord account.</p>
