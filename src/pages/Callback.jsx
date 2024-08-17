@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaDiscord, FaLock } from "react-icons/fa";
+import { GiProcessor } from "react-icons/gi";
 
 const Callback = () => {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const Callback = () => {
       <div className="flex items-center space-x-4">
         {/* Using React Icons for Discord and website logo */}
         <FaLock className="h-16 w-16 text-white" />
-        <span className="text-4xl">+</span>
+        <span className="text-4xl"><GiProcessor className="mr-2 ml-2"/></span>
         <FaDiscord className="h-16 w-16 text-white" />
       </div>
       <p className="mt-8 m-4">Please wait while we are connecting your Discord account.</p>
