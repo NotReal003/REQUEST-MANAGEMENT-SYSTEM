@@ -14,7 +14,7 @@ import RequestDetail from './pages/RequestDetail';
 import AdminDetail from './pages/AdminDetail';
 import Callback from './pages/Callback';
 import Profile from './pages/Profile';
-import Eprofile from './pages/Eprofile';
+import EditProfileModal from './pages/EditProfileModal';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
