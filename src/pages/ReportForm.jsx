@@ -24,6 +24,7 @@ const ReportForm = () => {
     const payload = {
       messageLink,
       additionalInfo,
+      requestType: 'report',
     };
 
     try {
