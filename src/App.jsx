@@ -13,6 +13,7 @@ import Admin from './pages/Admin';
 import RequestDetail from './pages/RequestDetail';
 import AdminDetail from './pages/AdminDetail';
 import Callback from './pages/Callback';
+import Profile from './pages/Profile';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -56,6 +57,7 @@ const App = () => {
             <Route path="/AdminDetail" element={isAuthenticated ? <AdminDetail /> : <Navigate to="/login" />} />
             <Route path="*" element={<NotFound />} />
             <Route path="/callback" element={<Callback />} />
+            <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/login" />} />
           </Routes>
         </div>
       </div>
