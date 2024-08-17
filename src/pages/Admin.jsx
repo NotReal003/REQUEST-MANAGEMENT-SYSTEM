@@ -33,7 +33,7 @@ function Admin() {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/admin/requests', {
             headers: { Authorization: `${jwtToken}` },
           });
-          const sortedRequests = requestResponse.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          const sortedRequests = requestsResponse.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
           setRequests(sortedRequests);
 //          setRequests(requestsResponse.data);
         }

@@ -17,8 +17,13 @@ const Success = () => {
       } catch (error) {
         console.error('Error fetching user data:', error)
       };
-      const email = res.data.email;
-      const name = res.data.username;
+      const userData = {
+      email = res.data.email,
+      name = res.data.username
+    };
+        setUser(userData);
+        
+    };
   return (
     <div className="flex items-center justify-center bg-base-50">
       <div className="text-center">
@@ -26,7 +31,7 @@ const Success = () => {
           <IoShieldCheckmark className="w-20 h-20 text-green-500 animate-pulse" />
         </div>
         <h1 className="text-2xl font-bold mb-2">Success!</h1>
-        <p className="text-lg">Thanks for submitting a request ${name}. We will notify you on your ${email}. Join our Discord Server so we may contact you :)</p>
+        <p className="text-lg">Thanks for submitting a request ${user.name}. We will notify you on your ${user.email}. Join our Discord Server so we may contact you :)</p>
         <Link to="/one" className="btn btn-outline btn-info mt-4 w-full">
           <CircleCheck className='size-4'/> Your Requests
         </Link>
