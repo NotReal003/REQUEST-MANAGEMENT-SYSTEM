@@ -23,7 +23,8 @@ const Success = () => {
         });
 
         if (!res.ok) {
-          const errorMessage = await res.text();
+          const errorMessage = await res.json();
+          setError(errorMessage.message || 'Failed to load request.');
           throw new Error('Failed to fetch request details');
         }
 
@@ -31,7 +32,7 @@ const Success = () => {
         setRequest(requestData);
       } catch (error) {
         console.error('Error fetching request details:', error);
-        setError(error.message || 'Failed to load request.');
+        setError(requestData.message || 'Failed to load request.');
       } finally {
         setLoading(false);
       }
