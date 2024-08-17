@@ -1,5 +1,6 @@
-// src/pages/Profile.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { IoMdSettings, IoMdListBox } from "react-icons/io";
+import { FaDiscord } from "react-icons/fa";
 import axios from 'axios';
 
 const Profile = () => {
@@ -15,19 +16,20 @@ const Profile = () => {
 
         // Fetch user info
         const userResponse = await axios.get('https://api.notreal003.xyz/users/@me', {
-          headers: { Authorization: `${token}` },
+          headers: { Authorization: `${token}` }
         });
-        setUser(userResponse.data);
 
         // Fetch request count
         const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
-          headers: { Authorization: `${token}` },
+          headers: { Authorization: `${token}` }
         });
-        setRequestCount(requestsResponse.data.length);
 
+        setUser(userResponse.data);
+        setRequestCount(requestsResponse.data.length);
         setLoading(false);
       } catch (error) {
-        setError(error.response?.data.message || 'Failed to load profile.');
+        console.error('Error fetching profile data:', error);
+        setError('Failed to load profile data.');
         setLoading(false);
       }
     };
@@ -37,7 +39,7 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-base-200">
         <span className="loading loading-spinner text-info"></span>
       </div>
     );
@@ -45,7 +47,7 @@ const Profile = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-base-200">
         <div className="text-center">
           <strong className="text-lg text-red-500">{error}</strong>
         </div>
@@ -54,19 +56,45 @@ const Profile = () => {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex items-center space-x-4">
+    <div className="container mx-auto p-6">
+      <div className="flex items-center space-x-4 mb-8">
         <img
           src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatarHash}.png`}
           alt="User Avatar"
-          className="w-24 h-24 rounded-full"
+          className="w-24 h-24 rounded-full shadow-lg"
         />
         <div>
-          <h2 className="text-2xl font-bold">{user.displayName || user.username}</h2>
-          <p className="text-gray-600">Total Requests Submitted: {requestCount}</p>
+          <h1 className="text-3xl font-bold">{user.displayName || user.username}</h1>
+          <p className="text-gray-500">@{user.username}</p>
         </div>
       </div>
-      {/* Add more user-related info here */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="p-6 bg-white shadow rounded-lg">
+          <h2 className="text-xl font-semibold mb-4">Profile Details</h2>
+          <div className="text-sm">
+            <p><strong>Email:</strong> {user.email}</p>
+            <p><strong>Joined:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
+          </div>
+        </div>
+
+        <div className="p-6 bg-white shadow rounded-lg">
+          <h2 className="text-xl font-semibold mb-4">Request Summary</h2>
+          <div className="flex items-center">
+            <IoMdListBox className="w-6 h-6 text-blue-500 mr-2" />
+            <p className="text-lg">{requestCount} requests submitted</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-between items-center mt-8">
+        <button className="btn btn-outline btn-info flex items-center">
+          <FaDiscord className="mr-2" /> View Discord Profile
+        </button>
+        <button className="btn btn-outline btn-warning flex items-center">
+          <IoMdSettings className="mr-2" /> Edit Profile
+        </button>
+      </div>
     </div>
   );
 };

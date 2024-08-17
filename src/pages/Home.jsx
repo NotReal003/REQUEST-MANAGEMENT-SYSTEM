@@ -35,7 +35,10 @@ const Home = () => {
         <Link to="/apply" className="btn btn-outline btn-secondary w-full"><IoMdMail />Guild Application</Link>
         <Link to="/support" className="btn btn-outline btn-accent w-full"><MdSupportAgent />Support Request</Link>
         {isAdmin && (
-          <Link to="/admin" className="btn btn-outline btn-primary w-full">Admin Dashboard</Link>
+          <Link to="/admin" className="btn btn-outline btn-error w-full">Admin Dashboard</Link>
+        )}
+        {isAdmin && (
+          <Link to="/profile" className="btn btn-outline btn-info w-full">Profile</Link>
         )}
       </div>
       <Footer />
