@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { IoMdSettings, IoMdListBox } from "react-icons/io";
 import { FaDiscord } from "react-icons/fa";
 import axios from 'axios';
-import Eprofile from '../components/Eprofile';
+import EditProfileModal from '../components/EditProfileModal';
 
 const Profile = () => {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -109,7 +109,7 @@ const Profile = () => {
           <IoMdSettings /> Edit Profile
         </button>
       </div>
-      <Eprofile
+      <EditProfileModal
           isOpen={isEditModalOpen}
           onClose={() => setEditModalOpen(false)}
           currentDisplayName={user?.displayName || user?.username}

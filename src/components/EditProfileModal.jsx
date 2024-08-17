@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const eprofile = ({ isOpen, onClose, currentDisplayName, onUpdate }) => {
+const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => {
   const [newDisplayName, setNewDisplayName] = useState(currentDisplayName);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -52,4 +52,4 @@ const eprofile = ({ isOpen, onClose, currentDisplayName, onUpdate }) => {
   ) : null;
 };
 
-export default Eprofile;
+export default EditProfileModal;
