@@ -22,22 +22,21 @@ const Success = () => {
           }
         });
 
-        if (res.status === 404) {
+        if (!res.ok) {
           const errorResponse = await res.json();
-          setError(errorResponse.message || 'Failed to load request!');
+          setError(errorResponse.message || 'Failed to load request.');
           throw new Error('Failed to fetch request details!');
         }
-
+        
         const requestData = await res.json();
         setRequest(requestData);
       } catch (error) {
         console.error('Error fetching request details:', error);
-        setError(error.message || 'Failed to load request!');
+        setError(error.message || 'Failed to load request.');
       } finally {
         setLoading(false);
       }
     };
-
     fetchRequestDetails();
   }, [requestId]);
 
@@ -68,7 +67,7 @@ const Success = () => {
           <IoShieldCheckmark className="w-20 h-20 text-green-500 animate-pulse" />
         </div>
         <h1 className="text-2xl font-bold mb-2">Success!</h1>
-        <p>Thanks for submitting a request <strong>{request.username}</strong>. We will notify you at your email <strong>{request.email}</strong>. Join our Discord Server so we may contact you :)</p>
+        <p>Thanks for submitting a request <strong>{request.username}</strong>. We will notify you on your email <strong>{request.email}</strong>. Join our Discord Server so we may contact you :)</p>
         <p className="text-xs">Your request ID: {request._id}</p>
         <Link to="/one" className="btn btn-outline btn-info mt-4 w-full">
           <CircleCheck className='size-4' /> Your Requests
