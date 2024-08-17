@@ -50,7 +50,7 @@ const Callback = () => {
       {/* Displaying error message if there is one */}
       {error && (
         <div className="mt-4 text-red-500">
-          <p>{error}</p>
+          <strong>{error}</strong>
         </div>
       )}
     </div>
