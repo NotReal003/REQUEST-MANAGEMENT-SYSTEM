@@ -5,6 +5,7 @@ import { IoLogIn } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
 import { MdNavigateNext } from "react-icons/md";
 import { LiaExternalLinkAltSolid } from "react-icons/lia";
+import { RiShieldUserFill } from "react-icons/ri";
 
 export default function Navbar({ isAuthenticated }) {
   const [user, setUser] = useState(null);
@@ -23,47 +24,33 @@ export default function Navbar({ isAuthenticated }) {
           }
         });
 
-        // Handle network errors and API response with status 0
+        if (res.status === 403) {
+          localStorage.removeItem('jwtToken');
+          window.location.href = '/';
+          setShowAlert(false);
+        }
         if (res.status === 0) {
-          setShowAlert(true);
-          throw new Error('Failed to fetch user data');
+         setShowAlert(true); 
+        }
+
+        if (!res.ok) {
+          throw new Error('Not authenticated');
         }
 
         const userData = await res.json();
         setUser(userData);
       } catch (error) {
-        console.log(error);
-        // Handle authentication error by redirecting to the login page
-        if (error.status === '403') {
-          localStorage.removeItem('jwtToken');
-          window.location.href = '/';
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    // Network connectivity check
-    const handleOnlineStatus = () => {
-      if (!navigator.onLine) {
         setShowAlert(true);
       }
-    };
 
-    window.addEventListener('online', handleOnlineStatus);
-    window.addEventListener('offline', handleOnlineStatus);
+      setLoading(false);
+    };
 
     if (isAuthenticated) {
       fetchUserData();
     } else {
       setLoading(false);
     }
-
-    // Clean up the event listeners on component unmount
-    return () => {
-      window.removeEventListener('online', handleOnlineStatus);
-      window.removeEventListener('offline', handleOnlineStatus);
-    };
   }, [isAuthenticated]);
 
   const handleLogout = async () => {
@@ -79,7 +66,7 @@ export default function Navbar({ isAuthenticated }) {
       localStorage.removeItem('jwtToken');
       window.location.href = '/';
     } catch (error) {
-      console.log(error);
+      setShowAlert(true);
     }
   };
 
@@ -98,14 +85,14 @@ export default function Navbar({ isAuthenticated }) {
               strokeWidth="2"
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
-          <span>We are unable to verify you, please check your internet connection.</span>
+          <span>We are unable to verify you. Please check your network connection and reload this page.</span>
           <div>
-            <button className="btn btn-sm btn-outline btn-warning" onClick={() => window.location.reload()}>Reload</button>
+            <button className="btn btn-sm btn-outline btn-warning" onClick={handleLogout}>Reload</button>
           </div>
         </div>
       )}
 
-<nav className="z-20 mb-5">
+      <nav className="z-20 mb-5">
         <div className="container"></div>
 
         <div className="drawer drawer-end">
@@ -157,7 +144,7 @@ export default function Navbar({ isAuthenticated }) {
                     {user && user.avatarHash ? (
                       <img
                         src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatarHash}.webp?size=128`}
-                        className="size-6 object-cover rounded-full border"
+                        className="size-6 object-cover rounded-box border"
                       />
                     ) : (
                       <FaUserCircle className="size-6" />
@@ -166,6 +153,9 @@ export default function Navbar({ isAuthenticated }) {
                   <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40">
                     {isAuthenticated ? (
                       <li>
+                        <Link to="/profile" className="flex items-center gap-x-3">
+                          <RiShieldUserFill /> Profile
+                        </Link>
                         <Link onClick={handleLogout} className="flex items-center gap-x-3 hover:text-red-500">
                           <ImExit className="size-3" /> <span>Sign out</span>
                         </Link>
