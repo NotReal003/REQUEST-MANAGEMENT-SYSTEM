@@ -75,12 +75,12 @@ const Profile = () => {
         />
         <div>
           <h1 className="text-3xl font-bold">{user.displayName || user.username}</h1>
-          <p className="text-gray-500">@{user.username}</p>
+          <p>@{user.username}</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="p-6 bg-white shadow rounded-lg">
+        <div className="p-6 shadow rounded-lg">
           <h2 className="text-xl font-semibold mb-4">Profile Details</h2>
           <div className="text-sm">
             <p><strong>Email:</strong> {user.email}</p>
@@ -89,7 +89,7 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="p-6 bg-white shadow rounded-lg">
+        <div className="p-6 shadow rounded-lg">
           <h2 className="text-xl font-semibold mb-4">Request Summary</h2>
           <div className="flex items-center">
             <IoMdListBox className="w-6 h-6 text-blue-500 mr-2" />
