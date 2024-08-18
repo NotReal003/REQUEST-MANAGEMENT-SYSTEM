@@ -91,19 +91,19 @@ const Profile = () => {
               <strong>
                 <MdMarkEmailRead className="inline-block align-middle mr-1" /> Email:
               </strong> 
-              {user.email}
+               {user.email}
             </p>
             <p>
               <strong>
                 <FaCheck className="inline-block align-middle mr-1" /> Joined:
               </strong> 
-              {new Date(user.joinedAt).toLocaleDateString()}
+               {new Date(user.joinedAt).toLocaleDateString()}
             </p>
             <p>
               <strong>
                 <FaDiscord className="inline-block align-middle mr-1" /> Discord ID:
               </strong> 
-              {user.id}
+               {user.id}
             </p>
           </div>
 
@@ -118,10 +118,13 @@ const Profile = () => {
         </div>
       </div>
 
-      <div className="flex justify-between items-center mt-8">
-        <button className="btn btn-outline btn-info btn-sm flex items-center" onClick={() => navigate(`discord:/users/${user.id}`)}>
-          <FaDiscord className="mr-2" /> View Discord Profile
-        </button>
+        <div className="flex justify-between items-center mt-8">
+          <button
+            className="btn btn-outline btn-info btn-sm flex items-center"
+            onClick={() => window.location.href = `discord://users/${user.id}`}
+          >
+            <FaDiscord className="mr-2" /> View Discord Profile
+          </button>
         <button className="btn btn-outline btn-secondary btn-sm" onClick={() => setEditModalOpen(true)}><IoMdSettings /> Edit Profile
         </button>
       </div>
