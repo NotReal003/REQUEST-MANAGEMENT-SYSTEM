@@ -89,19 +89,19 @@ const Profile = () => {
           <div className="text-sm">
             <p>
               <strong>
-                <MdMarkEmailRead className="inline-block align-middle mr-1" /> Email:
+                <MdMarkEmailRead className="inline-block align-middle mr-1 mb-1" /> Email:
               </strong> 
                {user.email}
             </p>
             <p>
               <strong>
-                <FaCheck className="inline-block align-middle mr-1" /> Joined:
+                <FaCheck className="inline-block align-middle mr-1 mt-1" /> Joined:
               </strong> 
                {new Date(user.joinedAt).toLocaleDateString()}
             </p>
             <p>
               <strong>
-                <FaDiscord className="inline-block align-middle mr-1" /> Discord ID:
+                <FaDiscord className="inline-block align-middle mr-1 mt-1" /> Discord ID:
               </strong> 
                {user.id}
             </p>
@@ -136,6 +136,7 @@ const Profile = () => {
         />
       <div className="flex items-center justify-center mt-2">"
       <p className="mt-2 text-xs text-gray-400">Before using the "View Discord Profile" button, please make sure you are on Desktop or You have installed Discord on your Device.</p>
+      </div>
     </div>
   );
 };
