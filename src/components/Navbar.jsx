@@ -34,7 +34,7 @@ export default function Navbar({ isAuthenticated }) {
       } catch (error) {
         console.log(error);
         // Handle authentication error by redirecting to the login page
-        if (error.message === 'Not authenticated' || res.status === 403) {
+        if (error.status === '403') {
           localStorage.removeItem('jwtToken');
           window.location.href = '/';
         }
