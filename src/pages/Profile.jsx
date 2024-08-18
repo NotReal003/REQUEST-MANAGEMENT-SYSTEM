@@ -84,7 +84,7 @@ const Profile = () => {
           <h2 className="text-xl font-semibold mb-4">Profile Details</h2>
           <div className="text-sm">
             <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Joined:</strong> {new Date(user.createdAt).toLocaleDateString()}</p>
+            <p><strong>Joined:</strong> {new Date(user.joinedAt).toLocaleDateString()}</p>
             <p><strong>Discord ID:</strong> {user.id}</p>
           </div>
         </div>
