@@ -26,6 +26,8 @@ export default function Navbar({ isAuthenticated }) {
         if (res.status === 403) {
           localStorage.removeItem('jwtToken');
           window.location.href = '/';
+        }
+        if (res.status === 0) {
           setShowAlert(true);
         }
 
@@ -60,7 +62,7 @@ export default function Navbar({ isAuthenticated }) {
       }
 
       localStorage.removeItem('jwtToken');
-      window.location.href = '/';
+//      window.location.href = '/';
     } catch (error) {
       console.log(error);
     }
@@ -81,10 +83,9 @@ export default function Navbar({ isAuthenticated }) {
               strokeWidth="2"
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
-          <span>Your access has been denied, please Login again.</span>
+          <span>We are unable to verify you, please check your internet connection.</span>
           <div>
-            <button className="btn btn-sm btn-outline mr-1 ml-1" onClick={() => setShowAlert(false)}>No</button>
-            <button className="btn btn-sm btn-outline btn-secondary" onClick={handleLogout}>Logout</button>
+            <button className="btn btn-lg btn-outline btn-secondary" onClick={handleLogout}>Reload</button>
           </div>
         </div>
       )}
