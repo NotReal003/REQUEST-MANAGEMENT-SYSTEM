@@ -27,7 +27,7 @@ export default function Navbar({ isAuthenticated }) {
           localStorage.removeItem('jwtToken');
           window.location.href = '/';
         }
-        if (res.status === 0) {
+        if (!res.status) {
           setShowAlert(true);
         }
 
