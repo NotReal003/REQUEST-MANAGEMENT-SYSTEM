@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoMdSettings, IoMdListBox } from "react-icons/io";
-import { FaDiscord } from "react-icons/fa";
+import { FaDiscord, faCheck } from "react-icons/fa";
 import axios from 'axios';
 import EditProfileModal from '../components/EditProfileModal';
+import { MdMarkEmailRead } from "react-icons/md";
 
 const Profile = () => {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -70,7 +71,7 @@ const Profile = () => {
       <div className="flex items-center space-x-4 mb-8">
         <img
           src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatarHash}.png`}
-          alt="User Avatar"
+          alt=""
           className="w-24 h-24 rounded-full shadow-lg"
         />
         <div>
@@ -83,9 +84,9 @@ const Profile = () => {
         <div className="p-6 shadow rounded-lg">
           <h2 className="text-xl font-semibold mb-4">Account Details</h2>
           <div className="text-sm">
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Joined:</strong> {new Date(user.joinedAt).toLocaleDateString()}</p>
-            <p><strong>Discord ID:</strong> {user.id}</p>
+            <p><strong><MdMarkEmailRead /> Email:</strong> {user.email}</p>
+            <p><strong><FaCheck /> Joined:</strong> {new Date(user.joinedAt).toLocaleDateString()}</p>
+            <p><strong><FaDiscord />Discord ID:</strong> {user.id}</p>
           </div>
         </div>
 
