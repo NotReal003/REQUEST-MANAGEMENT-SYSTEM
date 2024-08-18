@@ -24,7 +24,7 @@ export default function Navbar({ isAuthenticated }) {
         });
 
         // Handle network errors and API response with status 0
-        if (!res.ok || res.status === 0) {
+        if (res.status === 0) {
           setShowAlert(true);
           throw new Error('Failed to fetch user data');
         }
