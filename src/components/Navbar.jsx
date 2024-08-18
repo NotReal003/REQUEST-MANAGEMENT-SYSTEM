@@ -87,7 +87,7 @@ export default function Navbar({ isAuthenticated }) {
           </svg>
           <span>We are unable to verify you. Please check your network connection and reload this page.</span>
           <div>
-            <button className="btn btn-sm btn-outline btn-warning" onClick={handleLogout}>Reload</button>
+            <button className="btn btn-sm btn-outline btn-warning" onClick={() => window.location.reload()}>Reload</button>
           </div>
         </div>
       )}
