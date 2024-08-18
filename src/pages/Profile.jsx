@@ -134,7 +134,7 @@ const Profile = () => {
           currentDisplayName={user?.displayName || user?.username}
           onUpdate={handleUpdateDisplayName}
         />
-      <div className="flex items-center justify-center mt-2">"
+      <div className="flex items-center justify-center mt-2">
       <p className="mt-2 text-xs text-gray-400">Before using the "View Discord Profile" button, please make sure you are on Desktop or You have installed Discord on your Device.</p>
       </div>
     </div>
