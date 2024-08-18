@@ -69,11 +69,14 @@ const Profile = () => {
   return (
     <div className="container mx-auto p-6">
       <div className="flex items-center space-x-4 mb-8">
-        <img
-          src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatarHash}.png`}
-          alt=""
-          className="w-24 h-24 rounded-full shadow-lg"
-        />
+        {user && user.avatarHash ? (
+          <img
+            src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatarHash}.webp?size=128`}
+            className="w-24 h-24 rounded-full shadow-lg"
+          />
+        ) : (
+          <FaUserCircle className="w-24 h-24 rounded-full shadow-lg" />
+        )}
         <div>
           <h1 className="text-3xl font-bold">{user.displayName || user.username}</h1>
           <p>@{user.username}</p>
