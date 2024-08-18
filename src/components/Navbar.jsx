@@ -100,12 +100,12 @@ export default function Navbar({ isAuthenticated }) {
           </svg>
           <span>We are unable to verify you, please check your internet connection.</span>
           <div>
-            <button className="btn btn-lg btn-outline btn-secondary" onClick={() => window.location.reload()}>Reload</button>
+            <button className="btn btn-sm btn-outline btn-warning" onClick={() => window.location.reload()}>Reload</button>
           </div>
         </div>
       )}
 
-      <nav className="z-20 mb-5">
+<nav className="z-20 mb-5">
         <div className="container"></div>
 
         <div className="drawer drawer-end">
@@ -143,22 +143,42 @@ export default function Navbar({ isAuthenticated }) {
                   <li><Link to="https://notreal003.xyz">Home <LiaExternalLinkAltSolid /></Link></li>
                   <li><Link to="/support">Support</Link></li>
                   <li><Link to="/Report">Discord Report</Link></li>
+                  <li><Link to="/apply">Guild Application</Link></li>
                 </ul>
               </div>
+
               {loading ? (
-                <div className="loading"></div>
-              ) : isAuthenticated && user ? (
-                <div className="dropdown dropdown-end">
-                  <div tabIndex={0} role="button" className="btn m-1 btn-sm avatar flex items-center justify-center">
-                    <FaUserCircle />
-                  </div>
-                  <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box w-52 p-2 shadow">
-                    <li><Link to="/profile">Profile</Link></li>
-                    <li onClick={handleLogout}><span>Logout</span><ImExit /></li>
-                  </ul>
+                <div className="flex items-center mr-4">
+                  <span className="skeleton h-8 w-8 shrink-0 rounded-full"></span>
                 </div>
               ) : (
-                <Link to="/login" className="btn btn-sm btn-outline flex items-center justify-center"><IoLogIn />Login</Link>
+                <div className="dropdown dropdown-bottom dropdown-end mr-4 ml-2">
+                  <button tabIndex={0} role="button" className="flex items-center justify-center">
+                    {user && user.avatarHash ? (
+                      <img
+                        src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatarHash}.webp?size=128`}
+                        className="size-6 object-cover rounded-full border"
+                      />
+                    ) : (
+                      <FaUserCircle className="size-6" />
+                    )}
+                  </button>
+                  <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40">
+                    {isAuthenticated ? (
+                      <li>
+                        <Link onClick={handleLogout} className="flex items-center gap-x-3 hover:text-red-500">
+                          <ImExit className="size-3" /> <span>Sign out</span>
+                        </Link>
+                      </li>
+                    ) : (
+                      <li>
+                        <Link to="https://api.notreal003.xyz/auth/signin" className="flex items-center gap-x-2 hover:text-blue-500">
+                          <IoLogIn className="size-4" /> <span>Sign in</span>
+                        </Link>
+                      </li>
+                    )}
+                  </ul>
+                </div>
               )}
             </div>
           </div>
