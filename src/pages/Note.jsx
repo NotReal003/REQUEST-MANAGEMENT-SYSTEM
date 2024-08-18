@@ -1,15 +1,19 @@
-import react from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const Note = () => {
-  const { id } = useParams();
-  const urlParams = new URLSearchParams(window.location.search);
-  const text = urlParams.get('text');
-  setUser(text);
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const textFromUrl = urlParams.get('text');
+    if (textFromUrl) {
+      setText(textFromUrl);
+    }
+  }, []);
 
   return (
     <div>
-      <p>{user.text}</p>
+      <p>{text}</p>
     </div>
   );
 }
