@@ -86,7 +86,7 @@ const Profile = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="p-6 shadow rounded-lg">
           <h2 className="text-xl font-semibold mb-4">Account Details</h2>
-          <div className="text-sm flex items-center gap-x-2">
+          <div className="flex text-sm gap-x-2">
             <p><strong><MdMarkEmailRead /> Email:</strong> {user.email}</p>
             <p><strong><FaCheck /> Joined:</strong> {new Date(user.joinedAt).toLocaleDateString()}</p>
             <p><strong><FaDiscord />Discord ID:</strong> {user.id}</p>
