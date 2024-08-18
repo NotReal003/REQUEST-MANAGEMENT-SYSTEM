@@ -27,19 +27,19 @@ export default function Navbar({ isAuthenticated }) {
         if (res.status === 403) {
           localStorage.removeItem('jwtToken');
           window.location.href = '/';
-          setShowAlert(false);
         }
         if (res.status === 0) {
          setShowAlert(true); 
         }
 
         if (!res.ok) {
-          throw new Error('Not authenticated');
+          setShowAlert(true);
         }
 
         const userData = await res.json();
         setUser(userData);
       } catch (error) {
+        if (error.code === 'ERR_NETWORK');
         setShowAlert(true);
       }
 
@@ -144,7 +144,7 @@ export default function Navbar({ isAuthenticated }) {
                     {user && user.avatarHash ? (
                       <img
                         src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatarHash}.webp?size=128`}
-                        className="size-6 object-cover rounded-box border"
+                        className="size-6 object-cover rounded-full border-blue-500"
                       />
                     ) : (
                       <FaUserCircle className="size-6" />
