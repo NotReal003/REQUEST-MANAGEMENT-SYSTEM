@@ -6,9 +6,9 @@ const Footer = () => {
   return (
     <footer className="footer footer-center bg-base-200 text-base-content rounded p-10 mt-40">
   <nav className="grid grid-flow-col gap-4">
-    <Link to="https://notreal003.xyz/contact" className="link link-hover hover:underline">Contact Us</Link>
-    <Link to="https://support.notreal003.xyz/privacy" className="link link-hover hover:underline">Privacy Policy</Link>
+    <Link to="https://suporot.notreal003.xyz/terms" className="link link-hover hover:underline">Terms of Service</Link>
     <Link to="https://notreal003.xyz" className="link link-hover hover:underline">NotReal003</Link>
+    <Link to="https://support.notreal003.xyz/privacy" className="link link-hover hover:underline">Privacy Policy</Link>
   </nav>
   <nav>
     <div className="grid grid-flow-col gap-4">
