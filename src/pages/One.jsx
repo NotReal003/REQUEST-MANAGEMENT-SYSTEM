@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaDiscord, FaArrowRight } from 'react-icons/fa';
 import { MdSupportAgent } from 'react-icons/md';
 import { IoMdArrowRoundBack } from "react-icons/io";
+
 const RequestStatus = ({ status }) => {
   const statusStyles = {
     DENIED: 'bg-red-600 text-white',
@@ -12,7 +13,7 @@ const RequestStatus = ({ status }) => {
     PENDING: 'bg-yellow-600 text-white',
     CANCELLED: 'bg-red-600 text-white',
   };
-  
+
   return (
     <span className={`rounded-full px-2 py-1 text-xs font-bold ${statusStyles[status]}`}>
       {status}
@@ -74,12 +75,12 @@ const One = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
+    <div className="container mx-auto p-4 bg-cover bg-center">
+      <h1 className="text-2xl font-bold mb-4 text-white">Your Requests</h1>
 
       <div className="space-y-4">
         {loading ? (
-      <span className="loading loading-spinner text-info"></span>
+          <span className="loading loading-spinner text-info"></span>
         ) : requests.length > 0 ? (
           requests.map((request) => (
             <div
@@ -111,12 +112,11 @@ const One = () => {
             </div>
           ))
         ) : (
-          <p>Hold on! You have not submmited any request yet...</p>
+          <p className="text-white">Hold on! You have not submitted any request yet...</p>
         )}
       </div>
       <div className="mt-4">
-        <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}
-          >
+        <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
           <IoMdArrowRoundBack />Back
         </button>
       </div>
