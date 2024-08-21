@@ -51,17 +51,18 @@ function RequestDetail() {
       const urlParams = new URLSearchParams(window.location.search);
       const requestId = urlParams.get('id');
       const token = localStorage.getItem('jwtToken');
-      await axios.put(`https://api.notreal003.xyz/requests/${requestId}/cancel`, {
+      const putRequest = await axios.put(`https://api.notreal003.xyz/requests/${requestId}/cancel`, {
         status: 'CANCELLED',
         reviewMessage: 'Self canceled by the user.',
       }, {
         headers: { Authorization: `${token}` },
       });
+      const errorMessage = putRequest.message;
 
       setAlert({ type: 'success', message: 'Request canceled successfully.' });
       setRequest(prevState => ({ ...prevState, status: 'canceled', reviewMessage: 'Self canceled by the user.' }));
     } catch (error) {
-      setAlert({ type: 'error', message: 'Failed to cancel the request. Please try again later.' });
+      setAlert({ type: 'error', message: errorMessage });
     }
   };
 
