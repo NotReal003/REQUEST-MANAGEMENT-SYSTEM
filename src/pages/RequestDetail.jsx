@@ -51,20 +51,41 @@ function RequestDetail() {
       const urlParams = new URLSearchParams(window.location.search);
       const requestId = urlParams.get('id');
       const token = localStorage.getItem('jwtToken');
-      const putRequest = await axios.put(`https://api.notreal003.xyz/requests/${requestId}/cancel`, {
+      const response = await axios.put(
+        `https://api.notreal003.xyz/requests/${requestId}/cancel`, {
         status: 'CANCELLED',
         reviewMessage: 'Self canceled by the user.',
-      }, {
-        headers: { Authorization: `${token}` },
-      });
-      const errorMessage = putRequest.message;
+      },
+        { headers: { Authorization: `${token}` } }
+      );
 
-      setAlert({ type: 'success', message: 'Request canceled successfully.' });
-      setRequest(prevState => ({ ...prevState, status: 'canceled', reviewMessage: 'Self canceled by the user.' }));
+      if (response.status === 200) {
+        setAlert({
+          type: 'success',
+          message: response.data.message || 'Request updated successfully.',
+        });
+      } else {
+        setAlert({
+          type: 'warning',
+          message: response.data.message || 'Request was updated but something might have gone wrong.',
+        });
+      }
     } catch (error) {
-      setAlert({ type: 'error', message: errorMessage });
+      // If the API returns an error
+      if (error.response) {
+        setAlert({
+          type: 'error',
+          message: error.response.data.message || 'Error updating the request.',
+        });
+      } else {
+        setAlert({
+          type: 'error',
+          message: 'An unknown error occurred while updating the request.',
+        });
+      }
     }
   };
+
 
   if (!request) {
     return <div className="flex w-52 flex-col gap-4 container mx-auto px-4 py-8">
