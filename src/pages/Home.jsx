@@ -26,44 +26,38 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-cover bg-center flex flex-col items-center justify-center" style={{ backgroundImage: 'url(/your-background-image.jpg)' }}>
-      <div className="bg-white bg-opacity-90 rounded-lg shadow-lg p-8 w-full max-w-md md:max-w-lg mx-4">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+      <div className="bg rounded-lg shadow-lg p-8 w-full max-w-md md:max-w-lg mx-auto">
         <h1 className="text-2xl font-bold text-center mb-6">Your Requests</h1>
 
         <div className="space-y-6">
-          <Link to="/one" className="btn btn-primary w-full flex justify-between items-center">
+          <Link to="/one" className="btn btn-outline btn-info w-full flex justify-between items-center">
             <span className="flex items-center"><IoShieldCheckmark className="mr-2" />Your Requests</span>
-            <i className="fas fa-arrow-right"></i>
           </Link>
 
           <h2 className="text-xl font-bold text-center">New Request</h2>
 
-          <Link to="/report" className="btn btn-warning w-full flex justify-between items-center">
+          <Link to="/report" className="btn btn-outline btn-warning w-full flex justify-between items-center">
             <span className="flex items-center"><FaDiscord className="mr-2" />Discord Report</span>
-            <i className="fas fa-arrow-right"></i>
           </Link>
 
-          <Link to="/apply" className="btn btn-secondary w-full flex justify-between items-center">
+          <Link to="/apply" className="btn btn-outline btn-secondary w-full flex justify-between items-center">
             <span className="flex items-center"><IoMdMail className="mr-2" />Guild Application</span>
-            <i className="fas fa-arrow-right"></i>
           </Link>
 
-          <Link to="/support" className="btn btn-accent w-full flex justify-between items-center">
+          <Link to="/support" className="btn btn-outline btn-accent w-full flex justify-between items-center">
             <span className="flex items-center"><MdSupportAgent className="mr-2" />Support Request</span>
-            <i className="fas fa-arrow-right"></i>
           </Link>
 
           {isAdmin && (
-            <Link to="/admin" className="btn btn-error w-full flex justify-between items-center">
+            <Link to="/admin" className="btn btn-outline btn-error w-full flex justify-between items-center">
               <span className="flex items-center">Admin Dashboard</span>
-              <i className="fas fa-arrow-right"></i>
             </Link>
           )}
 
           {isAdmin && (
-            <Link to="/profile" className="btn btn-info w-full flex justify-between items-center">
+            <Link to="/profile" className="btn btn-outline btn-info w-full flex justify-between items-center">
               <span className="flex items-center">Profile</span>
-              <i className="fas fa-arrow-right"></i>
             </Link>
           )}
         </div>
