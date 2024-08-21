@@ -4,7 +4,7 @@ import axios from 'axios';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 
 function RequestDetail() {
-  const { requestIds } = useParams();
+  const { requestId } = useParams();
   const [request, setRequest] = useState(null);
   const [alert, setAlert] = useState(null);
   const navigate = useNavigate();
