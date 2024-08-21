@@ -151,10 +151,10 @@ function RequestDetail() {
             />
           </div>
 
-          {request.reviewed && (
+          {request.reviewed === 'false' && (
             <div className="mt-4">
               <p className="text-center mb-2 text-gray-400 text-xs">Something is wrong?</p>
-              <button className="btn btn-outline btn-error w-full btn-sm" onClick={handleCancelRequest}>
+              <button className="btn btn-outline text-white bg-orange-500 hover:bg-orange-600 w-full btn-sm" onClick={handleCancelRequest}>
                 Cancel Request
               </button>
             </div>
