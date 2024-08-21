@@ -127,7 +127,7 @@ function RequestDetail() {
             />
           </div>
 
-          {!request.reviewed && (
+          {request.reviewed && (
             <div className="mt-4">
               <button className="btn btn-outline btn-error w-full h-16" onClick={handleCancelRequest}>
                 Cancel Request
