@@ -15,7 +15,6 @@ function RequestDetail() {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const requestId = urlParams.get('id');
     const token = localStorage.getItem('jwtToken');
 
     axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
