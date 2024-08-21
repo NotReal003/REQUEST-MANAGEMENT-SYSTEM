@@ -49,7 +49,7 @@ function RequestDetail() {
   const handleCancelRequest = async () => {
     try {
       const token = localStorage.getItem('jwtToken');
-      await axios.put(`https://api.notreal003.xyz/requests/${requestId}`, {
+      await axios.put(`https://api.notreal003.xyz/requests/${requestId}/close`, {
         status: 'CANCELLED',
         reviewMessage: 'Self canceled by the user.',
       }, {
