@@ -4,7 +4,8 @@ import axios from 'axios';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 
 function RequestDetail() {
-  const { requestId } = useParams();
+  const { requestIds } = useParams();
+  const requestId = urlParams.get('id');
   const [request, setRequest] = useState(null);
   const [alert, setAlert] = useState(null);
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ function RequestDetail() {
   const handleCancelRequest = async () => {
     try {
       const token = localStorage.getItem('jwtToken');
-      await axios.put(`https://api.notreal003.xyz/requests/${requestId}/close`, {
+      await axios.put(`https://api.notreal003.xyz/requests/${requestId}/cancel`, {
         status: 'CANCELLED',
         reviewMessage: 'Self canceled by the user.',
       }, {
