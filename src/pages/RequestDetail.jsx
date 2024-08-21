@@ -130,7 +130,7 @@ function RequestDetail() {
 
           {request.reviewed && (
             <div className="mt-4">
-              <button className="btn btn-outline btn-error w-full h-16" onClick={handleCancelRequest}>
+              <button className="btn btn-outline btn-error w-full btn-sm" onClick={handleCancelRequest}>
                 Cancel Request
               </button>
               <p className="text-center mt-2 text-xs">Something is wrong?</p>
