@@ -61,7 +61,7 @@ function RequestDetail() {
 
       if (response.status === 200) {
         setAlert({
-          type: 'success',
+          type: 'info',
           message: response.data.message || 'Request updated successfully.',
         });
       } else {
@@ -111,18 +111,25 @@ function RequestDetail() {
           </div>
         </div>
       )}
+      {request.reviewed === 'false' && (
+      <div className="flex items-center">
+      <p>Your request is currently being reviewed by the admin.</p>
+    </div>
+      )}
       <div className="card shadow-lg bg-base-100">
         <div className="card-body">
           <h2 className="card-title">Request Details ({request.status})</h2>
+          {request.reviewed === 'true' && (
           <div className="form-control">
             <label className="label">Review Message</label>
             <textarea
               ref={reviewMessageRef}
-              value={request.reviewMessage || "This request hasn't been reviewed yet."}
+              value={request.reviewMessage || `Your request was ${request.status}.`}
               readOnly
-              className="textarea text-white textarea-bordered bg-orange-600 focus:outline-none"
+              className="textarea text-white textarea-bordered bg-orange-500/50 focus:outline-none"
             />
           </div>
+      )}
           <div className="form-control">
             <label className="label">Your Username</label>
             <input
