@@ -26,27 +26,27 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen flex flex-col justify-center p-4">
       <div className="bg rounded-lg shadow-lg p-8 w-full max-w-md md:max-w-lg mx-auto">
-        <h1 className="text-2xl font-bold text-center mb-6">Your Requests</h1>
+        <h1 className="text-2xl font-bold mb-6">Your Requests</h1>
 
         <div className="space-y-6">
-          <Link to="/one" className="btn btn-outline btn-info w-full flex justify-between items-center">
-            <span className="flex items-center"><IoShieldCheckmark className="mr-2" />Your Requests</span>
+          <Link to="/one" className="btn btn-outline btn-info w-full">
+            <span className="flex"><IoShieldCheckmark className="mr-2" />Your Requests</span>
           </Link>
 
-          <h2 className="text-xl font-bold text-center">New Request</h2>
+          <h2 className="text-xl font-bold">New Request</h2>
 
-          <Link to="/report" className="btn btn-outline btn-warning w-full flex justify-between items-center">
-            <span className="flex items-center"><FaDiscord className="mr-2" />Discord Report</span>
+          <Link to="/report" className="btn btn-outline btn-warning w-full">
+            <span className="flex"><FaDiscord className="mr-2" />Discord Report</span>
           </Link>
 
-          <Link to="/apply" className="btn btn-outline btn-secondary w-full flex justify-between items-center">
-            <span className="flex items-center"><IoMdMail className="mr-2" />Guild Application</span>
+          <Link to="/apply" className="btn btn-outline btn-secondary w-full">
+            <span className="flex"><IoMdMail className="mr-2" />Guild Application</span>
           </Link>
 
-          <Link to="/support" className="btn btn-outline btn-accent w-full flex justify-between items-center">
-            <span className="flex items-center"><MdSupportAgent className="mr-2" />Support Request</span>
+          <Link to="/support" className="btn btn-outline btn-accent w-full">
+            <span className="flex"><MdSupportAgent className="mr-2" />Support Request</span>
           </Link>
 
           {isAdmin && (

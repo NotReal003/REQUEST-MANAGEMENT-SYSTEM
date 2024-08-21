@@ -75,50 +75,52 @@ const One = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 bg-cover bg-center">
-      <h1 className="text-2xl font-bold mb-4 text-white">Your Requests</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+      <div className="bg rounded-lg shadow-lg p-8 w-full max-w-3xl mx-auto">
+        <h1 className="text-2xl font-bold mb-4 text-center">Your Requests</h1>
 
-      <div className="space-y-4">
-        {loading ? (
-          <span className="loading loading-spinner text-info"></span>
-        ) : requests.length > 0 ? (
-          requests.map((request) => (
-            <div
-              key={request._id}
-              className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
-              onClick={() => handleRequestClick(request._id)}
-            >
-              <div className="flex items-center">
-                <RequestIcon type={request.type} />
-                <div>
-                  <h2 className="text-lg font-bold">{request.type === 'report' ? 'Discord Report' : 'Support Request'}</h2>
-                  <p className="text-sm">
-                    {new Date(request.createdAt).toLocaleString('en-US', {
-                      timeZone: 'Asia/Kolkata',
-                      hour12: true,
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                      hour: 'numeric',
-                      minute: 'numeric',
-                    })}
-                  </p>
+        <div className="space-y-4">
+          {loading ? (
+            <span className="loading loading-spinner text-info"></span>
+          ) : requests.length > 0 ? (
+            requests.map((request) => (
+              <div
+                key={request._id}
+                className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
+                onClick={() => handleRequestClick(request._id)}
+              >
+                <div className="flex items-center">
+                  <RequestIcon type={request.type} />
+                  <div>
+                    <h2 className="text-lg font-bold">{request.type === 'report' ? 'Discord Report' : 'Support Request'}</h2>
+                    <p className="text-sm">
+                      {new Date(request.createdAt).toLocaleString('en-US', {
+                        timeZone: 'Asia/Kolkata',
+                        hour12: true,
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                        hour: 'numeric',
+                        minute: 'numeric',
+                      })}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <RequestStatus status={request.status} />
+                  <FaArrowRight className="ml-4 text-white" />
                 </div>
               </div>
-              <div className="flex items-center">
-                <RequestStatus status={request.status} />
-                <FaArrowRight className="ml-4 text-white" />
-              </div>
-            </div>
-          ))
-        ) : (
-          <p className="text-white">Hold on! You have not submitted any request yet...</p>
-        )}
-      </div>
-      <div className="mt-4">
-        <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
-          <IoMdArrowRoundBack />Back
-        </button>
+            ))
+          ) : (
+            <p className="text-center text-gray-800">Hold on! You have not submitted any request yet...</p>
+          )}
+        </div>
+        <div className="mt-4 text-center">
+          <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
+            <IoMdArrowRoundBack className="mr-2" />Back
+          </button>
+        </div>
       </div>
     </div>
   );
