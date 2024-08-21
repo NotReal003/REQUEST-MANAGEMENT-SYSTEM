@@ -46,6 +46,23 @@ function RequestDetail() {
     }
   }, [request]);
 
+  const handleCancelRequest = async () => {
+    try {
+      const token = localStorage.getItem('jwtToken');
+      await axios.put(`https://api.notreal003.xyz/requests/${requestId}`, {
+        status: 'CANCELLED',
+        reviewMessage: 'Self canceled by the user.',
+      }, {
+        headers: { Authorization: `${token}` },
+      });
+
+      setAlert({ type: 'success', message: 'Request canceled successfully.' });
+      setRequest(prevState => ({ ...prevState, status: 'canceled', reviewMessage: 'Self canceled by the user.' }));
+    } catch (error) {
+      setAlert({ type: 'error', message: 'Failed to cancel the request. Please try again later.' });
+    }
+  };
+
   if (!request) {
     return <div className="flex w-52 flex-col gap-4 container mx-auto px-4 py-8">
       <div className="skeleton h-32 w-full"></div>
@@ -109,11 +126,19 @@ function RequestDetail() {
               className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
             />
           </div>
+
+          {!request.reviewed && (
+            <div className="mt-4">
+              <button className="btn btn-outline btn-error w-full h-16" onClick={handleCancelRequest}>
+                Cancel Request
+              </button>
+              <p className="text-center mt-2 text-xs">Something is wrong?</p>
+            </div>
+          )}
         </div>
       </div>
       <div className="mt-4">
-        <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}
-          >
+        <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
           <IoMdArrowRoundBack /> Back
         </button>
       </div>
