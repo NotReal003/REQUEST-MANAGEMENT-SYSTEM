@@ -113,7 +113,7 @@ function RequestDetail() {
       )}
       {request.reviewed === 'false' && (
       <div className="flex items-center m-2">
-      <p>Your request is currently being reviewed by the admin.</p>
+      <p className="text-sm text-gray-400 m-2">Your request is currently being reviewed by the admin.</p>
     </div>
       )}
       <div className="card shadow-lg bg-base-100">
