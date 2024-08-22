@@ -94,7 +94,7 @@ const One = () => {
                 <div className="flex items-center">
                   <RequestIcon type={request.type} />
                   <div>
-                    <h2 className="text-lg font-bold">{request.type === 'report' ? 'Discord Report' : 'Support Request'}</h2>
+                    <h2 className="text-lg font-bold">{request.type === 'report' ? `Discord Report` : 'Support Request'} <RequestStatus status={request.status} /></h2>
                     <p className="text-sm">
                       {new Date(request.createdAt).toLocaleString('en-US', {
                         timeZone: 'Asia/Kolkata',
@@ -109,8 +109,7 @@ const One = () => {
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <RequestStatus status={request.status} />
-                  <FaArrowRight className="ml-4 text-white" />
+                  <FaArrowRight className="ml-2 text-white" />
                 </div>
               </div>
             ))
