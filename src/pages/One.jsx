@@ -75,7 +75,7 @@ const One = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col mx-auto items-center justify-center">
       <div className="sm:rounded-lg sm:shadow-lg p-8 w-full max-w-3xl">
         <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
 
@@ -86,7 +86,7 @@ const One = () => {
             requests.map((request) => (
               <div
                 key={request._id}
-                className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
+                className={`flex justify-between items-center rounded-lg p-4 shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
                 onClick={() => handleRequestClick(request._id)}
               >
                 <div className="flex items-center">
