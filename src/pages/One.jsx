@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
 import { FaDiscord, FaArrowRight } from 'react-icons/fa';
 import { MdSupportAgent } from 'react-icons/md';
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { useNavigate } from 'react-router-dom';
 
 const RequestStatus = ({ status }) => {
   const statusStyles = {
@@ -76,8 +76,8 @@ const One = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <div className="bg rounded-lg shadow-lg p-8 w-full max-w-3xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4 text-center">Your Requests</h1>
+      <div className="hidden sm:block bg-opacity-90 rounded-lg shadow-lg p-8 w-full max-w-3xl mx-auto">
+        <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
 
         <div className="space-y-4">
           {loading ? (
@@ -116,7 +116,7 @@ const One = () => {
             <p className="text-center text-gray-800">Hold on! You have not submitted any request yet...</p>
           )}
         </div>
-        <div className="mt-4 text-center">
+        <div className="mt-4">
           <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
             <IoMdArrowRoundBack className="mr-2" />Back
           </button>
