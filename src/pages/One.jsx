@@ -76,7 +76,7 @@ const One = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <div className="hidden sm:block bg-opacity-90 rounded-lg shadow-lg p-8 w-full max-w-3xl mx-auto">
+      <div className="sm:rounded-lg sm:shadow-lg p-8 w-full max-w-3xl">
         <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
 
         <div className="space-y-4">
