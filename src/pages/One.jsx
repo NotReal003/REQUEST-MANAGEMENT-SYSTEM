@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { FaDiscord, FaArrowRight } from 'react-icons/fa';
 import { MdSupportAgent } from 'react-icons/md';
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { useNavigate } from 'react-router-dom';
 
 const RequestStatus = ({ status }) => {
   const statusStyles = {
@@ -75,10 +75,12 @@ const One = () => {
   };
 
   return (
-    <div className="flex flex-col mx-auto items-center justify-center">
-      <div className="sm:rounded-lg sm:shadow-lg p-8 w-full max-w-3xl">
+    <div className="flex flex-col items-center justify-center p-4 sm:p-4">
+      <div className="rounded-lg shadow-lg p-8 w-full max-w-3xl mx-auto hidden sm:block">
         <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
+      </div>
 
+      <div className="w-full max-w-3xl">
         <div className="space-y-4">
           {loading ? (
             <span className="loading loading-spinner text-info"></span>
@@ -86,7 +88,7 @@ const One = () => {
             requests.map((request) => (
               <div
                 key={request._id}
-                className={`flex justify-between items-center rounded-lg p-4 shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
+                className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
                 onClick={() => handleRequestClick(request._id)}
               >
                 <div className="flex items-center">
@@ -116,6 +118,7 @@ const One = () => {
             <p className="text-center text-gray-800">Hold on! You have not submitted any request yet...</p>
           )}
         </div>
+
         <div className="mt-4">
           <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
             <IoMdArrowRoundBack className="mr-2" />Back
