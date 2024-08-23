@@ -17,6 +17,8 @@ function RequestDetail() {
   const messageLinkRef = useRef(null);
 
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const requestId = urlParams.get('id');
     const token = localStorage.getItem('jwtToken');
 
     axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
@@ -53,6 +55,8 @@ function RequestDetail() {
 
   const handleCancelRequest = async () => {
     try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const requestId = urlParams.get('id');
       const token = localStorage.getItem('jwtToken');
       const response = await axios.put(
         `https://api.notreal003.xyz/requests/${requestId}/cancel`, {
