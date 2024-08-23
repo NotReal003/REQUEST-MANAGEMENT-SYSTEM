@@ -22,6 +22,7 @@ const RequestStatus = ({ status }) => {
     PENDING: 'Your request is pending review.',
     CANCELLED: 'Your request was cancelled.',
   };
+  
   return (
     <span
       className={`rounded-full px-2 py-1 text-xs font-bold ${statusStyles[status]}`}
