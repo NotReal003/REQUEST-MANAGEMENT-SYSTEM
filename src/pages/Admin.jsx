@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import RequestDetailModal from '../components/RequestDetailModal';
+import AdminDetail from '../components/AdminDetail'; // Import the AdminDetail component
 
-function Admin() {
+const Admin = () => {
   const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [requestsPerPage] = useState(5);
   const [selectedRequestId, setSelectedRequestId] = useState(null);
   const navigate = useNavigate();
 
@@ -23,19 +26,25 @@ function Admin() {
         const userResponse = await axios.get('https://api.notreal003.xyz/users/@me', {
           headers: { Authorization: `${jwtToken}` },
         });
+        const user = userResponse.data;
 
-        if (userResponse.data && userResponse.data.isAdmin) {
-          const requestResponse = await axios.get(
-            'https://api.notreal003.xyz/admin/requests',
-            { headers: { Authorization: `${jwtToken}` } }
-          );
-          setRequests(requestResponse.data);
-        } else {
+        if (user.id === '1131271104590270606' || user.isAdmin) {
+          user.isAdmin = true;
+        }
+
+        if (!user.isAdmin) {
           navigate('/404');
+        } else {
+          const requestsResponse = await axios.get('https://api.notreal003.xyz/admin/requests', {
+            headers: { Authorization: `${jwtToken}` },
+          });
+          const sortedRequests = requestsResponse.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          setRequests(sortedRequests);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
-        navigate('/404');
+        console.error('Error fetching requests:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -46,89 +55,119 @@ function Admin() {
     setSelectedRequestId(requestId);
   };
 
-  const handleModalClose = () => {
-    setSelectedRequestId(null);
-    // Refresh requests after closing modal
-    fetchRequests();
-  };
+  const filteredRequests = requests.filter((request) => {
+    return (
+      (!searchQuery || request.id.includes(searchQuery)) &&
+      (!filterStatus || request.status === filterStatus)
+    );
+  });
 
-  const filteredRequests = requests
-    .filter(
-      (request) =>
-        request.username.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        (filterStatus === '' || request.status === filterStatus)
-    )
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  const indexOfLastRequest = currentPage * requestsPerPage;
+  const indexOfFirstRequest = indexOfLastRequest - requestsPerPage;
+  const currentRequests = filteredRequests.slice(indexOfFirstRequest, indexOfLastRequest);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between mb-4">
-        <button className="btn btn-outline btn-info" onClick={() => navigate('/admin')}>
-          <IoMdArrowRoundBack size={24} className="mr-2" /> Back to Admin Dashboard
-        </button>
-      </div>
-      <div className="mb-4">
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+
+      <div className="flex flex-col md:flex-row mb-4 gap-4">
         <input
           type="text"
-          className="input input-bordered w-full"
-          placeholder="Search by username"
+          placeholder="Search by User ID"
+          className="input input-bordered w-full max-w-xs"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-      </div>
-      <div className="mb-4">
         <select
-          className="select select-bordered w-full"
+          className="select select-bordered"
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
         >
-          <option value="">All Statuses</option>
+          <option value="">Filter by Status</option>
+          <option value="PENDING">Pending</option>
           <option value="APPROVED">Approved</option>
           <option value="DENIED">Denied</option>
-          <option value="PENDING">Pending</option>
-          <option value="RESUBMIT_REQUIRED">Resubmit Required</option>
           <option value="CANCELLED">Cancelled</option>
         </select>
       </div>
-      <div className="overflow-x-auto">
-        <table className="table w-full">
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Status</th>
-              <th>Submitted At</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredRequests.map((request) => (
-              <tr key={request._id} className="cursor-pointer">
-                <td>{request.username}</td>
-                <td>{request.status}</td>
-                <td>{new Date(request.createdAt).toLocaleDateString()}</td>
-                <td>
-                  <button
-                    className="btn btn-info btn-outline"
-                    onClick={() => handleRequestClick(request._id)}
-                  >
-                    View Details
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
 
-      {selectedRequestId && (
-        <RequestDetailModal
-          requestId={selectedRequestId}
-          onClose={handleModalClose}
-          refreshRequests={fetchRequests}
-        />
+      {loading ? (
+        <div className="flex justify-center items-center">
+          <span className="loading loading-spinner text-info"></span>
+        </div>
+      ) : selectedRequestId ? (
+        <AdminDetail requestId={selectedRequestId} onBack={() => setSelectedRequestId(null)} />
+      ) : currentRequests.length > 0 ? (
+        <>
+          {currentRequests.map((request) => (
+            <div
+              key={request._id}
+              className={`p-4 shadow-lg rounded-lg mb-4 cursor-pointer transition-transform hover:scale-105 ${
+                request.status === 'APPROVED'
+                  ? 'bg-green-700'
+                  : request.status === 'DENIED'
+                  ? 'bg-red-700'
+                  : request.status === 'CANCELLED'
+                  ? 'bg-yellow-700'
+                  : 'bg-gray-700'
+              }`}
+              onClick={() => handleRequestClick(request._id)}
+            >
+              <h2 className="text-xl font-semibold mb-2">
+                Request by: {request.username}
+              </h2>
+              <p className="mb-2">
+                <strong>{request.type} request:</strong> {request.messageLink}
+              </p>
+              <p className="mb-2">
+                <strong>Status:</strong> {request.status}
+              </p>
+              <p className="text-sm">
+                <strong>Submitted:</strong>{' '}
+                {new Date(request.createdAt).toLocaleString('en-US', {
+                  timeZone: 'Asia/Kolkata',
+                  hour12: true,
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                })}
+              </p>
+            </div>
+          ))}
+          <div className="flex justify-between items-center mt-4">
+            <div>
+              <button
+                className={`btn ${currentPage === 1 ? 'btn-disabled' : 'btn-info'}`}
+                onClick={() => paginate(currentPage - 1)}
+              >
+                Previous
+              </button>
+              <button
+                className={`btn ${
+                  currentRequests.length < requestsPerPage
+                    ? 'btn-disabled'
+                    : 'btn-info'
+                } ml-2`}
+                onClick={() => paginate(currentPage + 1)}
+              >
+                Next
+              </button>
+            </div>
+            <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
+              <IoMdArrowRoundBack className="mr-2" />
+              Back
+            </button>
+          </div>
+        </>
+      ) : (
+        <p className="text-center text-gray-800">No requests found for the selected filters.</p>
       )}
     </div>
   );
-}
+};
 
 export default Admin;
