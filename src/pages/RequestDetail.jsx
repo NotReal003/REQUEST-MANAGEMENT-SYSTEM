@@ -15,32 +15,42 @@ function RequestDetail() {
   const reviewMessageRef = useRef(null);
   const additionalInfoRef = useRef(null);
   const messageLinkRef = useRef(null);
-
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const requestId = urlParams.get('id');
+    
     const token = localStorage.getItem('jwtToken');
 
-    const req = axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
-      headers: { Authorization: `${token}` },
-    })
-      .then(response => {
+useEffect(() => {
+  const fetchRequest = async () => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const requestId = urlParams.get('id');
+      const token = localStorage.getItem('jwtToken');
+      const response = await axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
+        headers: { Authorization: `${token}` },
+      });
+
+      if (response.status === 200) {
         setRequest(response.data);
         setLoading(false);
-      })
-      if (!response.status === 200) {
+      } else {
         setAlert({
           type: 'error',
-          message: `${response.status}: ${response.message}`,
-      }
-      .catch(() => {
-        setAlert({
-          type: 'error',
-          message: 'You cannot view the request, either you do not have permission or given requestId is not vaild:'
+          message: response.data.message || 'An error occurred while fetching the request.',
         });
         setLoading(false);
+      }
+    } catch (error) {
+      setAlert({
+        type: 'error',
+        message: error.response?.data?.message || 'You do not have permission to check this request.',
       });
-  }, [requestId]);
+      setLoading(false);
+    }
+  };
+
+  fetchRequest();
+}, [requestId]);
+
 
   useEffect(() => {
     // Adjust height for textareas
