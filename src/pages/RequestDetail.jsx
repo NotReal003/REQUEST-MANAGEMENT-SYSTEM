@@ -36,7 +36,7 @@ function RequestDetail() {
       .catch(() => {
         setAlert({
           type: 'error',
-          message: 'You cannot view the request, either you do not have permission or given requestId is not vaild:',
+          message: 'You cannot view the request, either you do not have permission or given requestId is not vaild:'
         });
         setLoading(false);
       });
