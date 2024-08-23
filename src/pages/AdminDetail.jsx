@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import { MdDelete, MdUpdate, MdEmail } from "react-icons/md";
+import { MdDelete, MdUpdate, MdEmail } from 'react-icons/md';
 
 function AdminDetail() {
   const { requestId } = useParams();
@@ -10,6 +10,7 @@ function AdminDetail() {
   const [alert, setAlert] = useState(null);
   const [status, setStatus] = useState('');
   const [reviewMessage, setReviewMessage] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,46 +36,57 @@ function AdminDetail() {
     fetchRequest();
   }, [requestId]);
 
-  const handleDelete = async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const ids = urlParams.get('id');
-    const token = localStorage.getItem('jwtToken');
-    try {
-      await axios.delete(`https://api.notreal003.xyz/admin/${ids}`, {
-        headers: { Authorization: `${token}` },
-      });
-      setAlert({ type: 'success', message: 'Request deleted successfully.' });
-      navigate('/admin');  // Redirect back to the admin dashboard
-    } catch (error) {
-      setAlert({ type: 'error', message: 'Error deleting request.' });
-    }
-  };
-
-  const handleUpdateRequest = async () => {
+  const handleUpdateAndSendEmail = async () => {
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const ids = urlParams.get('id');
       const token = localStorage.getItem('jwtToken');
-      const response = await axios.put(
+
+      // Update the request status and review message
+      const updateResponse = await axios.put(
         `https://api.notreal003.xyz/admin/${ids}`,
         { status, reviewMessage },
         { headers: { Authorization: `${token}` } }
       );
 
-      // Check the response status code
-      if (response.status === 200) {
+      if (updateResponse.status === 200) {
         setAlert({
           type: 'success',
-          message: response.data.message || 'Request updated successfully.',
+          message: updateResponse.data.message || 'Request updated successfully.',
         });
+
+        // Send the email notification
+        const emailResponse = await axios.post(
+          'https://api.notreal003.xyz/admin/send/email',
+          {
+            requestId: ids,
+            reviewMessage,
+            status,
+            username: request.username,
+            requestType: request.type,
+            email: request.email,
+          },
+          { headers: { Authorization: `${token}` } }
+        );
+
+        if (emailResponse.status === 200) {
+          setAlert({
+            type: 'success',
+            message: 'Email notification sent successfully.',
+          });
+        } else {
+          setAlert({
+            type: 'warning',
+            message: 'Failed to send email notification.',
+          });
+        }
       } else {
         setAlert({
           type: 'warning',
-          message: response.data.message || 'Request was updated but something might have gone wrong.',
+          message: updateResponse.data.message || 'Request was updated but something might have gone wrong.',
         });
       }
     } catch (error) {
-      // If the API returns an error
       if (error.response) {
         setAlert({
           type: 'error',
@@ -88,54 +100,22 @@ function AdminDetail() {
       }
     }
   };
-  
-  const handleSendEmail = async () => {
+
+  const handleDelete = async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const ids = urlParams.get('id');
+    const token = localStorage.getItem('jwtToken');
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const ids = urlParams.get('id');
-      const token = localStorage.getItem('jwtToken');
-
-      // Send the email notification
-      const emailResponse = await axios.post(
-        'https://api.notreal003.xyz/admin/send/email',
-        {
-          requestId: ids,
-          reviewMessage: reviewMessage,
-          status: status,
-          username: request.username,
-          requestType: request.type,
-          email: request.email,
-        },
-        { headers: { Authorization: `${token}` } }
-      );
-
-      if (emailResponse.status === 200) {
-        setAlert({
-          type: 'success',
-          message: 'Email notification sent successfully.',
-        });
-      } else {
-        setAlert({
-          type: 'warning',
-          message: 'Failed to send email notification.',
-        });
-      }
+      await axios.delete(`https://api.notreal003.xyz/admin/${ids}`, {
+        headers: { Authorization: `${token}` },
+      });
+      setAlert({ type: 'success', message: 'Request deleted successfully.' });
+      navigate('/admin'); // Redirect back to the admin dashboard
     } catch (error) {
-      if (error.response) {
-        setAlert({
-          type: 'error',
-          message: error.response.data.message || 'Error sending the email notification.',
-        });
-      } else {
-        setAlert({
-          type: 'error',
-          message: 'An unknown error occurred while sending the email notification.',
-        });
-      }
+      setAlert({ type: 'error', message: 'Error deleting request.' });
     }
+    setShowDeleteModal(false);
   };
-
-
 
   if (!request) {
     return (
@@ -185,39 +165,71 @@ function AdminDetail() {
           </div>
           <div className="form-control">
             <label className="label">Request User Username</label>
-            <input type="text" value={request.username} readOnly className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
+            <input
+              type="text"
+              value={request.username}
+              readOnly
+              className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+            />
           </div>
           <div className="form-control">
             <label className="label">{request.type} Request</label>
-            <input type="text" value={request.messageLink} readOnly className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
+            <input
+              type="text"
+              value={request.messageLink}
+              readOnly
+              className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+            />
           </div>
           <div className="form-control">
             <label className="label">Additional Information</label>
-            <textarea value={request.additionalInfo} readOnly className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
+            <textarea
+              value={request.additionalInfo}
+              readOnly
+              className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+            />
           </div>
           <div className="form-control mt-4">
-            <button onClick={handleUpdateRequest} className="btn btn-info">
-              <MdUpdate /> Update Request
+            <button onClick={handleUpdateAndSendEmail} className="btn btn-info">
+              <MdUpdate /> Update Request & Send Email
             </button>
           </div>
           <div className="form-control mt-4">
-            <button onClick={handleSendEmail} className="btn btn-warning">
-              <MdEmail /> Send email to the user.
-            </button>
-          </div>
-            <div className="form-control mt-4">
-            <button onClick={handleDelete} className="btn btn-error">
+            <button
+              onClick={() => setShowDeleteModal(true)}
+              className="btn btn-error"
+            >
               <MdDelete /> Delete Request
             </button>
-            </div>
+          </div>
         </div>
       </div>
       <div className="mt-4">
-        <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}
-          >
+        <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
           <IoMdArrowRoundBack /> Back
         </button>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Confirm Deletion</h3>
+            <p>Are you sure you want to delete this request? This action cannot be undone.</p>
+            <div className="modal-action">
+              <button onClick={handleDelete} className="btn btn-error">
+                Confirm Delete
+              </button>
+              <button
+                onClick={() => setShowDeleteModal(false)}
+                className="btn btn-secondary"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
