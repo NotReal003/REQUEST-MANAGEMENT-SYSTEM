@@ -21,7 +21,7 @@ function RequestDetail() {
     const requestId = urlParams.get('id');
     const token = localStorage.getItem('jwtToken');
 
-    const response = await axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
+    axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
       headers: { Authorization: `${token}` },
     })
       .then(response => {
