@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaDiscord, FaArrowRight } from 'react-icons/fa';
 import { MdSupportAgent } from 'react-icons/md';
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { formatDistanceToNow } from 'date-fns';
 
 const RequestStatus = ({ status }) => {
   const statusStyles = {
@@ -14,8 +15,19 @@ const RequestStatus = ({ status }) => {
     CANCELLED: 'bg-red-600 text-white',
   };
 
+  const statusTooltips = {
+    DENIED: 'Your request was denied.',
+    APPROVED: 'Your request was approved.',
+    RESUBMIT_REQUIRED: 'Please resubmit your request with necessary changes.',
+    PENDING: 'Your request is pending review.',
+    CANCELLED: 'Your request was cancelled.',
+  };
+
   return (
-    <span className={`rounded-full px-2 py-1 text-xs font-bold ${statusStyles[status]}`}>
+    <span
+      className={`rounded-full px-2 py-1 text-xs font-bold ${statusStyles[status]}`}
+      title={statusTooltips[status]}
+    >
       {status}
     </span>
   );
@@ -23,9 +35,9 @@ const RequestStatus = ({ status }) => {
 
 const RequestIcon = ({ type }) => {
   if (type === 'report') {
-    return <FaDiscord className="text-4xl mr-4" />;
+    return <FaDiscord className="text-4xl mr-4" title="Discord Report" />;
   } else if (type === 'support') {
-    return <MdSupportAgent className="text-4xl mr-4" />;
+    return <MdSupportAgent className="text-4xl mr-4" title="Support Request" />;
   }
   return null;
 };
@@ -33,6 +45,7 @@ const RequestIcon = ({ type }) => {
 const One = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const token = localStorage.getItem('jwtToken');
   const navigate = useNavigate();
 
@@ -42,11 +55,11 @@ const One = () => {
         const response = await axios.get('https://api.notreal003.xyz/requests', {
           headers: { Authorization: `${token}` },
         });
-        // Sort requests by the creation date, showing the newest at the top
         const sortedRequests = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setRequests(sortedRequests);
       } catch (error) {
         console.error('Error fetching requests:', error);
+        setError('Failed to load requests. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -75,15 +88,20 @@ const One = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-4">
-      <div className="bg-white bg-opacity-90 rounded-lg shadow-lg p-8 w-full max-w-3xl mx-auto hidden sm:block">
-        <h1 className="text-2xl font-bold mb-4 text-center">Your Requests</h1>
+    <div className="flex flex-col items-center justify-center p-4 sm:p-4">
+      <div className="rounded-lg shadow-lg p-8 w-full max-w-3xl mx-auto hidden sm:block">
+        <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
       </div>
 
       <div className="w-full max-w-3xl">
         <div className="space-y-4">
           {loading ? (
-            <span className="loading loading-spinner text-info"></span>
+            <div className="flex items-center justify-center space-x-2">
+              <span className="loading loading-spinner text-info"></span>
+              <p>Your requests...</p>
+            </div>
+          ) : error ? (
+            <p className="text-center text-red-600">{error}</p>
           ) : requests.length > 0 ? (
             requests.map((request) => (
               <div
@@ -94,23 +112,16 @@ const One = () => {
                 <div className="flex items-center">
                   <RequestIcon type={request.type} />
                   <div>
-                    <h2 className="text-lg font-bold">{request.type === 'report' ? 'Discord Report' : 'Support Request'}</h2>
+                    <h2 className="text-lg font-bold">
+                      {request.type === 'report' ? `Discord Report` : 'Support Request'} <RequestStatus status={request.status} />
+                    </h2>
                     <p className="text-sm">
-                      {new Date(request.createdAt).toLocaleString('en-US', {
-                        timeZone: 'Asia/Kolkata',
-                        hour12: true,
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric',
-                        hour: 'numeric',
-                        minute: 'numeric',
-                      })}
+                      {formatDistanceToNow(new Date(request.createdAt), { addSuffix: true })}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <RequestStatus status={request.status} />
-                  <FaArrowRight className="ml-4 text-white" />
+                  <FaArrowRight className="ml-2 text-white" />
                 </div>
               </div>
             ))
@@ -119,7 +130,7 @@ const One = () => {
           )}
         </div>
 
-        <div className="mt-4 text-center">
+        <div className="mt-4">
           <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
             <IoMdArrowRoundBack className="mr-2" />Back
           </button>
