@@ -21,13 +21,18 @@ function RequestDetail() {
     const requestId = urlParams.get('id');
     const token = localStorage.getItem('jwtToken');
 
-    axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
+    const req = axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
       headers: { Authorization: `${token}` },
     })
       .then(response => {
         setRequest(response.data);
         setLoading(false);
       })
+      if (!response.status === 200) {
+        setAlert({
+          type: 'error',
+          message: `${response.status}: ${response.message}`,
+      }
       .catch(() => {
         setAlert({
           type: 'error',
