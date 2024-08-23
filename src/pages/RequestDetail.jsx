@@ -21,7 +21,7 @@ function RequestDetail() {
     const requestId = urlParams.get('id');
     const token = localStorage.getItem('jwtToken');
 
-    axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
+    const response = await axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
       headers: { Authorization: `${token}` },
     })
       .then(response => {
@@ -31,7 +31,7 @@ function RequestDetail() {
       .catch(() => {
         setAlert({
           type: 'error',
-          message: 'You do not have permission to check this request.',
+          message: ,
         });
         setLoading(false);
       });
@@ -114,7 +114,7 @@ function RequestDetail() {
   if (!request) {
     return (
       <div className="h-screen flex flex-col items-center justify-center">"
-        <p>{alert.message}</p>
+        <p>{request.message}</p>
       </div>
     )
   }
