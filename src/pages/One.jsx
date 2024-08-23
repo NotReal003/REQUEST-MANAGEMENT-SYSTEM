@@ -75,9 +75,9 @@ const One = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 sm:p-4">
-      <div className="rounded-lg shadow-lg p-8 w-full max-w-3xl mx-auto hidden sm:block">
-        <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-4">
+      <div className="bg-white bg-opacity-90 rounded-lg shadow-lg p-8 w-full max-w-3xl mx-auto hidden sm:block">
+        <h1 className="text-2xl font-bold mb-4 text-center">Your Requests</h1>
       </div>
 
       <div className="w-full max-w-3xl">
@@ -94,7 +94,7 @@ const One = () => {
                 <div className="flex items-center">
                   <RequestIcon type={request.type} />
                   <div>
-                    <h2 className="text-lg font-bold">{request.type === 'report' ? `Discord Report` : 'Support Request'} <RequestStatus status={request.status} /></h2>
+                    <h2 className="text-lg font-bold">{request.type === 'report' ? 'Discord Report' : 'Support Request'}</h2>
                     <p className="text-sm">
                       {new Date(request.createdAt).toLocaleString('en-US', {
                         timeZone: 'Asia/Kolkata',
@@ -109,7 +109,8 @@ const One = () => {
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <FaArrowRight className="ml-2 text-white" />
+                  <RequestStatus status={request.status} />
+                  <FaArrowRight className="ml-4 text-white" />
                 </div>
               </div>
             ))
@@ -118,7 +119,7 @@ const One = () => {
           )}
         </div>
 
-        <div className="mt-4">
+        <div className="mt-4 text-center">
           <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
             <IoMdArrowRoundBack className="mr-2" />Back
           </button>
