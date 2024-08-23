@@ -2,11 +2,14 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import { FaSpinner } from 'react-icons/fa';
 
 function RequestDetail() {
   const { requestId } = useParams();
   const [request, setRequest] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState(null);
+  const [showCancelModal, setShowCancelModal] = useState(false);
   const navigate = useNavigate();
 
   const reviewMessageRef = useRef(null);
@@ -14,19 +17,21 @@ function RequestDetail() {
   const messageLinkRef = useRef(null);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const requestId = urlParams.get('id');
     const token = localStorage.getItem('jwtToken');
 
     axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
       headers: { Authorization: `${token}` },
     })
-      .then(response => setRequest(response.data))
+      .then(response => {
+        setRequest(response.data);
+        setLoading(false);
+      })
       .catch(() => {
         setAlert({
           type: 'error',
           message: 'You do not have permission to check this request.',
         });
+        setLoading(false);
       });
   }, [requestId]);
 
@@ -48,8 +53,6 @@ function RequestDetail() {
 
   const handleCancelRequest = async () => {
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const requestId = urlParams.get('id');
       const token = localStorage.getItem('jwtToken');
       const response = await axios.put(
         `https://api.notreal003.xyz/requests/${requestId}/cancel`, {
@@ -83,53 +86,60 @@ function RequestDetail() {
           message: 'An unknown error occurred while updating the request.',
         });
       }
+    } finally {
+      setShowCancelModal(false);
     }
   };
 
-
-  if (!request) {
-    return <div className="flex w-52 flex-col gap-4 container mx-auto px-4 py-8">
-      <div className="skeleton h-32 w-full"></div>
-      <div className="skeleton h-6 w-30"></div>
-      <div className="skeleton h-6 w-30"></div>
-      <div className="skeleton h-6 w-30"></div>
-      <div className="skeleton h-6 w-30"></div>
-      <div className="skeleton h-6 w-30"></div>
-      <div className="skeleton h-6 w-30"></div>
-      <div className="skeleton h-6 w-30"></div>
-      <div className="skeleton h-6 w-30"></div>
-      <div className="skeleton h-6 w-30"></div>
-    </div>;
+  if (loading) {
+    return (
+      <div className="flex w-52 flex-col gap-4 container mx-auto px-4 py-8">
+        <div className="skeleton h-32 w-full"></div>
+        <div className="skeleton h-6 w-30"></div>
+        <div className="skeleton h-6 w-30"></div>
+        <div className="skeleton h-6 w-30"></div>
+        <div className="skeleton h-6 w-30"></div>
+        <div className="skeleton h-6 w-30"></div>
+        <div className="skeleton h-6 w-30"></div>
+        <div className="skeleton h-6 w-30"></div>
+        <div className="skeleton h-6 w-30"></div>
+        <div className="skeleton h-6 w-30"></div>
+  </div>
+    );
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       {alert && (
-        <div className={`alert alert-${alert.type} shadow-lg mb-4`}>
+        <div className={`alert alert-${alert.type} shadow-lg mb-4 relative`}>
           <div>
             <span>{alert.message}</span>
           </div>
+          <button
+            className="absolute top-2 right-2 text-xl font-bold"
+            onClick={() => setAlert(null)}
+          >&times;</button>
         </div>
       )}
       {request.reviewed === 'false' && (
-      <div className="flex items-center m-2">
-      <p className="text-sm text-gray-400 m-2">Your request is currently being reviewed by the admin.</p>
-    </div>
+        <div className="flex items-center m-2">
+          <p className="text-sm text-gray-400 m-2">Your request is currently being reviewed by the admin.</p>
+        </div>
       )}
       <div className="card shadow-lg bg-base-100">
         <div className="card-body">
           <h2 className="card-title">Request Details ({request.status})</h2>
           {request.reviewed === 'true' && (
-          <div className="form-control">
-            <label className="label">Review Message</label>
-            <textarea
-              ref={reviewMessageRef}
-              value={request.reviewMessage || `Your request was ${request.status}.`}
-              readOnly
-              className="textarea text-white textarea-bordered bg-orange-500 focus:outline-none"
-            />
-          </div>
-      )}
+            <div className="form-control">
+              <label className="label">Review Message</label>
+              <textarea
+                ref={reviewMessageRef}
+                value={request.reviewMessage || `Your request was ${request.status}.`}
+                readOnly
+                className="textarea text-white textarea-bordered bg-orange-500 focus:outline-none"
+              />
+            </div>
+          )}
           <div className="form-control">
             <label className="label">Your Username</label>
             <input
@@ -161,7 +171,10 @@ function RequestDetail() {
           {request.reviewed === 'false' && (
             <div className="mt-4">
               <p className="text-center mb-2 text-gray-400 text-xs">Something is wrong?</p>
-              <button className="btn text-white bg-orange-500 hover:bg-orange-600 w-full btn-sm no-animation" onClick={handleCancelRequest}>
+              <button
+                className="btn text-white bg-orange-500 hover:bg-orange-600 w-full btn-sm no-animation"
+                onClick={() => setShowCancelModal(true)}
+              >
                 Cancel Request
               </button>
             </div>
@@ -169,10 +182,35 @@ function RequestDetail() {
         </div>
       </div>
       <div className="mt-4">
-        <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
+        <button
+          className="btn btn-info btn-outline transition-transform transform hover:scale-105"
+          onClick={() => navigate(-1)}
+        >
           <IoMdArrowRoundBack /> Back
         </button>
       </div>
+
+      {showCancelModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white rounded-lg p-6 shadow-lg">
+            <h3 className="text-lg font-semibold mb-4">Are you sure you want to cancel this request?</h3>
+            <div className="flex justify-end gap-2">
+              <button
+                className="btn btn-outline"
+                onClick={() => setShowCancelModal(false)}
+              >
+                No, keep it
+              </button>
+              <button
+                className="btn bg-orange-500 hover:bg-orange-600 text-white"
+                onClick={handleCancelRequest}
+              >
+                Yes, cancel it
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

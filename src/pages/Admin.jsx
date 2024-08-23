@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import AdminDetail from '../components/AdminDetail'; // Import the AdminDetail component
 
 const Admin = () => {
   const [requests, setRequests] = useState([]);
@@ -11,7 +10,6 @@ const Admin = () => {
   const [filterStatus, setFilterStatus] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [requestsPerPage] = useState(5);
-  const [selectedRequestId, setSelectedRequestId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,7 +50,7 @@ const Admin = () => {
   }, [navigate]);
 
   const handleRequestClick = (requestId) => {
-    setSelectedRequestId(requestId);
+    navigate(`/admindetail?id=${requestId}`);
   };
 
   const filteredRequests = requests.filter((request) => {
@@ -97,8 +95,6 @@ const Admin = () => {
         <div className="flex justify-center items-center">
           <span className="loading loading-spinner text-info"></span>
         </div>
-      ) : selectedRequestId ? (
-        <AdminDetail requestId={selectedRequestId} onBack={() => setSelectedRequestId(null)} />
       ) : currentRequests.length > 0 ? (
         <>
           {currentRequests.map((request) => (
