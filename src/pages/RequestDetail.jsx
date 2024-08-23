@@ -111,6 +111,13 @@ function RequestDetail() {
   </div>
     );
   }
+  if (!request) {
+    return (
+      <div className="h-screen flex flex-col items-center justify-center">"
+        <p>{alert.message}</p>
+      </div>
+    )
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
