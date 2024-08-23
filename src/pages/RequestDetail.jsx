@@ -31,7 +31,7 @@ function RequestDetail() {
       .catch(() => {
         setAlert({
           type: 'error',
-          message: ,
+          message: 'You cannot view the request, either you do not have permission or given requestId is not vaild:',
         });
         setLoading(false);
       });
@@ -113,7 +113,7 @@ function RequestDetail() {
   }
   if (!request) {
     return (
-      <div className="h-screen flex flex-col items-center justify-center">"
+      <div className="h-screen flex flex-col items-center justify-center">
         <p>{request.message}</p>
       </div>
     )
