@@ -53,7 +53,7 @@ const Support = () => {
       }
     } catch (error) {
       console.error('Error: ', error);
-      setStatus(`${errorData.message}`);
+      setStatus(`Hold on, there was an error while submitting your request :/`);
     }
   };
 
