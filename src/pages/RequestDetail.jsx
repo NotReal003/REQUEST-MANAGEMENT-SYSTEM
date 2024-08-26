@@ -219,13 +219,13 @@ function RequestDetail() {
             <h3 className="text-lg font-semibold mb-4 text-red">Wait! Are you sure you want to cancel this request?</h3>
             <div className="flex justify-end gap-2">
               <button
-                className="btn btn-outline text-black"
+                className="btn btn-outline text-black hover:bg-green-500 hover:text-white"
                 onClick={() => setShowCancelModal(false)}
               >
                 No, keep it
               </button>
               <button
-                className="btn bg-orange-500 hover:bg-orange-600 text-white shadow-full"
+                className="btn bg-orange-500 hover:bg-red-600 no-animation text-white shadow-full"
                 onClick={handleCancelRequest}
               >
                 Yes, cancel it
