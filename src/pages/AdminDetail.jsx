@@ -166,7 +166,6 @@ function AdminDetail() {
             <div className="form-control">
               <label className="label">Discord Message Link / Evidence (required)</label>
               <textarea
-                ref={messageLinkRef}
                 value={request.messageLink}
                 readOnly
                 className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
@@ -177,7 +176,6 @@ function AdminDetail() {
                 <div className="form-control">
                   <label className="label">Your support request (required)</label>
                   <textarea
-                    ref={messageLinkRef}
                     value={request.messageLink}
                     readOnly
                     className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
@@ -198,7 +196,6 @@ function AdminDetail() {
           <div className="form-control">
           <label className="label">Reason for joining the guild? (required)</label>
           <textarea
-            ref={messageLinkRef}
             value={request.messageLink}
             readOnly
             className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
@@ -208,7 +205,6 @@ function AdminDetail() {
             <div className="form-control">
               <label className="label">Anything else you would like to add?</label>
               <textarea
-                ref={additionalInfoRef}
                 value={request.additionalInfo}
                 readOnly
                 className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
