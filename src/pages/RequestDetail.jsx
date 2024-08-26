@@ -174,9 +174,9 @@ function RequestDetail() {
             />
           </div>
       )}
-          {request.type === 'report' || 'support' && (
+          {request.type === 'report' && (
           <div className="form-control">
-            <label className="label">{request.Name} Request</label>
+            <label className="label">Discord Message Link / Evidence (required)</label>
             <textarea
               ref={messageLinkRef}
               value={request.messageLink}
@@ -185,6 +185,17 @@ function RequestDetail() {
             />
           </div>
       )}
+          {request.type === 'support' && (
+              <div className="form-control">
+                <label className="label">Your support request (required)</label>
+                <textarea
+                  ref={messageLinkRef}
+                  value={request.messageLink}
+                  readOnly
+                  className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                />
+              </div>
+          )}
           {request.type === 'guild-application' && (
       <div className="form-control">
           <label className="label">In-Game Name (required)</label>
