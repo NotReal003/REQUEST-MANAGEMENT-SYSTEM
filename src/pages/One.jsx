@@ -5,6 +5,7 @@ import { FaDiscord, FaArrowRight } from 'react-icons/fa';
 import { MdSupportAgent } from 'react-icons/md';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { formatDistanceToNow } from 'date-fns';
+import { FaPeopleGroup } from "react-icons/fa6";
 
 const RequestStatus = ({ status }) => {
   const statusStyles = {
@@ -38,7 +39,9 @@ const RequestStatus = ({ status }) => {
 const RequestIcon = ({ type }) => {
   if (type === 'report') {
     return <FaDiscord className="text-4xl mr-4" title="Discord Report" />;
-  } else if (type === 'support') {
+  } if (type === 'guild-application') {
+      return <FaPeopleGroup className="text-4xl mr-4" title="Guild Application" />;
+    } else if (type === 'support') {
     return <MdSupportAgent className="text-4xl mr-4" title="Support Request" />;
   }
   return null;
