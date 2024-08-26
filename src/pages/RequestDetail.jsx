@@ -79,12 +79,12 @@ function RequestDetail() {
 
       if (response.status === 200) {
         setAlert({
-          type: 'info',
-          message: response.data.message || 'Request updated successfully.',
+          type: '-info',
+          message: response.data.message || 'Request cancelled successfully.',
         });
       } else {
         setAlert({
-          type: 'warning',
+          type: '-warning',
           message: response.data.message || 'Request was updated but something might have gone wrong.',
         });
       }
@@ -92,12 +92,12 @@ function RequestDetail() {
       // If the API returns an error
       if (error.response) {
         setAlert({
-          type: 'error',
+          type: '-error',
           message: error.response.data.message || 'Error updating the request.',
         });
       } else {
         setAlert({
-          type: 'error',
+          type: '-error',
           message: 'An unknown error occurred while updating the request.',
         });
       }
@@ -134,7 +134,7 @@ function RequestDetail() {
   return (
     <div className="container mx-auto px-4 py-8">
       {alert && (
-        <div className={`alert alert-${alert.type} shadow-lg mb-4 relative`}>
+        <div className={`alert alert${alert.type} shadow-lg mb-4 relative`}>
           <div>
             <span>{alert.message}</span>
           </div>
@@ -214,18 +214,18 @@ function RequestDetail() {
       </div>
 
       {showCancelModal && (
-        <div className="fixed inset-0 bg-white bg-opacity-30 flex justify-center items-center m-2">
-          <div className="bg-white rounded-lg p-4 shadow-lg m-2">
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-30 flex justify-center items-center m-2">
+          <div className="bg-gray-600 rounded-lg p-4 shadow-lg m-2">
             <h3 className="text-lg font-semibold mb-4 text-red-600">Wait, this cannot be undone! Are you sure you want to cancel this request?</h3>
             <div className="flex justify-end gap-2">
               <button
-                className="btn btn-outline text-black hover:bg-green-500 hover:text-white no-animation"
+                className="btn btn-outline text-white hover:bg-green-500 hover:text-black no-animation"
                 onClick={() => setShowCancelModal(false)}
               >
                 No, keep it
               </button>
               <button
-                className="btn bg-orange-500 hover:bg-red-600 no-animation text-white"
+                className="btn bg-orange-500 hover:bg-red-600 no-animation text-white hover:text-blue-500"
                 onClick={handleCancelRequest}
               >
                 Yes, cancel it
