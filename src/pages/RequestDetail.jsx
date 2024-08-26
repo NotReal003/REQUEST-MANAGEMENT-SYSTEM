@@ -214,10 +214,10 @@ function RequestDetail() {
       </div>
 
       {showCancelModal && (
-        <div className="fixed inset-0 flex justify-center items-center m-2">
-          <div className="card-body bg-base 100 rounded-lg p-4 shadow-lg m-2">
-            <h3 className="card-title">Cancel request confirmation</h3>
-            <h6 className="text-lg font-serif mb-2">Are you sure you want to cancel this request? This action cannot be undone! </h6>
+        <div className="fixed bg-white bg-opacity-10 inset-0 flex justify-center items-center m-2">
+          <div className="bg-white rounded-lg p-4 shadow-lg m-2">
+            <h3 className="text-black m-2">Cancel request confirmation</h3>
+            <h4 className="text-sm font-serif text-black mb-2">Are you sure you want to cancel this request? This action cannot be undone! </h4>
             <div className="flex justify-end gap-2">
               <button
                 className="btn btn-outline text-white hover:bg-green-500 hover:text-black no-animation"
