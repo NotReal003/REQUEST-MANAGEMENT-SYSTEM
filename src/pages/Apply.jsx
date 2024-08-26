@@ -58,7 +58,7 @@ const Apply = () => {
     <div className="container mx-auto p-4">
       <div className="form-container">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
-          <IoMdPeople className="size-6 mr-2"/> Guild Application
+          <FaPeopleGroup className="size-6 mr-2"/> Guild Application
         </h1>
         {status && <div className="mt-4 alert alert-warning mb-4">{status}</div>}
         <form id="guildApplicationForm" onSubmit={handleSubmit}>
