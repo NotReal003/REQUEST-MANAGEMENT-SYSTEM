@@ -92,10 +92,10 @@ const One = () => {
   };
 
   return (
-      <div className="flex flex-col items-center justify-center p-4">
-  <div className="rounded-lg shadow-lg p-8 w-full max-w-3xl mx-auto">
-    <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
-  </div>
+        <div className="flex flex-col items-center justify-center p-4 xs:p-2 sm:p-4">
+          <div className="rounded-lg shadow-lg p-8 w-full max-w-2xl mx-auto hidden xs:p-2 sm:p-4">
+            <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
+          </div>
 
       <div className="w-full max-w-3xl">
         <div className="space-y-4">
