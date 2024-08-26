@@ -102,7 +102,7 @@ const Admin = () => {
             <div
               key={request._id}
               className={`p-4 shadow-lg rounded-lg mb-4 cursor-pointer transition-transform hover:scale-105 ${
-                request.status === 'APPROVED' || 'RESOLVED'
+                request.status === 'APPROVED'
                   ? 'bg-green-700'
                   : request.status === 'DENIED'
                   ? 'bg-red-700'
