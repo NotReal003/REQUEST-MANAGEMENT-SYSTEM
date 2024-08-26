@@ -225,7 +225,7 @@ function RequestDetail() {
                 No, keep it
               </button>
               <button
-                className="btn bg-orange-500 hover:bg-red-600 no-animation text-white shadow-lg"
+                className="btn bg-orange-500 hover:bg-red-600 no-animation text-white"
                 onClick={handleCancelRequest}
               >
                 Yes, cancel it
