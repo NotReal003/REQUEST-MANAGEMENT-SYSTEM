@@ -93,8 +93,8 @@ const One = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-4 sm:p-4">
-      <div className="rounded-lg shadow-lg p-8 w-auto max-w-3xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
+      <div className="rounded-lg shadow-lg p-8 w-auto max-w-1xl mx-auto">
+        <h1 className="text-1xl font-bold mb-2">Your Requests</h1>
       </div>
 
       <div className="w-full max-w-3xl">
