@@ -214,22 +214,22 @@ function RequestDetail() {
       </div>
 
       {showCancelModal && (
-        <div className="fixed bg-white bg-opacity-10 inset-0 flex justify-center items-center m-2">
-          <div className="bg-white rounded-lg p-4 shadow-lg m-2">
-            <h3 className="text-black m-2">Cancel request confirmation</h3>
-            <h4 className="text-sm font-serif text-black mb-2">Are you sure you want to cancel this request? This action cannot be undone! </h4>
+        <div className="fixed bg-black bg-opacity-10 inset-0 flex justify-center items-center m-2">
+          <div className="bg-black rounded-lg p-4 shadow-lg m-2">
+            <h3 className="text-white m-2">Cancel request confirmation</h3>
+            <h4 className="text-sm font-serif text-white mb-2">Are you sure you want to cancel this request? This action cannot be undone! </h4>
             <div className="flex justify-end gap-2">
-              <button
-                className="btn btn-outline text-white hover:bg-green-500 hover:text-black no-animation"
-                onClick={() => setShowCancelModal(false)}
-              >
-                No, keep it
-              </button>
               <button
                 className="btn bg-orange-500 hover:bg-red-600 no-animation text-white"
                 onClick={handleCancelRequest}
               >
                 Yes, cancel it
+              </button>
+              <button
+                className="btn btn-outline text-white hover:bg-green-500 hover:text-black no-animation"
+                onClick={() => setShowCancelModal(false)}
+              >
+                No, keep it
               </button>
             </div>
           </div>
