@@ -262,7 +262,7 @@ function RequestDetail() {
                 Yes, cancel it
               </button>
               <button
-                className="btn text-white bg-green-500 hover:bg-green-600 hover:text-black no-animation"
+                className="btn text-white bg-green-500 hover:bg-green-600 no-animation"
                 onClick={() => setShowCancelModal(false)}
               >
                 No, keep it

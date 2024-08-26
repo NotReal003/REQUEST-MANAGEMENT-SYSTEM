@@ -101,27 +101,27 @@ const Admin = () => {
           {currentRequests.map((request) => (
             <div
               key={request._id}
-              className={`p-4 shadow-lg rounded-lg mb-4 cursor-pointer transition-transform hover:scale-105 ${
+              className={`p-4 shadow-lg rounded-lg mb-4 cursor-pointer transition-transform hover:scale-101 ${
                 request.status === 'APPROVED'
-                  ? 'bg-green-700'
+                  ? 'bg-green-600'
                   : request.status === 'DENIED'
-                  ? 'bg-red-700'
+                  ? 'bg-red-600'
                   : request.status === 'CANCELLED'
-                  ? 'bg-yellow-700'
-                  : 'bg-gray-700'
+                  ? 'bg-yellow-600'
+                  : 'bg-gray-600'
               }`}
               onClick={() => handleRequestClick(request._id)}
             >
-              <h2 className="text-xl font-semibold mb-2">
+              <h2 className="text-lg font-semibold mb-2 text-white">
                 Request by: {request.username}
               </h2>
-              <p className="mb-2">
+              <p className="mb-2 text-white">
                 <strong>{request.type} request:</strong> {request.messageLink}
               </p>
-              <p className="mb-2">
+              <p className="mb-2 text-white">
                 <strong>Status:</strong> {request.status}
               </p>
-              <p className="text-sm">
+              <p className="text-sm text-white">
                 <strong>Submitted:</strong>{' '}
                 {new Date(request.createdAt).toLocaleString('en-US', {
                   timeZone: 'Asia/Kolkata',

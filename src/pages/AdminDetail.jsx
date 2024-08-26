@@ -162,32 +162,58 @@ function AdminDetail() {
               <option value="RESOLVED">Resolved</option>
             </select>
           </div>
+          {request.type === 'report' && (
+            <div className="form-control">
+              <label className="label">Discord Message Link / Evidence (required)</label>
+              <textarea
+                ref={messageLinkRef}
+                value={request.messageLink}
+                readOnly
+                className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+              />
+            </div>
+          )}
+            {request.type === 'support' && (
+                <div className="form-control">
+                  <label className="label">Your support request (required)</label>
+                  <textarea
+                    ref={messageLinkRef}
+                    value={request.messageLink}
+                    readOnly
+                    className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                  />
+                </div>
+            )}
+            {request.type === 'guild-application' && (
           <div className="form-control">
-            <label className="label">Request User Username</label>
-            <input
-              type="text"
-              value={request.username}
-              readOnly
-              className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-            />
-          </div>
-          <div className="form-control">
-            <label className="label">{request.type} Request</label>
-            <input
-              type="text"
-              value={request.messageLink}
-              readOnly
-              className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-            />
-          </div>
-          <div className="form-control">
-            <label className="label">Additional Information</label>
+            <label className="label">In-Game Name (required)</label>
             <textarea
-              value={request.additionalInfo}
+              value={request.inGameName}
               readOnly
               className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
             />
+           </div>
+            )}
+            {request.type === 'guild-application' && (
+          <div className="form-control">
+          <label className="label">Reason for joining the guild? (required)</label>
+          <textarea
+            ref={messageLinkRef}
+            value={request.messageLink}
+            readOnly
+            className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+          />
           </div>
+          )}
+            <div className="form-control">
+              <label className="label">Anything else you would like to add?</label>
+              <textarea
+                ref={additionalInfoRef}
+                value={request.additionalInfo}
+                readOnly
+                className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+              />
+            </div>
           <div className="form-control mt-4">
             <button onClick={handleUpdateAndSendEmail} className="btn btn-info">
               <MdUpdate /> Update Request & Send Email
