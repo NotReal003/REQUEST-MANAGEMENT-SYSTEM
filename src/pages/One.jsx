@@ -93,7 +93,7 @@ const One = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-4 sm:p-4">
-      <div className="rounded-lg shadow-lg p-8 w-auto max-w-3xl mx-auto hidden lg:block">
+      <div className="rounded-lg shadow-lg p-8 w-auto max-w-3xl mx-auto">
         <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
       </div>
 
@@ -102,7 +102,7 @@ const One = () => {
           {loading ? (
             <div className="flex items-center justify-center space-x-2">
               <span className="loading loading-spinner text-info"></span>
-              <p>Your requests...</p>
+              <p>Pleaee hold on while we are finding your requests...</p>
             </div>
           ) : error ? (
             <p className="text-center text-red-600">{error}</p>
