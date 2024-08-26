@@ -63,8 +63,6 @@ function AdminDetail() {
             reviewMessage,
             status,
             username: request.username,
-            requestType: request.type,
-            email: request.email,
           },
           { headers: { Authorization: `${token}` } }
         );
@@ -161,6 +159,7 @@ function AdminDetail() {
               <option value="PENDING">Pending</option>
               <option value="RESUBMIT_REQUIRED">Resubmit Required</option>
               <option value="CANCELLED">Cancelled</option>
+              <option value="RESOLVED">Resolved</option>
             </select>
           </div>
           <div className="form-control">
