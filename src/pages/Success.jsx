@@ -9,6 +9,7 @@ const Success = () => {
   const [loading, setLoading] = useState(true);
   const [request, setRequest] = useState(null);
   const [error, setError] = useState(null);
+  const [myUser, setMyUser] = useState(null);
 
   useEffect(() => {
     const fetchRequestDetails = async () => {
