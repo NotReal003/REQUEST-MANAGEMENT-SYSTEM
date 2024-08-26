@@ -30,13 +30,31 @@ const Success = () => {
         
         const requestData = await res.json();
         setRequest(requestData);
+
+        const userToken = localStorage.getItem('jwtToken');
+        const userRes = await fetch('https://api.notreal003.xyz/users/@me', {
+          headers: {
+            'Authorization': `${userToken}`
+          }
+        });
+
+        if (!userRes.ok) {
+          const errorResponse = await userRes.json();
+          setError(errorResponse.message || 'Failed to load user details.');
+          throw new Error(errorResponse.message || 'Failed to load user details.');
+        }
+
+        const userData = await userRes.json();
+        setMyUser(userData);
+
       } catch (error) {
-        console.error('Error fetching request details:', error);
-        setError(`There was an error: ${error.res.data.message}` || 'Failed to load request.');
+        console.error('Error:', error);
+        setError(error.message || 'An error occurred while loading data.');
       } finally {
         setLoading(false);
       }
     };
+
     fetchRequestDetails();
   }, [requestId]);
 
@@ -67,7 +85,7 @@ const Success = () => {
           <IoShieldCheckmark className="w-20 h-20 text-green-500 animate-pulse" />
         </div>
         <h1 className="text-2xl font-bold mb-2">Success!</h1>
-        <p>Thanks for submitting a request <strong>{request.username}</strong>. We will notify you on your email <strong>{request.email}</strong>. Join our Discord Server so we may contact you :)</p>
+        <p>Thanks for submitting {request.typeName} <strong>{request.username}</strong>. We will notify you on your email <strong>{myUser.email}</strong>. Join our Discord Server so we may contact you :)</p>
         <p className="text-xs">Your request ID: {request._id}</p>
         <Link to="/one" className="btn btn-outline btn-info mt-4 w-full">
           <CircleCheck className='size-4' /> Your Requests
