@@ -74,7 +74,7 @@ const Apply = () => {
             required
           />
 
-          <label htmlFor="messageLink" className="label">Why do you want to join the guild? (required)</label>
+          <label htmlFor="messageLink" className="label">Reason for joining the guild? (required)</label>
           <textarea
             id="messageLink"
             name="messageLink"

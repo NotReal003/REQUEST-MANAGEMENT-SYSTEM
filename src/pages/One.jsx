@@ -25,7 +25,7 @@ const RequestStatus = ({ status }) => {
     CANCELLED: 'Your request was cancelled.',
     RESOLVED: 'Your request was resolved.',
   };
-  
+
   return (
     <span
       className={`rounded-full px-2 py-1 text-xs font-bold ${statusStyles[status]}`}
@@ -39,9 +39,9 @@ const RequestStatus = ({ status }) => {
 const RequestIcon = ({ type }) => {
   if (type === 'report') {
     return <FaDiscord className="text-4xl mr-4" title="Discord Report" />;
-  } if (type === 'guild-application') {
-      return <FaPeopleGroup className="text-4xl mr-4" title="Guild Application" />;
-    } else if (type === 'support') {
+  } else if (type === 'guild-application') {
+    return <FaPeopleGroup className="text-4xl mr-4" title="Guild Application" />;
+  } else if (type === 'support') {
     return <MdSupportAgent className="text-4xl mr-4" title="Support Request" />;
   }
   return null;
@@ -60,7 +60,12 @@ const One = () => {
         const response = await axios.get('https://api.notreal003.xyz/requests', {
           headers: { Authorization: `${token}` },
         });
-        const sortedRequests = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        const filteredRequests = response.data.filter((request) =>
+          ['report', 'support', 'guild-application'].includes(request.type)
+        );
+
+        const sortedRequests = filteredRequests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setRequests(sortedRequests);
       } catch (error) {
         console.error('Error fetching requests:', error);
@@ -95,17 +100,17 @@ const One = () => {
   };
 
   return (
-          <div className="flex flex-col items-center justify-center p-4 sm:p-4">
-            <div className="rounded-lg shadow-lg p-8 w-full max-w-3xl mx-auto hidden sm:block">
-              <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
-            </div>
+    <div className="flex flex-col items-center justify-center p-4 sm:p-4">
+      <div className="rounded-lg shadow-lg p-8 w-full max-w-3xl mx-auto hidden sm:block">
+        <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
+      </div>
 
       <div className="w-full max-w-3xl">
         <div className="space-y-4">
           {loading ? (
             <div className="flex items-center justify-center space-x-2">
               <span className="loading loading-spinner text-info"></span>
-              <p>Pleaee hold on while we are finding your requests...</p>
+              <p>Please hold on while we are finding your requests...</p>
             </div>
           ) : error ? (
             <p className="text-center text-red-600">{error}</p>
@@ -120,7 +125,7 @@ const One = () => {
                   <RequestIcon type={request.type} />
                   <div>
                     <h2 className="text-lg font-bold">
-                      {request.type === 'report' ? `Discord Report` : 'Support Request'} <RequestStatus status={request.status} />
+                      {request.type === 'report' ? `Discord Report` : request.type === 'guild-application' ? 'Guild Application' : 'Support Request'} <RequestStatus status={request.status} />
                     </h2>
                     <p className="text-sm">
                       {formatDistanceToNow(new Date(request.createdAt), { addSuffix: true })}

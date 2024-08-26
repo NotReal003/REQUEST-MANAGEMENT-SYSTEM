@@ -172,8 +172,9 @@ function RequestDetail() {
               className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
             />
           </div>
+          {request.type === 'report' || 'support' && (
           <div className="form-control">
-            <label className="label">{request.type} Request</label>
+            <label className="label">{request.Name} Request</label>
             <textarea
               ref={messageLinkRef}
               value={request.messageLink}
@@ -181,6 +182,28 @@ function RequestDetail() {
               className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
             />
           </div>
+      )}
+          {request.type === 'guild-application' && (
+      <div className="form-control">
+          <label className="label">In-Game Name (required)</label>
+          <textarea
+            value={request.inGameName}
+            readOnly
+            className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+          />
+         </div>
+          )}
+          {request.type === 'guild-application' && (
+      <div className="form-control">
+        <label className="label">{request.Name} Request</label>
+        <textarea
+          ref={messageLinkRef}
+          value={request.messageLink}
+          readOnly
+          className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+        />
+      </div>
+      )}
           <div className="form-control">
             <label className="label">Anything else you would like to add?</label>
             <textarea
