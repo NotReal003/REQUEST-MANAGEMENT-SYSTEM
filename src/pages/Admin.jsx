@@ -88,6 +88,7 @@ const Admin = () => {
           <option value="APPROVED">Approved</option>
           <option value="DENIED">Denied</option>
           <option value="CANCELLED">Cancelled</option>
+          <option value="RESOLVED">Resolved</option>
         </select>
       </div>
 
@@ -101,7 +102,7 @@ const Admin = () => {
             <div
               key={request._id}
               className={`p-4 shadow-lg rounded-lg mb-4 cursor-pointer transition-transform hover:scale-105 ${
-                request.status === 'APPROVED'
+                request.status === 'APPROVED' || 'RESOLVED'
                   ? 'bg-green-700'
                   : request.status === 'DENIED'
                   ? 'bg-red-700'

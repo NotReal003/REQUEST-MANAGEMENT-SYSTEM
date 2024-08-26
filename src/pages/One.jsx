@@ -13,6 +13,7 @@ const RequestStatus = ({ status }) => {
     RESUBMIT_REQUIRED: 'bg-orange-600 text-white',
     PENDING: 'bg-yellow-600 text-white',
     CANCELLED: 'bg-red-600 text-white',
+    RESOLVED: 'bg-green-600 text-white',
   };
 
   const statusTooltips = {
@@ -21,6 +22,7 @@ const RequestStatus = ({ status }) => {
     RESUBMIT_REQUIRED: 'Please resubmit your request with necessary changes.',
     PENDING: 'Your request is pending review.',
     CANCELLED: 'Your request was cancelled.',
+    RESOLVED: 'Your request was resolved.',
   };
   
   return (
@@ -82,6 +84,8 @@ const One = () => {
         return 'bg-gradient-to-r from-green-600 to-green-700';
       case 'RESUBMIT_REQUIRED':
         return 'bg-gradient-to-r from-orange-600 to-orange-700';
+      case 'RESOLVED':
+        return 'bg-gradient-to-r from-green-600 to-green-700';
       default:
         return 'bg-gradient-to-r from-yellow-500 to-yellow-600';
     }
@@ -126,7 +130,7 @@ const One = () => {
               </div>
             ))
           ) : (
-            <p className="text-center text-gray-800">Hold on! You have not submitted any request yet...</p>
+            <p className="min-h-screen text-center text-gray-800">Hold on! You have not submitted any request yet...</p>
           )}
         </div>
 
