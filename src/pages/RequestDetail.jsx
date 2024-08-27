@@ -10,6 +10,7 @@ function RequestDetail() {
   const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState(null);
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
   const navigate = useNavigate();
 
   const reviewMessageRef = useRef(null);
@@ -65,17 +66,31 @@ function RequestDetail() {
   }, [request]);
 
   const handleCancelRequest = async () => {
+    setIsCancelling(true);
+
+    const timeoutId = setTimeout(() => {
+      setAlert({
+        type: '-error',
+        message: 'Request took too long to process. Please try again later.',
+      });
+      setIsCancelling(false);
+      setShowCancelModal(false);
+    }, 10000); // 10-second timeout
+
     try {
       const urlParams = new URLSearchParams(window.location.search);
       const requestId = urlParams.get('id');
       const token = localStorage.getItem('jwtToken');
       const response = await axios.put(
-        `https://api.notreal003.xyz/requests/${requestId}/cancel`, {
-        status: 'CANCELLED',
-        reviewMessage: 'Self canceled by the user.',
-      },
+        `https://api.notreal003.xyz/requests/${requestId}/cancel`,
+        {
+          status: 'CANCELLED',
+          reviewMessage: 'Self-canceled by the user.',
+        },
         { headers: { Authorization: `${token}` } }
       );
+
+      clearTimeout(timeoutId); // Clear timeout if the request is successful
 
       if (response.status === 200) {
         setAlert({
@@ -89,7 +104,7 @@ function RequestDetail() {
         });
       }
     } catch (error) {
-      // If the API returns an error
+      clearTimeout(timeoutId); // Clear timeout if an error occurs
       if (error.response) {
         setAlert({
           type: '-error',
@@ -102,6 +117,7 @@ function RequestDetail() {
         });
       }
     } finally {
+      setIsCancelling(false);
       setShowCancelModal(false);
     }
   };
@@ -128,7 +144,7 @@ function RequestDetail() {
       <div className="h-screen flex flex-col items-center justify-center">
         <p>{alert?.message}</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -163,31 +179,40 @@ function RequestDetail() {
               />
             </div>
           )}
-          {!request.type === 'guild-application' && (
-          <div className="form-control">
-            <label className="label">Your Username</label>
-            <input
-              type="text"
-              value={request.username}
-              readOnly
-              className="input input-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-            />
-          </div>
-      )}
           {request.type === 'report' && (
-          <div className="form-control">
-            <label className="label">Discord Message Link / Evidence (required)</label>
-            <textarea
-              ref={messageLinkRef}
-              value={request.messageLink}
-              readOnly
-              className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-            />
-          </div>
-      )}
+            <div className="form-control">
+              <label className="label">Discord Message Link / Evidence (required)</label>
+              <textarea
+                ref={messageLinkRef}
+                value={request.messageLink}
+                readOnly
+                className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+              />
+            </div>
+          )}
           {request.type === 'support' && (
+            <div className="form-control">
+              <label className="label">Your support request (required)</label>
+              <textarea
+                ref={messageLinkRef}
+                value={request.messageLink}
+                readOnly
+                className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+              />
+            </div>
+          )}
+          {request.type === 'guild-application' && (
+            <>
               <div className="form-control">
-                <label className="label">Your support request (required)</label>
+                <label className="label">In-Game Name (required)</label>
+                <textarea
+                  value={request.inGameName}
+                  readOnly
+                  className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">Reason for joining the guild? (required)</label>
                 <textarea
                   ref={messageLinkRef}
                   value={request.messageLink}
@@ -195,28 +220,8 @@ function RequestDetail() {
                   className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                 />
               </div>
+            </>
           )}
-          {request.type === 'guild-application' && (
-      <div className="form-control">
-          <label className="label">In-Game Name (required)</label>
-          <textarea
-            value={request.inGameName}
-            readOnly
-            className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-          />
-         </div>
-          )}
-          {request.type === 'guild-application' && (
-      <div className="form-control">
-        <label className="label">Reason for joining the guild? (required)</label>
-        <textarea
-          ref={messageLinkRef}
-          value={request.messageLink}
-          readOnly
-          className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-        />
-      </div>
-      )}
           <div className="form-control">
             <label className="label">Anything else you would like to add?</label>
             <textarea
@@ -240,37 +245,36 @@ function RequestDetail() {
           )}
         </div>
       </div>
-      <div className="mt-4">
-        <button
-          className="btn btn-info btn-outline transition-transform transform hover:scale-105"
-          onClick={() => navigate(-1)}
-        >
-          <IoMdArrowRoundBack /> Back
-        </button>
-      </div>
 
       {showCancelModal && (
-        <div className="fixed bg-white bg-opacity-10 inset-0 flex justify-center items-center m-2">
-          <div className="bg-white rounded-lg p-4 shadow-lg m-2">
-            <h3 className="text-black">Cancel request confirmation</h3>
-            <h4 className="text-sm font-serif text-black mb-2">Are you sure you want to cancel this request? This action cannot be undone! </h4>
-            <div className="flex justify-end gap-2">
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Confirm Cancellation</h3>
+            <p className="py-4">Are you sure you want to cancel your request?</p>
+            <div className="modal-action">
               <button
-                className="btn bg-orange-500 hover:bg-red-600 no-animation text-white"
-                onClick={handleCancelRequest}
-              >
-                Yes, cancel it
-              </button>
-              <button
-                className="btn text-white bg-green-500 hover:bg-green-600 no-animation"
+                className="btn"
                 onClick={() => setShowCancelModal(false)}
               >
                 No, keep it
+              </button>
+              <button
+                className="btn btn-warning"
+                disabled={isCancelling}
+                onClick={handleCancelRequest}
+              >
+                {isCancelling ? <FaSpinner className="animate-spin mr-2" /> : 'Yes, cancel it'}
               </button>
             </div>
           </div>
         </div>
       )}
+      <button
+        className="btn btn-link mt-4"
+        onClick={() => navigate(-1)}
+      >
+        <IoMdArrowRoundBack size={20} className="mr-1" /> Go back
+      </button>
     </div>
   );
 }

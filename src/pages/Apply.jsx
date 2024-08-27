@@ -35,7 +35,7 @@ const Apply = () => {
       controller.abort();
       toast.error('Our server is not responding please try again later.');
       setIsLoading(false);
-    }, 5000);
+    }, 10000);
 
     try {
       const response = await fetch('https://api.notreal003.xyz/requests/guild', {
