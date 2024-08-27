@@ -259,18 +259,18 @@ function RequestDetail() {
                 No, keep it
               </button>
               <button
-                className="btn btn-warning"
+                className="btn btn-success no-animation"
                 disabled={isCancelling}
                 onClick={handleCancelRequest}
               >
-                {isCancelling ? <FaSpinner className="animate-spin mr-2" /> : 'Yes, cancel it'}
+                {isCancelling ? <FaSpinner className="animate-spin mr-2 no-animation" /> : 'Yes, cancel it'}
               </button>
             </div>
           </div>
         </div>
       )}
       <button
-        className="btn btn-link mt-4"
+        className="btn btn-info btn-outline mt-4"
         onClick={() => navigate(-1)}
       >
         <IoMdArrowRoundBack size={20} className="mr-1" /> Go back

@@ -75,7 +75,7 @@ const Apply = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <ToastContainer />
+      <ToastContainer className="m-2 shadow-lg"/>
       <div className="form-container">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
           <FaPeopleGroup className="size-6 mr-2" /> Guild Application
@@ -118,7 +118,7 @@ const Apply = () => {
 
           <button 
             type="submit" 
-            className={`btn btn-outline btn-primary w-full mt-4 ${isLoading ? 'loading' : ''}`} 
+            className={`btn no-animation btn-outline btn-primary w-full mt-4 ${isLoading ? 'loading' : ''}`} 
             disabled={isLoading}
           >
             {isLoading ? 'Submitting...' : <><IoSend className="mr-2" />Submit</>}
