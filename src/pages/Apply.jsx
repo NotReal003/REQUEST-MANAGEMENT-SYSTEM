@@ -3,12 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { IoSend } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
 import { FaPeopleGroup } from "react-icons/fa6";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Apply = () => {
   const [inGameName, setInGameName] = useState('');
   const [messageLink, setMessageLink] = useState('');
   const [additionalInfo, setAdditionalInfo] = useState('');
-  const [status, setStatus] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -16,7 +17,7 @@ const Apply = () => {
 
     const token = localStorage.getItem('jwtToken');
     if (!token) {
-      setStatus('You must be logged in to submit an application.');
+      toast.warning('You must be logged in to submit an application.');
       return;
     }
 
@@ -39,28 +40,28 @@ const Apply = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        setStatus(data.message || 'There was an issue submitting your application. Please try again.');
+        toast.error(data.message || 'There was an issue submitting your application. Please try again.');
         return;
       }
 
-      setStatus(data.message || 'Application submitted successfully.');
+      toast.success(data.message || 'Application submitted successfully.');
       setInGameName('');
       setMessageLink('');
       setAdditionalInfo('');
       navigate(`/success?request=${data.requestId}`);
     } catch (error) {
       console.error('Error:', error);
-      setStatus('There was an error submitting your application. Please try again.');
+      toast.error('There was an error submitting your application. Please try again.');
     }
   };
 
   return (
     <div className="container mx-auto p-4">
+      <ToastContainer />
       <div className="form-container">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
-          <FaPeopleGroup className="size-6 mr-2"/> Guild Application
+          <FaPeopleGroup className="size-6 mr-2" /> Guild Application
         </h1>
-        {status && <div className="mt-4 alert alert-warning mb-4">{status}</div>}
         <form id="guildApplicationForm" onSubmit={handleSubmit}>
           <label htmlFor="inGameName" className="label">In-Game Name (required)</label>
           <input
