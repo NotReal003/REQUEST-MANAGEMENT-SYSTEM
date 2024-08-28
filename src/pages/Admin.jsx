@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Admin = () => {
@@ -10,13 +10,13 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
+  const [apiClosed, setApiClosed] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [requestsPerPage] = useState(5);
-  const [serverClosed, setServerClosed] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchRequests = async () => {
+    const fetchData = async () => {
       const jwtToken = localStorage.getItem('jwtToken');
       if (!jwtToken) {
         navigate('/404');
@@ -24,67 +24,76 @@ const Admin = () => {
       }
 
       try {
-        const userResponse = await axios.get('https://api.notreal003.xyz/users/@me', {
-          headers: { Authorization: `${jwtToken}` },
-        });
+        // Fetch user data and API status concurrently
+        const [userResponse, apiStatusResponse] = await Promise.all([
+          axios.get('https://api.notreal003.xyz/users/@me', {
+            headers: { Authorization: `${jwtToken}` },
+          }),
+          axios.get('https://api.notreal003.xyz/server/manage-api', {
+            headers: { Authorization: `${jwtToken}` },
+          }),
+        ]);
+
         const user = userResponse.data;
 
+        // Check if the user is an admin
         if (user.id === '1131271104590270606' || user.isAdmin) {
           user.isAdmin = true;
         }
 
         if (!user.isAdmin) {
           navigate('/404');
-        } else {
+          return;
+        }
+
+        // Set the API status
+        setApiClosed(apiStatusResponse.data.message === 'yesclosed');
+
+        // Fetch requests if the API is open
+        if (!apiClosed) {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/admin/requests', {
             headers: { Authorization: `${jwtToken}` },
           });
           const sortedRequests = requestsResponse.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
           setRequests(sortedRequests);
-          
-          // Fetch server status
-          const serverStatusResponse = await axios.get('https://api.notreal003.xyz/server/manage-api', {
-            headers: { Authorization: `${jwtToken}` },
-          });
-          setServerClosed(serverStatusResponse.data.message === 'yesclosed');
+        } else {
+          toast.warn('API is currently closed. You cannot view or manage requests.');
         }
       } catch (error) {
-        console.error('Error fetching requests or server status:', error);
+        console.error('Error fetching data:', error);
+        toast.error('An error occurred while fetching data.');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchRequests();
+    fetchData();
   }, [navigate]);
 
   const handleRequestClick = (requestId) => {
     navigate(`/admindetail?id=${requestId}`);
   };
 
-  const handleToggle = async () => {
+  const handleToggleApiStatus = async () => {
     const jwtToken = localStorage.getItem('jwtToken');
-    const newStatus = !serverClosed;
-    const closeType = newStatus ? 'yesclosed' : 'noclosed';
-
     try {
       const response = await axios.put(
         'https://api.notreal003.xyz/server/manage-api',
-        { closeType },
+        { closeType: apiClosed ? 'open' : 'close' },
         {
           headers: { Authorization: `${jwtToken}` },
         }
       );
-      
-      if (response.data.code === 1) {
-        setServerClosed(newStatus);
-        toast.success(`Server ${newStatus ? 'closed' : 'opened'} successfully!`);
+
+      if (response.data.success) {
+        toast.success(`API has been ${apiClosed ? 'opened' : 'closed'} successfully.`);
+        setApiClosed(!apiClosed);
       } else {
-        toast.error(`Failed to update server status: ${response.data.message}`);
+        toast.error('Failed to change API status.');
       }
     } catch (error) {
-      console.error('Error updating server status:', error);
-      toast.error('Error updating server status. Please try again later.');
+      console.error('Error changing API status:', error);
+      toast.error('An error occurred while changing API status.');
     }
   };
 
@@ -128,15 +137,12 @@ const Admin = () => {
       </div>
 
       <div className="mb-4">
-        <label className="cursor-pointer">
-          <input
-            type="checkbox"
-            className="toggle toggle-info"
-            checked={serverClosed}
-            onChange={handleToggle}
-          />
-          <span className="ml-2">Server Closed</span>
-        </label>
+        <button
+          className={`btn ${apiClosed ? 'btn-success' : 'btn-danger'}`}
+          onClick={handleToggleApiStatus}
+        >
+          {apiClosed ? 'Open API' : 'Close API'}
+        </button>
       </div>
 
       {loading ? (
@@ -210,8 +216,6 @@ const Admin = () => {
       ) : (
         <p className="text-center text-gray-800">No requests found for the selected filters.</p>
       )}
-
-      <ToastContainer />
     </div>
   );
 };
