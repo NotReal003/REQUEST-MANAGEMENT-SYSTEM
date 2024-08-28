@@ -46,11 +46,12 @@ const Admin = () => {
           return;
         }
 
-        // Set the API status based on the response
-        setApiClosed(apiStatusResponse.data.message.serverClosed === 'yesclosed');
+        // Set the API status
+        const isApiClosed = apiStatusResponse.data.message.serverClosed === 'yesclosed';
+        setApiClosed(isApiClosed);
 
         // Fetch requests if the API is open
-        if (apiStatusResponse.data.message.serverClosed !== 'yesclosed') {
+        if (!isApiClosed) {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/admin/requests', {
             headers: { Authorization: `${jwtToken}` },
           });
