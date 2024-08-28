@@ -51,17 +51,33 @@ const Apply = () => {
       clearTimeout(timeoutId);
 
       const data = await response.json();
-      if (response.status = 400) {
-        toast.warn('This request was already cancelled.');
-      }
 
       if (!response.ok) {
-        toast.error(data.message || 'There was an issue submitting your application. Please try again.');
-        setIsLoading(false);
+        toast.error(data.message || 'There was an issue submitting your application. Please try again.', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Slide,
+          });
         return;
       }
 
-      toast.success(data.message || 'Application submitted successfully.');
+      toast.success(data.message || 'Application submitted successfully.', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Slide,
+        });
       setInGameName('');
       setMessageLink('');
       setAdditionalInfo('');
@@ -70,7 +86,17 @@ const Apply = () => {
     } catch (error) {
       if (error.name !== 'AbortError') {
         console.error('Error:', error);
-        toast.error('There was an error submitting your application. Please try again.');
+        toast.error('There was an error submitting your application. Please try again.', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: Slide,
+            });
       }
       setIsLoading(false);
     }
@@ -78,7 +104,7 @@ const Apply = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <ToastContainer className="m-2 shadow-lg"/>
+      <ToastContainer className="m-2 items-center shadow-lg"/>
       <div className="form-container">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
           <FaPeopleGroup className="size-6 mr-2" /> Guild Application

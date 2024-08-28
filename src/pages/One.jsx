@@ -60,10 +60,6 @@ const One = () => {
         const response = await axios.get('https://api.notreal003.xyz/requests', {
           headers: { Authorization: `${token}` },
         });
-        
-        if (!response.ok) {
-          return setError(response.data.message);
-        }
 
         const filteredRequests = response.data.filter((request) =>
           ['report', 'support', 'guild-application'].includes(request.type)
