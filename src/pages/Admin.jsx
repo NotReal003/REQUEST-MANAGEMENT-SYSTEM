@@ -79,13 +79,13 @@ const Admin = () => {
     try {
       const response = await axios.put(
         'https://api.notreal003.xyz/server/manage-api',
-        { closeType: apiClosed ? 'open' : 'yesclose' },
+        { closeType: apiClosed ? 'noopened' : 'yesclosed' },
         {
           headers: { Authorization: `${jwtToken}` },
         }
       );
 
-      if (response.data.success) {
+      if (response.status === 200) {
         toast.success(`API has been ${apiClosed ? 'opened' : 'closed'} successfully.`);
         setApiClosed(!apiClosed);
       } else {
