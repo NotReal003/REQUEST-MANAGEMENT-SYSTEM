@@ -142,7 +142,7 @@ const Admin = () => {
           <input
             type="checkbox"
             className="toggle toggle-info"
-            checked={apiClosed}
+            checked={apiClosed === 'yesclosed'}
             onChange={handleToggleApiStatus}
           />
         </label>
