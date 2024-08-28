@@ -135,18 +135,32 @@ const Admin = () => {
           <option value="RESOLVED">Resolved</option>
         </select>
       </div>
-
+      {apiClosed.serverClosed === 'yesClosed' && (
       <div className="mb-4">
         <label className="label cursor-pointer">
           <span className="label-text text-xl mr-4">API Status:</span> 
           <input
             type="checkbox"
             className="toggle toggle-info"
-            checked={apiClosed === 'yesclosed'}
+            checked
             onChange={handleToggleApiStatus}
           />
         </label>
       </div>
+      )}
+      
+      {apiClosed.serverClosed === 'noopened' && (
+        <div className="mb-4">
+          <label className="label cursor-pointer">
+            <span className="label-text text-xl mr-4">API Status:</span> 
+            <input
+              type="checkbox"
+              className="toggle toggle-info"
+              onChange={handleToggleApiStatus}
+            />
+          </label>
+        </div>
+        )}
 
       {loading ? (
         <div className="flex justify-center items-center">
