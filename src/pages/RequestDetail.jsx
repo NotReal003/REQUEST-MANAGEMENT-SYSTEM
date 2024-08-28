@@ -63,39 +63,38 @@ function RequestDetail() {
   const handleCancelRequest = async () => {
     setIsCancelling(true);
 
-    const timeoutId = setTimeout(() => {
-      toast.error('Request took too long to process. Please try again later.');
-      setIsCancelling(false);
-      setShowCancelModal(false);
-    }, 10000); // 10-second timeout
+    const token = localStorage.getItem('jwtToken');
+    const urlParams = new URLSearchParams(window.location.search);
+    const requestId = urlParams.get('id');
+
+    const cancelRequestPromise = axios.put(
+      `https://api.notreal003.xyz/requests/${requestId}/cancel`,
+      {
+        status: 'CANCELLED',
+        reviewMessage: 'Self-canceled by the user.',
+      },
+      { headers: { Authorization: `${token}` } }
+    );
+
+    toast.promise(
+      cancelRequestPromise,
+      {
+        pending: 'Cancelling your request...',
+        success: 'Request cancelled successfully 👌',
+        error: {
+          render({ data }) {
+            // Use a custom error message if available
+            return data.response?.data?.message || 'An error occurred while cancelling your request 🤯';
+          },
+        },
+      }
+    );
 
     try {
-      const urlParams = new URLSearchParams(window.location.search);
-      const requestId = urlParams.get('id');
-      const token = localStorage.getItem('jwtToken');
-      const response = await axios.put(
-        `https://api.notreal003.xyz/requests/${requestId}/cancel`,
-        {
-          status: 'CANCELLED',
-          reviewMessage: 'Self-canceled by the user.',
-        },
-        { headers: { Authorization: `${token}` } }
-      );
-
-      clearTimeout(timeoutId); // Clear timeout if the request is successful
-
-      if (response.status === 200) {
-        toast.success(response.data.message || 'Request cancelled successfully.');
-      } else {
-        toast.warning(response.data.message || 'Request was updated but something might have gone wrong.');
-      }
+      await cancelRequestPromise;
     } catch (error) {
-      clearTimeout(timeoutId); // Clear timeout if an error occurs
-      if (error.response) {
-        toast.error(error.response.data.message || 'Error updating the request.');
-      } else {
-        toast.error('An unknown error occurred while updating the request.');
-      }
+      // Handle any additional error logic if necessary
+      console.error('Error cancelling the request:', error);
     } finally {
       setIsCancelling(false);
       setShowCancelModal(false);
