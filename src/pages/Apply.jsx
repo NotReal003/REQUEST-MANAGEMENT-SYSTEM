@@ -51,6 +51,9 @@ const Apply = () => {
       clearTimeout(timeoutId);
 
       const data = await response.json();
+      if (response.status = 400) {
+        toast.warn('This request was already cancelled.');
+      }
 
       if (!response.ok) {
         toast.error(data.message || 'There was an issue submitting your application. Please try again.');
