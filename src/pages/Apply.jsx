@@ -62,7 +62,7 @@ const Apply = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
-          transition: Slide,
+          transition: "Slide",
           });
         return;
       }
@@ -76,7 +76,7 @@ const Apply = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
-        transition: Slide,
+        transition: "Slide",
         });
       setInGameName('');
       setMessageLink('');
@@ -95,7 +95,7 @@ const Apply = () => {
             draggable: true,
             progress: undefined,
             theme: "colored",
-            transition: Slide,
+            transition: "Slide",
             });
       }
       setIsLoading(false);
