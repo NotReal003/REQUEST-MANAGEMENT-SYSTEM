@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Admin = () => {
@@ -50,7 +50,7 @@ const Admin = () => {
         setApiClosed(apiStatusResponse.data.message === 'yesclosed');
 
         // Fetch requests if the API is open
-        if (!apiClosed) {
+        if (apiStatusResponse.data.message !== 'yesclosed') {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/admin/requests', {
             headers: { Authorization: `${jwtToken}` },
           });
@@ -137,12 +137,15 @@ const Admin = () => {
       </div>
 
       <div className="mb-4">
-        <button
-          className={`btn ${apiClosed ? 'btn-success' : 'btn-danger'}`}
-          onClick={handleToggleApiStatus}
-        >
-          {apiClosed ? 'Open API' : 'Close API'}
-        </button>
+        <label className="label cursor-pointer">
+          <span className="label-text text-xl mr-4">API Status:</span> 
+          <input
+            type="checkbox"
+            className="toggle toggle-info"
+            checked={!apiClosed}
+            onChange={handleToggleApiStatus}
+          />
+        </label>
       </div>
 
       {loading ? (
@@ -216,6 +219,7 @@ const Admin = () => {
       ) : (
         <p className="text-center text-gray-800">No requests found for the selected filters.</p>
       )}
+      <ToastContainer />
     </div>
   );
 };
