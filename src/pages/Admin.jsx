@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { IoMdArrowRoundBack } from 'react-icons/io';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Admin = () => {
   const [requests, setRequests] = useState([]);
@@ -10,6 +12,7 @@ const Admin = () => {
   const [filterStatus, setFilterStatus] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [requestsPerPage] = useState(5);
+  const [serverClosed, setServerClosed] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,9 +41,15 @@ const Admin = () => {
           });
           const sortedRequests = requestsResponse.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
           setRequests(sortedRequests);
+          
+          // Fetch server status
+          const serverStatusResponse = await axios.get('https://api.notreal003.xyz/server/manage-api', {
+            headers: { Authorization: `${jwtToken}` },
+          });
+          setServerClosed(serverStatusResponse.data.message === 'yesclosed');
         }
       } catch (error) {
-        console.error('Error fetching requests:', error);
+        console.error('Error fetching requests or server status:', error);
       } finally {
         setLoading(false);
       }
@@ -51,6 +60,32 @@ const Admin = () => {
 
   const handleRequestClick = (requestId) => {
     navigate(`/admindetail?id=${requestId}`);
+  };
+
+  const handleToggle = async () => {
+    const jwtToken = localStorage.getItem('jwtToken');
+    const newStatus = !serverClosed;
+    const closeType = newStatus ? 'yesclosed' : 'noclosed';
+
+    try {
+      const response = await axios.put(
+        'https://api.notreal003.xyz/server/manage-api',
+        { closeType },
+        {
+          headers: { Authorization: `${jwtToken}` },
+        }
+      );
+      
+      if (response.data.code === 1) {
+        setServerClosed(newStatus);
+        toast.success(`Server ${newStatus ? 'closed' : 'opened'} successfully!`);
+      } else {
+        toast.error(`Failed to update server status: ${response.data.message}`);
+      }
+    } catch (error) {
+      console.error('Error updating server status:', error);
+      toast.error('Error updating server status. Please try again later.');
+    }
   };
 
   const filteredRequests = requests.filter((request) => {
@@ -90,6 +125,18 @@ const Admin = () => {
           <option value="CANCELLED">Cancelled</option>
           <option value="RESOLVED">Resolved</option>
         </select>
+      </div>
+
+      <div className="mb-4">
+        <label className="cursor-pointer">
+          <input
+            type="checkbox"
+            className="toggle toggle-info"
+            checked={serverClosed}
+            onChange={handleToggle}
+          />
+          <span className="ml-2">Server Closed</span>
+        </label>
       </div>
 
       {loading ? (
@@ -163,6 +210,8 @@ const Admin = () => {
       ) : (
         <p className="text-center text-gray-800">No requests found for the selected filters.</p>
       )}
+
+      <ToastContainer />
     </div>
   );
 };
