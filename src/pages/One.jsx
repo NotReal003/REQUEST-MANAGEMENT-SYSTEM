@@ -60,6 +60,10 @@ const One = () => {
         const response = await axios.get('https://api.notreal003.xyz/requests', {
           headers: { Authorization: `${token}` },
         });
+        
+        if (!response.ok) {
+          return setError(response.data.message);
+        }
 
         const filteredRequests = response.data.filter((request) =>
           ['report', 'support', 'guild-application'].includes(request.type)
@@ -113,7 +117,7 @@ const One = () => {
               <p>Please hold on while we are finding your requests...</p>
             </div>
           ) : error ? (
-            <p className="text-center text-red-600">{error}</p>
+            <p className="text-center text-red-600 font-bold">{error}</p>
           ) : requests.length > 0 ? (
             requests.map((request) => (
               <div

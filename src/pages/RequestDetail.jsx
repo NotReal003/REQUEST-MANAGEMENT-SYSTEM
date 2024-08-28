@@ -80,11 +80,11 @@ function RequestDetail() {
       cancelRequestPromise,
       {
         pending: 'Cancelling your request...',
-        success: 'Request cancelled successfully 👌',
+        success: 'Request cancelled successfully',
         error: {
           render({ data }) {
             // Use a custom error message if available
-            return data.response?.data?.message || 'An error occurred while cancelling your request 🤯';
+            return data.response?.data?.message || 'An error occurred while cancelling your request';
           },
         },
       }
@@ -219,16 +219,16 @@ function RequestDetail() {
         <div className="modal modal-open">
           <div className="modal-box">
             <h3 className="font-bold text-lg">Confirm Cancellation</h3>
-            <p className="py-4">Are you sure you want to cancel your request?</p>
+            <p className="py-4 font-serif">Are you sure you want to cancel your request?</p>
             <div className="modal-action">
               <button
-                className="btn"
+                className="btn btn-info"
                 onClick={() => setShowCancelModal(false)}
               >
                 No, keep it
               </button>
               <button
-                className="btn btn-warning"
+                className="btn btn-error"
                 disabled={isCancelling}
                 onClick={handleCancelRequest}
               >
