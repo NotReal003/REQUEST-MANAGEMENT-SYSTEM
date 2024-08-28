@@ -3,12 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { FaSpinner } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function RequestDetail() {
   const { requestId } = useParams();
   const [request, setRequest] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [alert, setAlert] = useState(null);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   const navigate = useNavigate();
@@ -31,17 +32,11 @@ function RequestDetail() {
           setRequest(response.data);
           setLoading(false);
         } else {
-          setAlert({
-            type: 'error',
-            message: response.data.message || 'An error occurred while fetching the request.',
-          });
+          toast.error(response.data.message || 'An error occurred while fetching the request.');
           setLoading(false);
         }
       } catch (error) {
-        setAlert({
-          type: 'error',
-          message: error.response?.data?.message || 'You do not have permission to check this request.',
-        });
+        toast.error(error.response?.data?.message || 'You do not have permission to check this request.');
         setLoading(false);
       }
     };
@@ -69,10 +64,7 @@ function RequestDetail() {
     setIsCancelling(true);
 
     const timeoutId = setTimeout(() => {
-      setAlert({
-        type: '-error',
-        message: 'Request took too long to process. Please try again later.',
-      });
+      toast.error('Request took too long to process. Please try again later.');
       setIsCancelling(false);
       setShowCancelModal(false);
     }, 10000); // 10-second timeout
@@ -93,28 +85,16 @@ function RequestDetail() {
       clearTimeout(timeoutId); // Clear timeout if the request is successful
 
       if (response.status === 200) {
-        setAlert({
-          type: '-info',
-          message: response.data.message || 'Request cancelled successfully.',
-        });
+        toast.success(response.data.message || 'Request cancelled successfully.');
       } else {
-        setAlert({
-          type: '-warning',
-          message: response.data.message || 'Request was updated but something might have gone wrong.',
-        });
+        toast.warning(response.data.message || 'Request was updated but something might have gone wrong.');
       }
     } catch (error) {
       clearTimeout(timeoutId); // Clear timeout if an error occurs
       if (error.response) {
-        setAlert({
-          type: '-error',
-          message: error.response.data.message || 'Error updating the request.',
-        });
+        toast.error(error.response.data.message || 'Error updating the request.');
       } else {
-        setAlert({
-          type: '-error',
-          message: 'An unknown error occurred while updating the request.',
-        });
+        toast.error('An unknown error occurred while updating the request.');
       }
     } finally {
       setIsCancelling(false);
@@ -142,24 +122,14 @@ function RequestDetail() {
   if (!request) {
     return (
       <div className="h-screen flex flex-col items-center justify-center">
-        <p>{alert?.message}</p>
+        <p>No request found.</p>
       </div>
     );
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {alert && (
-        <div className={`alert alert${alert.type} shadow-lg mb-4 relative`}>
-          <div>
-            <span>{alert.message}</span>
-          </div>
-          <button
-            className="absolute top-2 right-2 text-xl font-bold"
-            onClick={() => setAlert(null)}
-          >&times;</button>
-        </div>
-      )}
+      <ToastContainer />
       {request.reviewed === 'false' && (
         <div className="flex items-center m-2">
           <p className="text-sm text-gray-400 m-2">Your request is currently being reviewed by the admin.</p>
@@ -259,18 +229,18 @@ function RequestDetail() {
                 No, keep it
               </button>
               <button
-                className="btn btn-success no-animation"
+                className="btn btn-warning"
                 disabled={isCancelling}
                 onClick={handleCancelRequest}
               >
-                {isCancelling ? <FaSpinner className="animate-spin mr-2 no-animation" /> : 'Yes, cancel it'}
+                {isCancelling ? <FaSpinner className="animate-spin mr-2" /> : 'Yes, cancel it'}
               </button>
             </div>
           </div>
         </div>
       )}
       <button
-        className="btn btn-info btn-outline mt-4"
+        className="btn btn-link mt-4"
         onClick={() => navigate(-1)}
       >
         <IoMdArrowRoundBack size={20} className="mr-1" /> Go back
