@@ -79,7 +79,7 @@ const Admin = () => {
     try {
       const response = await axios.put(
         'https://api.notreal003.xyz/server/manage-api',
-        { closeType: apiClosed ? 'open' : 'close' },
+        { closeType: apiClosed ? 'open' : 'yesclose' },
         {
           headers: { Authorization: `${jwtToken}` },
         }
@@ -142,7 +142,7 @@ const Admin = () => {
           <input
             type="checkbox"
             className="toggle toggle-info"
-            checked={!apiClosed}
+            checked={apiClosed}
             onChange={handleToggleApiStatus}
           />
         </label>
