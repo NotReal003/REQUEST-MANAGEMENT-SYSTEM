@@ -53,31 +53,11 @@ const Apply = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        toast.error(data.message || 'There was an issue submitting your application. Please try again.', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "colored",
-          transition: "Slide",
-          });
+        toast.error(data.message || 'There was an issue submitting your application. Please try again.');
         return;
       }
 
-      toast.success(data.message || 'Application submitted successfully.', {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: "Slide",
-        });
+      toast.success(data.message || 'Application submitted successfully.');
       setInGameName('');
       setMessageLink('');
       setAdditionalInfo('');
@@ -86,17 +66,7 @@ const Apply = () => {
     } catch (error) {
       if (error.name !== 'AbortError') {
         console.error('Error:', error);
-        toast.error('There was an error submitting your application. Please try again.', {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-            transition: "Slide",
-            });
+        toast.error('There was an error submitting your application. Please try again.');
       }
       setIsLoading(false);
     }

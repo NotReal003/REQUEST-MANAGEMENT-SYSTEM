@@ -55,7 +55,7 @@ const ReportForm = () => {
         setAdditionalInfo('');
         setAgree(false);
         navigate(`/success?request=${requests.requestId}`);
-      } else {
+      } else if (!response.ok) {
         const errorData = await response.json();
         toast.error(`${errorData.message}`);
       }

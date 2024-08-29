@@ -51,7 +51,7 @@ const Support = () => {
         setAdditionalInfo('');
         setAgree(false);
         navigate(`/success?request=${requests.requestId}`);
-      } else {
+      } else if (!response.ok) {
         const errorData = await response.json();
         toast.error(errorData.message || 'There was an issue submitting your request.');
       }
