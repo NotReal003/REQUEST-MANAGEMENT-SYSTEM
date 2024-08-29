@@ -24,6 +24,7 @@ const Admin = () => {
       }
 
       try {
+        // Fetch user data and API status concurrently
         const [userResponse, apiStatusResponse] = await Promise.all([
           axios.get('https://api.notreal003.xyz/users/@me', {
             headers: { Authorization: `${jwtToken}` },
@@ -35,6 +36,7 @@ const Admin = () => {
 
         const user = userResponse.data;
 
+        // Check if the user is an admin
         if (user.id === '1131271104590270606' || user.isAdmin) {
           user.isAdmin = true;
         }
@@ -44,10 +46,11 @@ const Admin = () => {
           return;
         }
 
-        const isApiClosed = apiStatusResponse.data.message.serverClosed === 'yesclosed';
-        setApiClosed(isApiClosed);
+        // Set the API status based on the serverClosed value
+        setApiClosed(apiStatusResponse.data.message.serverClosed === 'yesclosed');
 
-        if (!isApiClosed) {
+        // Fetch requests if the API is open
+        if (apiStatusResponse.data.message.serverClosed !== 'yesclosed') {
           const requestsResponse = await axios.get('https://api.notreal003.xyz/admin/requests', {
             headers: { Authorization: `${jwtToken}` },
           });
@@ -109,24 +112,16 @@ const Admin = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-center">Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
 
-      <div className="flex flex-col md:flex-row mb-6 gap-4 justify-between">
-        <div className="flex gap-4 w-full md:w-2/3">
-          <input
-            type="text"
-            placeholder="Search by User ID"
-            className="input input-bordered w-full max-w-xs"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <button
-            className="btn btn-secondary"
-            onClick={() => setSearchQuery('')}
-          >
-            Clear
-          </button>
-        </div>
+      <div className="flex flex-col md:flex-row mb-4 gap-4">
+        <input
+          type="text"
+          placeholder="Search by User ID"
+          className="input input-bordered w-full max-w-xs"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
         <select
           className="select select-bordered"
           value={filterStatus}
@@ -141,13 +136,13 @@ const Admin = () => {
         </select>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-4">
         <label className="label cursor-pointer">
           <span className="label-text text-xl mr-4">API Status:</span> 
           <input
             type="checkbox"
             className="toggle toggle-info"
-            checked={apiClosed}
+            checked={!apiClosed}
             onChange={handleToggleApiStatus}
           />
         </label>
@@ -159,64 +154,57 @@ const Admin = () => {
         </div>
       ) : currentRequests.length > 0 ? (
         <>
-          <div className="grid gap-4">
-            {currentRequests.map((request) => (
-              <div
-                key={request._id}
-                className={`card shadow-lg rounded-lg cursor-pointer transition-transform hover:scale-105 ${
-                  request.status === 'APPROVED'
-                    ? 'bg-green-600 text-white'
-                    : request.status === 'DENIED'
-                    ? 'bg-red-600 text-white'
-                    : request.status === 'CANCELLED'
-                    ? 'bg-yellow-600 text-black'
-                    : 'bg-gray-600 text-white'
-                }`}
-                onClick={() => handleRequestClick(request._id)}
-              >
-                <div className="card-body">
-                  <h2 className="card-title">
-                    Request by: {request.username}
-                  </h2>
-                  <p>
-                    <strong>{request.type} request:</strong> {request.messageLink}
-                  </p>
-                  <p>
-                    <strong>Status:</strong> {request.status}
-                  </p>
-                  <p className="text-sm">
-                    <strong>Submitted:</strong>{' '}
-                    {new Date(request.createdAt).toLocaleString('en-US', {
-                      timeZone: 'Asia/Kolkata',
-                      hour12: true,
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                      hour: 'numeric',
-                      minute: 'numeric',
-                    })}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-between items-center mt-6">
-            <div className="btn-group">
+          {currentRequests.map((request) => (
+            <div
+              key={request._id}
+              className={`p-4 shadow-lg rounded-lg mb-4 cursor-pointer transition-transform hover:scale-101 ${
+                request.status === 'APPROVED'
+                  ? 'bg-green-600'
+                  : request.status === 'DENIED'
+                  ? 'bg-red-600'
+                  : request.status === 'CANCELLED'
+                  ? 'bg-yellow-600'
+                  : 'bg-gray-600'
+              }`}
+              onClick={() => handleRequestClick(request._id)}
+            >
+              <h2 className="text-lg font-semibold mb-2 text-white">
+                Request by: {request.username}
+              </h2>
+              <p className="mb-2 text-white">
+                <strong>{request.type} request:</strong> {request.messageLink}
+              </p>
+              <p className="mb-2 text-white">
+                <strong>Status:</strong> {request.status}
+              </p>
+              <p className="text-sm text-white">
+                <strong>Submitted:</strong>{' '}
+                {new Date(request.createdAt).toLocaleString('en-US', {
+                  timeZone: 'Asia/Kolkata',
+                  hour12: true,
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                  hour: 'numeric',
+                  minute: 'numeric',
+                })}
+              </p>
+            </div>
+          ))}
+          <div className="flex justify-between items-center mt-4">
+            <div>
               <button
                 className={`btn ${currentPage === 1 ? 'btn-disabled' : 'btn-info'}`}
                 onClick={() => paginate(currentPage - 1)}
               >
                 Previous
               </button>
-              <span className="btn btn-ghost">
-                Page {currentPage}
-              </span>
               <button
                 className={`btn ${
                   currentRequests.length < requestsPerPage
                     ? 'btn-disabled'
                     : 'btn-info'
-                }`}
+                } ml-2`}
                 onClick={() => paginate(currentPage + 1)}
               >
                 Next
@@ -229,7 +217,7 @@ const Admin = () => {
           </div>
         </>
       ) : (
-        <p className="text-center text-gray-800 mt-4">No requests found for the selected filters.</p>
+        <p className="text-center text-gray-800">No requests found for the selected filters.</p>
       )}
       <ToastContainer />
     </div>

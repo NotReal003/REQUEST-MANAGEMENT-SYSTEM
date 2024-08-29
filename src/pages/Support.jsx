@@ -3,12 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { IoSend } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
 import { IoMdMail } from "react-icons/io";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Support = () => {
   const [messageLink, setMessageLink] = useState('');
   const [additionalInfo, setAdditionalInfo] = useState('');
   const [agree, setAgree] = useState(false);
-  const [status, setStatus] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -16,7 +17,7 @@ const Support = () => {
 
     const token = localStorage.getItem('jwtToken');
     if (!token) {
-      setStatus('You must be logged in to submit a request.');
+      toast.warning('You must be logged in to submit a request.');
       return;
     }
 
@@ -36,39 +37,61 @@ const Support = () => {
       });
 
       if (response.status === 403) {
-        setStatus('Your access has been denied, please login again.');
+        toast.error('Your access has been denied, please login again.');
         return;
       }
-        const requests = await response.json();
 
-        if (response.ok) {
-          setStatus('Your request submitted successfully');
-          setMessageLink('');
-          setAdditionalInfo('');
-          setAgree(false);
-          navigate(`/success?request=${requests.requestId}`);
+      const requests = await response.json();
+
+      if (response.ok) {
+        toast.success('Your request submitted successfully.');
+        setMessageLink('');
+        setAdditionalInfo('');
+        setAgree(false);
+        navigate(`/success?request=${requests.requestId}`);
       } else {
         const errorData = await response.json();
-        setStatus(`${errorData.message}`);
+        toast.error(errorData.message || 'There was an issue submitting your request.', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            transition: "Slide",
+        });
       }
     } catch (error) {
       console.error('Error: ', error);
-      setStatus(`Hold on, there was an error while submitting your request :/`);
+      toast.error('Hold on, there was an error while submitting your request :/',
+                  {
+                      position: "top-center",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: true,
+                      pauseOnHover: false,
+                      draggable: true,
+                      progress: undefined,
+                      theme: "colored",
+                      transition: "Slide",
+                  });
     }
   };
 
   return (
     <div className="container mx-auto p-4">
+      <ToastContainer className="m-2 items-center shadow-lg"/>
       <div className="form-container">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
           <IoMdMail className="size-6 mr-2"/>Support
         </h1>
-        {status && <div className="mt-4 alert alert-warning mb-4">{status}</div>}
         <div role="alert" className="alert">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info h-6 w-6 shrink-0">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
-          <span>Feel free ask anything! if you are submitting guild application, then let us know it is Guild application and provide us with your In-Game Name.</span>
+          <span>Feel free ask anything! If you are submitting a guild application, let us know it is a Guild application and provide us with your In-Game Name.</span>
         </div>
         <form id="reportForm" onSubmit={handleSubmit}>
           <label htmlFor="messageLink" className="label">Your support request (required)</label>
