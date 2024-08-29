@@ -10,6 +10,7 @@ const Support = () => {
   const [messageLink, setMessageLink] = useState('');
   const [additionalInfo, setAdditionalInfo] = useState('');
   const [agree, setAgree] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Add this state
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -27,6 +28,7 @@ const Support = () => {
     };
 
     try {
+      setIsSubmitting(true); // Set loading state to true
       const response = await fetch('https://api.notreal003.xyz/requests/support', {
         method: 'POST',
         headers: {
@@ -51,32 +53,13 @@ const Support = () => {
         navigate(`/success?request=${requests.requestId}`);
       } else {
         const errorData = await response.json();
-        toast.error(errorData.message || 'There was an issue submitting your request.', {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-            transition: "Slide",
-        });
+        toast.error(errorData.message || 'There was an issue submitting your request.');
       }
     } catch (error) {
       console.error('Error: ', error);
-      toast.error('Hold on, there was an error while submitting your request :/',
-                  {
-                      position: "top-center",
-                      autoClose: 5000,
-                      hideProgressBar: false,
-                      closeOnClick: true,
-                      pauseOnHover: false,
-                      draggable: true,
-                      progress: undefined,
-                      theme: "colored",
-                      transition: "Slide",
-                  });
+      toast.error('Hold on, there was an error while submitting your request :/');
+    } finally {
+      setIsSubmitting(false); // Set loading state back to false
     }
   };
 
@@ -96,8 +79,8 @@ const Support = () => {
         <form id="reportForm" onSubmit={handleSubmit}>
           <label htmlFor="messageLink" className="label">Your support request (required)</label>
           <textarea
-            id="additionalInfo" 
-            name="additionalInfo" 
+            id="messageLink" 
+            name="messageLink" 
             className="textarea textarea-bordered w-full" 
             rows="3" 
             placeholder="Let us know the issue"
@@ -132,7 +115,9 @@ const Support = () => {
             </label>
           </div>
 
-          <button type="submit" className="btn btn-outline btn-primary w-full"><IoSend />Submit</button>
+          <button type="submit" className="btn btn-outline btn-primary w-full" disabled={isSubmitting}>
+            {isSubmitting ? 'Submitting...' : <><IoSend />Submit</>}
+          </button>
           <Link to="/" className="btn btn-outline btn-secondary w-full mt-4"><ImExit />Back</Link>
         </form>
       </div>

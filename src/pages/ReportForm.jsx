@@ -11,25 +11,17 @@ const ReportForm = () => {
   const [additionalInfo, setAdditionalInfo] = useState('');
   const [agree, setAgree] = useState(false);
   const [status, setStatus] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Start loading
 
     const token = localStorage.getItem('jwtToken');
     if (!token) {
-      toast.warn('You must be logged in to submit a request.',
-                 {
-                    position: "top-center",
-                     autoClose: 5000,
-                     hideProgressBar: false,
-                     closeOnClick: true,
-                     pauseOnHover: false,
-                     draggable: true,
-                     progress: undefined,
-                     theme: "colored",
-                     transition: "Slide",
-                 });
+      toast.error('You must be logged in to submit a request.');
+      setIsLoading(false); // Stop loading
       return;
     }
 
@@ -50,58 +42,28 @@ const ReportForm = () => {
       });
 
       if (response.status === 403) {
-        toast.error('Your access has been denied, please login again.',
-                    {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                        transition: "Slide",
-                    });
+        toast.error('Your access has been denied, please login again.');
+        setIsLoading(false); // Stop loading
         return;
       }
 
       const requests = await response.json();
 
       if (response.ok) {
-        toast.success('Your report was submitted successfully!',
-                      {
-                          position: "top-center",
-                          autoClose: 5000,
-                          hideProgressBar: false,
-                          closeOnClick: true,
-                          pauseOnHover: false,
-                          draggable: true,
-                          progress: undefined,
-                          theme: "colored",
-                          transition: "Slide",
-                      });
+        toast.success('Your report was submitted successfully!');
         setMessageLink('');
         setAdditionalInfo('');
         setAgree(false);
         navigate(`/success?request=${requests.requestId}`);
       } else {
         const errorData = await response.json();
-        toast.error(`${errorData.message}`,
-                    {
-                        position: "top-center",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                        transition: "Slide",
-                    });
+        toast.error(`${errorData.message}`);
       }
     } catch (error) {
       console.error('Error: ', error);
       toast.error('Hold on, there was an error while submitting your report :/');
+    } finally {
+      setIsLoading(false); // Stop loading
     }
   };
 
@@ -156,7 +118,9 @@ const ReportForm = () => {
             </label>
           </div>
 
-          <button type="submit" className="btn btn-outline btn-primary w-full"><IoSend />Submit</button>
+          <button type="submit" className={`btn btn-outline btn-primary w-full ${isLoading ? 'loading' : ''}`}>
+            {isLoading ? 'Submitting...' : <><IoSend />Submit</>}
+          </button>
           <Link to="/" className="btn btn-outline btn-secondary w-full mt-4"><ImExit />Back</Link>
         </form>
       </div>
