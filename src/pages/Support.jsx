@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { IoSend } from "react-icons/io5";
+import { IoSend, IoMdMail } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
-import { IoMdMail } from "react-icons/io";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -10,25 +9,48 @@ const Support = () => {
   const [messageLink, setMessageLink] = useState('');
   const [additionalInfo, setAdditionalInfo] = useState('');
   const [agree, setAgree] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false); // Add this state
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  // Simple sanitizer function
+  const sanitizeInput = (input) => {
+    return input.replace(/[<>&'"]/g, (char) => {
+      switch (char) {
+        case '<': return '&lt;';
+        case '>': return '&gt;';
+        case '&': return '&amp;';
+        case "'": return '&#39;';
+        case '"': return '&quot;';
+        default: return char;
+      }
+    });
+  };
+
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
 
     const token = localStorage.getItem('jwtToken');
     if (!token) {
       toast.warning('You must be logged in to submit a request.');
+      navigate('/login'); // Redirect to login page
       return;
     }
 
+    if (!agree) {
+      toast.error('You must agree to the terms before submitting.');
+      return;
+    }
+
+    const sanitizedMessageLink = sanitizeInput(messageLink);
+    const sanitizedAdditionalInfo = sanitizeInput(additionalInfo);
+
     const payload = {
-      messageLink,
-      additionalInfo,
+      messageLink: sanitizedMessageLink,
+      additionalInfo: sanitizedAdditionalInfo,
     };
 
     try {
-      setIsSubmitting(true); // Set loading state to true
+      setIsSubmitting(true);
       const response = await fetch('https://api.notreal003.xyz/requests/support', {
         method: 'POST',
         headers: {
@@ -43,25 +65,24 @@ const Support = () => {
         return;
       }
 
-      const requests = await response.json();
+      const data = await response.json();
 
       if (response.ok) {
         toast.success('Your request submitted successfully.');
         setMessageLink('');
         setAdditionalInfo('');
         setAgree(false);
-        navigate(`/success?request=${requests.requestId}`);
-      } else if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(errorData.message || 'There was an issue submitting your request.');
+        navigate(`/success?request=${data.requestId}`);
+      } else {
+        toast.error(data.message || 'There was an issue submitting your request.');
       }
     } catch (error) {
       console.error('Error: ', error);
-      toast.error('Hold on, there was an error while submitting your request :/');
+      toast.error('An error occurred while submitting your request. Please try again later.');
     } finally {
-      setIsSubmitting(false); // Set loading state back to false
+      setIsSubmitting(false);
     }
-  };
+  }, [messageLink, additionalInfo, agree, navigate]);
 
   return (
     <div className="container mx-auto p-4">
@@ -87,8 +108,8 @@ const Support = () => {
             value={messageLink}
             onChange={(e) => setMessageLink(e.target.value)}
             required 
+            maxLength={1000}
           />
-
           <label htmlFor="additionalInfo" className="label">Anything else?</label>
           <textarea 
             id="additionalInfo" 
@@ -98,8 +119,8 @@ const Support = () => {
             placeholder="Feel free to leave this field blank"
             value={additionalInfo}
             onChange={(e) => setAdditionalInfo(e.target.value)}
-          ></textarea>
-
+            maxLength={500}
+          />
           <div className="terms my-4">
             <label className="label cursor-pointer">
               <input 
@@ -111,11 +132,14 @@ const Support = () => {
                 onChange={(e) => setAgree(e.target.checked)}
                 required 
               />
-              <span className="label-text ml-2"> By clicking here you are allowing us to view the info added to the form by you. Please check out our <a href="https://support.notreal003.xyz/terms" className="link link-primary">Terms of Service</a> and <a href="https://support.notreal003.xyz/privacy" className="link link-primary">Privacy Policy</a>.</span>
+              <span className="label-text ml-2"> 
+                By clicking here you are allowing us to view the info added to the form by you. Please check out our{' '}
+                <a href="https://support.notreal003.xyz/terms" className="link link-primary" target="_blank" rel="noopener noreferrer">Terms of Service</a> and{' '}
+                <a href="https://support.notreal003.xyz/privacy" className="link link-primary" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+              </span>
             </label>
           </div>
-
-          <button type="submit" className="btn btn-outline btn-primary w-full" disabled={isSubmitting}>
+          <button type="submit" className="btn btn-outline btn-primary w-full" disabled={isSubmitting || !agree}>
             {isSubmitting ? 'Submitting...' : <><IoSend />Submit</>}
           </button>
           <Link to="/" className="btn btn-outline btn-secondary w-full mt-4"><ImExit />Back</Link>

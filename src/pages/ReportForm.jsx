@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoSend } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
@@ -10,28 +10,49 @@ const ReportForm = () => {
   const [messageLink, setMessageLink] = useState('');
   const [additionalInfo, setAdditionalInfo] = useState('');
   const [agree, setAgree] = useState(false);
-  const [status, setStatus] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  // Simple sanitizer function
+  const sanitizeInput = (input) => {
+    return input.replace(/[<>&'"]/g, (char) => {
+      switch (char) {
+        case '<': return '&lt;';
+        case '>': return '&gt;';
+        case '&': return '&amp;';
+        case "'": return '&#39;';
+        case '"': return '&quot;';
+        default: return char;
+      }
+    });
+  };
+
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Start loading
 
     const token = localStorage.getItem('jwtToken');
     if (!token) {
-      toast.error('You must be logged in to submit a request.');
-      setIsLoading(false); // Stop loading
+      toast.error('You must be logged in to submit a report.');
+      navigate('/login'); // Redirect to login page
       return;
     }
 
+    if (!agree) {
+      toast.error('You must agree to the terms before submitting.');
+      return;
+    }
+
+    const sanitizedMessageLink = sanitizeInput(messageLink);
+    const sanitizedAdditionalInfo = sanitizeInput(additionalInfo);
+
     const payload = {
-      messageLink,
-      additionalInfo,
+      messageLink: sanitizedMessageLink,
+      additionalInfo: sanitizedAdditionalInfo,
       requestType: 'report',
     };
 
     try {
+      setIsSubmitting(true);
       const response = await fetch('https://api.notreal003.xyz/requests/report', {
         method: 'POST',
         headers: {
@@ -43,29 +64,27 @@ const ReportForm = () => {
 
       if (response.status === 403) {
         toast.error('Your access has been denied, please login again.');
-        setIsLoading(false); // Stop loading
         return;
       }
 
-      const requests = await response.json();
+      const data = await response.json();
 
       if (response.ok) {
         toast.success('Your report was submitted successfully!');
         setMessageLink('');
         setAdditionalInfo('');
         setAgree(false);
-        navigate(`/success?request=${requests.requestId}`);
-      } else if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(`${errorData.message}`);
+        navigate(`/success?request=${data.requestId}`);
+      } else {
+        toast.error(data.message || 'There was an issue submitting your report.');
       }
     } catch (error) {
       console.error('Error: ', error);
-      toast.error('Hold on, there was an error while submitting your report :/');
+      toast.error('An error occurred while submitting your report. Please try again later.');
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsSubmitting(false);
     }
-  };
+  }, [messageLink, additionalInfo, agree, navigate]);
 
   return (
     <div className="container mx-auto p-4">
@@ -91,6 +110,7 @@ const ReportForm = () => {
             value={messageLink}
             onChange={(e) => setMessageLink(e.target.value)}
             required
+            maxLength={500}
           />
 
           <label htmlFor="additionalInfo" className="label">Anything else you would like to add?</label>
@@ -101,7 +121,8 @@ const ReportForm = () => {
             rows="4"
             value={additionalInfo}
             onChange={(e) => setAdditionalInfo(e.target.value)}
-          ></textarea>
+            maxLength={1000}
+          />
 
           <div className="terms my-4">
             <label className="label cursor-pointer">
@@ -114,12 +135,16 @@ const ReportForm = () => {
                 onChange={(e) => setAgree(e.target.checked)}
                 required
               />
-              <span className="label-text ml-2"> By clicking here you are allowing us to view the info added to the form by you. Please check out our <a href="https://support.notreal003.xyz/terms" className="link link-primary">Terms of Service</a> and <a href="https://support.notreal003.xyz/terms" className="link link-primary">Privacy Policy</a>.</span>
+              <span className="label-text ml-2"> 
+                By clicking here you are allowing us to view the info added to the form by you. Please check out our{' '}
+                <a href="https://support.notreal003.xyz/terms" className="link link-primary" target="_blank" rel="noopener noreferrer">Terms of Service</a> and{' '}
+                <a href="https://support.notreal003.xyz/privacy" className="link link-primary" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+              </span>
             </label>
           </div>
 
-          <button type="submit" className={`btn btn-outline btn-primary w-full ${isLoading ? 'loading' : ''}`}>
-            {isLoading ? 'Submitting...' : <><IoSend />Submit</>}
+          <button type="submit" className="btn btn-outline btn-primary w-full" disabled={isSubmitting || !agree}>
+            {isSubmitting ? 'Submitting...' : <><IoSend />Submit</>}
           </button>
           <Link to="/" className="btn btn-outline btn-secondary w-full mt-4"><ImExit />Back</Link>
         </form>
