@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { IoSend, IoMdMail } from "react-icons/io5";
+import { IoSend } from "react-icons/io5";
+import { IoMdMail } from "react-icons/io";
 import { ImExit } from "react-icons/im";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
