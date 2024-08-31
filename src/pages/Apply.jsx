@@ -133,12 +133,12 @@ const Apply = () => {
                   </span>
                 </label>
               </div>
-              <div className="tooltip tooltip-top w-full justify-between items-ceneter" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
+              <div className="tooltip tooltip-top justify-between items-ceneter" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
                 <button type="submit" className="btn btn-outline btn-primary w-full" disabled={isLoading || !agree}>
                   {isLoading ? 'Submitting...' : <><IoSend />Submit</>}
                 </button>
               </div>
-              <Link to="/" className="btn btn-outline btn-secondary w-full mt-4"><ImExit />Back</Link>
+              <Link to="/" className="btn btn-outline btn-secondary"><ImExit />Back</Link>
             </form>
           </div>
     </div>
