@@ -109,7 +109,7 @@ const One = () => {
         <div className="space-y-4">
           {loading ? (
             <div className="flex items-center justify-center space-x-2">
-              <s pan className="loading loading-spinner text-info"></span>
+              <span className="loading loading-spinner text-info"></span>
               <p className="font-serif">Please hold on while we are finding your requests...</p>
             </div>
           ) : error ? (
