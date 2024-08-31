@@ -134,11 +134,13 @@ const Apply = () => {
                 </label>
               </div>
               <div className="tooltip tooltip-top justify-between items-ceneter" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
-                <button type="submit" className="btn btn-outline btn-primary w-full" disabled={isLoading || !agree}>
+              <div className='flex justify-bewteen items-center'>'
+                 <button className="btn btn-outline btn-warning m-4"><ImExit />Back</button>
+                <button type="submit" className="btn btn-outline btn-info m-4" disabled={isLoading || !agree}>
                   {isLoading ? 'Submitting...' : <><IoSend />Submit</>}
                 </button>
               </div>
-              <Link to="/" className="btn btn-outline btn-secondary"><ImExit />Back</Link>
+              </div>
             </form>
           </div>
     </div>
