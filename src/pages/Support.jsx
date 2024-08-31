@@ -29,14 +29,12 @@ const Support = () => {
 
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
-
     const token = localStorage.getItem('jwtToken');
     if (!token) {
       toast.warning('You must be logged in to submit a request.');
       navigate('/login'); // Redirect to login page
       return;
     }
-
     if (!agree) {
       toast.error('You must agree to the terms before submitting.');
       return;
@@ -44,7 +42,6 @@ const Support = () => {
 
     const sanitizedMessageLink = sanitizeInput(messageLink);
     const sanitizedAdditionalInfo = sanitizeInput(additionalInfo);
-
     const payload = {
       messageLink: sanitizedMessageLink,
       additionalInfo: sanitizedAdditionalInfo,
@@ -67,7 +64,6 @@ const Support = () => {
       }
 
       const data = await response.json();
-
       if (response.ok) {
         toast.success('Your request submitted successfully.');
         setMessageLink('');
@@ -140,9 +136,11 @@ const Support = () => {
               </span>
             </label>
           </div>
-          <button type="submit" className="btn btn-outline btn-primary w-full" disabled={isSubmitting || !agree}>
-            {isSubmitting ? 'Submitting...' : <><IoSend />Submit</>}
-          </button>
+          <div className="tooltip tooltip-bottom w-full" data-tip={!agree ? "You must agree to the terms of connection and privacy." : ""}>
+            <button type="submit" className="btn btn-outline btn-primary w-full" disabled={isSubmitting || !agree}>
+              {isSubmitting ? 'Submitting...' : <><IoSend />Submit</>}
+            </button>
+          </div>
           <Link to="/" className="btn btn-outline btn-secondary w-full mt-4"><ImExit />Back</Link>
         </form>
       </div>
