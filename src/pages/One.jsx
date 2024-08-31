@@ -115,14 +115,14 @@ const One = () => {
             requests.map((request) => (
               <div
                 key={request._id}
-                className={`flex justify-between items-center xs:p-4 sm:p-6 md:p-8 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
+                className={`flex justify-between items-center rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
                 onClick={() => handleRequestClick(request._id)}
               >
                 <div className="flex items-center">
                   <RequestIcon type={request.type} />
                   <div>
                     <h2 className="text-sm sm:text-base md:text-lg font-bold">
-                      {request.type === 'report' ? `Discord Report` : request.type === 'guild-application' ? 'Guild Application' : 'Support Request'} <RequestStatus status={request.status} className="font-serif"/>
+                      {request.type === 'report' ? `Discord Report` : request.type === 'guild-application' ? 'Guild Application' : 'Support Request'} <RequestStatus status={request.status} />
                     </h2>
                     <p className="text-xs sm:text-sm">
                       {formatDistanceToNow(new Date(request.createdAt), { addSuffix: true })}
