@@ -126,7 +126,7 @@ const Apply = () => {
                     onChange={(e) => setAgree(e.target.checked)}
                     required 
                   />
-                  <span className="label-text ml-2 mb-2"> 
+                  <span className="label-text ml-2 mb-2 text-justify"> 
                     By clicking here you will agree with NotReal003's {' '}
                     <a href="https://support.notreal003.xyz/terms" className="link link-primary" target="_blank" rel="noopener noreferrer">Terms of Service</a> and{' '}
                     <a href="https://support.notreal003.xyz/privacy" className="link link-primary" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
