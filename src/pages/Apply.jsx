@@ -133,10 +133,10 @@ const Apply = () => {
                   </span>
                 </label>
               </div>
-              <div className="tooltip tooltip-top justify-between items-ceneter" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
+              <div className="tooltip tooltip-top flex justify-between" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : '...'}>
               <div className='flex justify-between'>'
-                 <button className="btn btn-outline btn-warning m-4 justify-between"><ImExit />Back</button>
-                <button type="submit" className="btn btn-outline btn-info m-4 justify-between" disabled={isLoading || !agree}>
+                 <button className="btn btn-outline btn-warning mr-2"><ImExit />Back</button>
+                <button type="submit" className="btn btn-outline btn-info ml-2" disabled={isLoading || !agree}>
                   {isLoading ? 'Submitting...' : <><IoSend />Submit</>}
                 </button>
               </div>
