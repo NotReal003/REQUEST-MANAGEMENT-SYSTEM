@@ -134,7 +134,7 @@ const Admin = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
-      <div className="flex flex-col md:flex-row mb-4 gap-4">
+      <div className="flex flex-col md:flex-row mb-4 gap-4 rounded-lg">
         <input
           type="text"
           placeholder="Search by User ID"
@@ -173,7 +173,7 @@ const Admin = () => {
           <table className="table w-full">
             <thead>
               <tr>
-                <th onClick={() => handleSort('username')}>Username</th>
+                <th onClick={() => handleSort('username')}>Username:</th>
                 <th onClick={() => handleSort('type')}>Type</th>
                 <th onClick={() => handleSort('status')}>Status</th>
                 <th onClick={() => handleSort('createdAt')}>Submitted</th>
