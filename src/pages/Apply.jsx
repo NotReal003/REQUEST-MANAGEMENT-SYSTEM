@@ -115,7 +115,7 @@ const Apply = () => {
             value={additionalInfo}
             onChange={(e) => setAdditionalInfo(e.target.value)}
           ></textarea>
-          <div className="terms my-4">
+          <div className="terms">
                 <label className="label cursor-pointer">
                   <input 
                     type="checkbox" 

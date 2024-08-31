@@ -118,7 +118,7 @@ const Support = () => {
             onChange={(e) => setAdditionalInfo(e.target.value)}
             maxLength={500}
           />
-          <div className="terms my-4">
+          <div className="terms">
             <label className="label cursor-pointer">
               <input 
                 type="checkbox" 
