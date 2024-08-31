@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaUserCircle } from "react-icons/fa";
 import { IoLogIn } from "react-icons/io5";
-import { ImExit } from "react-icons/im";
+import { ImExit, ImSpinner6 } from "react-icons/im";
 import { MdNavigateNext } from "react-icons/md";
 import { LiaExternalLinkAltSolid } from "react-icons/lia";
 import { RiShieldUserFill } from "react-icons/ri";
@@ -161,7 +161,7 @@ export default function Navbar({ isAuthenticated }) {
 
               {loading ? (
                 <div className="flex items-center mr-4">
-                  <span className="skeleton h-8 w-8 shrink-0 rounded-full"></span>
+                  <ImSpinner6 className="animate-spin h-6 w-6"/>
                 </div>
               ) : (
                 <div className="dropdown dropdown-bottom dropdown-end mr-4 ml-2">

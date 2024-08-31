@@ -222,13 +222,13 @@ function RequestDetail() {
             <p className="py-4 font-serif">Are you sure you want to cancel your request?</p>
             <div className="modal-action">
               <button
-                className="btn btn-info"
+                className="btn btn-info no-animation"
                 onClick={() => setShowCancelModal(false)}
               >
                 No, keep it
               </button>
               <button
-                className="btn btn-error"
+                className="btn btn-error no-animation"
                 disabled={isCancelling}
                 onClick={handleCancelRequest}
               >
