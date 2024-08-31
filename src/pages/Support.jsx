@@ -136,7 +136,7 @@ const Support = () => {
               </span>
             </label>
           </div>
-          <div className="tooltip tooltip-bottom w-full" data-tip={!agree ? "You must agree to the terms of connection and privacy." : ""}>
+          <div className="tooltip tooltip-top w-full" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
             <button type="submit" className="btn btn-outline btn-primary w-full" disabled={isSubmitting || !agree}>
               {isSubmitting ? 'Submitting...' : <><IoSend />Submit</>}
             </button>

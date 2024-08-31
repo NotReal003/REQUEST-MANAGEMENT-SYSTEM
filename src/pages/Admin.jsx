@@ -185,11 +185,11 @@ const Admin = () => {
                   key={request._id}
                   className={`cursor-pointer hover:bg-gray-100 ${
                     request.status === 'APPROVED'
-                      ? 'bg-green-100'
+                      ? 'bg-green-500'
                       : request.status === 'DENIED'
-                      ? 'bg-red-100'
+                      ? 'bg-red-500'
                       : request.status === 'CANCELLED'
-                      ? 'bg-yellow-100'
+                      ? 'bg-yellow-500'
                       : ''
                   }`}
                   onClick={() => handleRequestClick(request._id)}
