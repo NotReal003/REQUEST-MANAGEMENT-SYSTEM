@@ -114,19 +114,32 @@ const Apply = () => {
             value={additionalInfo}
             onChange={(e) => setAdditionalInfo(e.target.value)}
           ></textarea>
-
-          <button 
-            type="submit" 
-            className={`btn no-animation btn-outline btn-primary w-full mt-4 ${isLoading ? 'loading' : ''}`} 
-            disabled={isLoading}
-          >
-            {isLoading ? 'Submitting...' : <><IoSend className="mr-2" />Submit</>}
-          </button>
-          <Link to="/" className="btn btn-outline btn-secondary w-full mt-4">
-            <ImExit className="mr-2" />Back
-          </Link>
-        </form>
-      </div>
+          <div className="terms my-4">
+                <label className="label cursor-pointer">
+                  <input 
+                    type="checkbox" 
+                    id="agree" 
+                    name="agree" 
+                    className="checkbox" 
+                    checked={agree}
+                    onChange={(e) => setAgree(e.target.checked)}
+                    required 
+                  />
+                  <span className="label-text ml-2"> 
+                    By clicking here you are allowing us to view the info added to the form by you. Please check out our{' '}
+                    <a href="https://support.notreal003.xyz/terms" className="link link-primary" target="_blank" rel="noopener noreferrer">Terms of Service</a> and{' '}
+                    <a href="https://support.notreal003.xyz/privacy" className="link link-primary" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+                  </span>
+                </label>
+              </div>
+              <div className="tooltip tooltip-top w-full justify-between items-ceneter" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
+                <button type="submit" className="btn btn-outline btn-primary w-full" disabled={isSubmitting || !agree}>
+                  {isSubmitting ? 'Submitting...' : <><IoSend />Submit</>}
+                </button>
+              </div>
+              <Link to="/" className="btn btn-outline btn-secondary w-full mt-4"><ImExit />Back</Link>
+            </form>
+          </div>
     </div>
   );
 };
