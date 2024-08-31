@@ -98,8 +98,8 @@ const One = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center p-4">
-      <div className="bg rounded-lg p-8 w-full max-w-md md:max-w-lg mx-auto">
+    <div className="flex flex-col items-center justify-center">
+      <div className="rounded-lg shadow-lg">
         <h1 className="text-xl sm:text-2xl font-bold mb-4 text-center">Your Requests</h1>
       </div>
       <div className="w-full max-w-3xl">
@@ -115,14 +115,14 @@ const One = () => {
             requests.map((request) => (
               <div
                 key={request._id}
-                className={`flex justify-between items-center xs:p-3 sm:p-5 md:p-7 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
+                className={`flex justify-between items-center xs:p-4 sm:p-6 md:p-8 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
                 onClick={() => handleRequestClick(request._id)}
               >
                 <div className="flex items-center">
                   <RequestIcon type={request.type} />
                   <div>
                     <h2 className="text-sm sm:text-base md:text-lg font-bold">
-                      {request.type === 'report' ? `Discord Report` : request.type === 'guild-application' ? 'Guild Application' : 'Support Request'} <RequestStatus status={request.status} />
+                      {request.type === 'report' ? `Discord Report` : request.type === 'guild-application' ? 'Guild Application' : 'Support Request'} <RequestStatus status={request.status} className="font-serif"/>
                     </h2>
                     <p className="text-xs sm:text-sm">
                       {formatDistanceToNow(new Date(request.createdAt), { addSuffix: true })}
