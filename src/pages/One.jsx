@@ -38,11 +38,11 @@ const RequestStatus = ({ status }) => {
 
 const RequestIcon = ({ type }) => {
   if (type === 'report') {
-    return <FaDiscord className="text-4xl mr-4" title="Discord Report" />;
+    return <FaDiscord className="text-2xl sm:text-4xl mr-2 sm:mr-4" title="Discord Report" />;
   } else if (type === 'guild-application') {
-    return <FaPeopleGroup className="text-4xl mr-4" title="Guild Application" />;
+    return <FaPeopleGroup className="text-2xl sm:text-4xl mr-2 sm:mr-4" title="Guild Application" />;
   } else if (type === 'support') {
-    return <MdSupportAgent className="text-4xl mr-4" title="Support Request" />;
+    return <MdSupportAgent className="text-2xl sm:text-4xl mr-2 sm:mr-4" title="Support Request" />;
   }
   return null;
 };
@@ -100,9 +100,9 @@ const One = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 sm:p-4">
-      <div className="rounded-lg shadow-sm">
-        <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
+    <div className="flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 lg:p-10">
+      <div className="w-full max-w-3xl rounded-lg shadow-sm mb-4">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-center">Your Requests</h1>
       </div>
 
       <div className="w-full max-w-3xl">
@@ -110,7 +110,7 @@ const One = () => {
           {loading ? (
             <div className="flex items-center justify-center space-x-2">
               <span className="loading loading-spinner text-info"></span>
-              <p className="font-serif">Please hold on while we are finding your requests...</p>
+              <p className="font-serif text-sm sm:text-base">Please hold on while we are finding your requests...</p>
             </div>
           ) : error ? (
             <p className="text-center text-red-600 font-bold">{error}</p>
@@ -118,33 +118,33 @@ const One = () => {
             requests.map((request) => (
               <div
                 key={request._id}
-                className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
+                className={`flex flex-col sm:flex-row justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
                 onClick={() => handleRequestClick(request._id)}
               >
-                <div className="flex items-center">
+                <div className="flex items-center w-full sm:w-auto">
                   <RequestIcon type={request.type} />
-                  <div>
-                    <h2 className="text-lg font-bold">
+                  <div className="flex flex-col sm:ml-2">
+                    <h2 className="text-sm sm:text-lg font-bold">
                       {request.type === 'report' ? `Discord Report` : request.type === 'guild-application' ? 'Guild Application' : 'Support Request'} <RequestStatus status={request.status} />
                     </h2>
-                    <p className="text-sm">
+                    <p className="text-xs sm:text-sm">
                       {formatDistanceToNow(new Date(request.createdAt), { addSuffix: true })}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center mt-2 sm:mt-0">
                   <FaArrowRight className="ml-2 text-white" />
                 </div>
               </div>
             ))
           ) : (
-            <p className="min-h-screen text-center text-gray-800">Hold on! You have not submitted any request yet...</p>
+            <p className="min-h-screen text-center text-gray-800 text-sm sm:text-base">Hold on! You have not submitted any request yet...</p>
           )}
         </div>
 
         <div className="mt-4">
-          <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
-            <IoMdArrowRoundBack className="mr-2" />Back
+          <button className="btn btn-info btn-outline w-full sm:w-auto" onClick={() => navigate(-1)}>
+            <IoMdArrowRoundBack className="mr-2" /> Back
           </button>
         </div>
       </div>
