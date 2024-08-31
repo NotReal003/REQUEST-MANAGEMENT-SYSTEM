@@ -124,7 +124,7 @@ const ReportForm = () => {
             maxLength={1000}
           />
 
-        <div className="terms my-4">
+        <div className="terms">
               <label className="label cursor-pointer">
                 <input 
                   type="checkbox" 
