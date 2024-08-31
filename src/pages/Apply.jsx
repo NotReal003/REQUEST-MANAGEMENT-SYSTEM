@@ -12,6 +12,7 @@ const Apply = () => {
   const [additionalInfo, setAdditionalInfo] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [agree, setAgree] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -133,8 +134,8 @@ const Apply = () => {
                 </label>
               </div>
               <div className="tooltip tooltip-top w-full justify-between items-ceneter" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
-                <button type="submit" className="btn btn-outline btn-primary w-full" disabled={isSubmitting || !agree}>
-                  {isSubmitting ? 'Submitting...' : <><IoSend />Submit</>}
+                <button type="submit" className="btn btn-outline btn-primary w-full" disabled={isLoading || !agree}>
+                  {isLoading ? 'Submitting...' : <><IoSend />Submit</>}
                 </button>
               </div>
               <Link to="/" className="btn btn-outline btn-secondary w-full mt-4"><ImExit />Back</Link>
