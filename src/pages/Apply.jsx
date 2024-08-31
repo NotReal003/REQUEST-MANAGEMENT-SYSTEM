@@ -115,7 +115,7 @@ const Apply = () => {
             value={additionalInfo}
             onChange={(e) => setAdditionalInfo(e.target.value)}
           ></textarea>
-          <div className="terms">
+          <div className="terms mr-2 mb-2">
                 <label className="label cursor-pointer">
                   <input 
                     type="checkbox" 
@@ -126,16 +126,16 @@ const Apply = () => {
                     onChange={(e) => setAgree(e.target.checked)}
                     required 
                   />
-                  <span className="label-text ml-2"> 
+                  <span className="label-text ml-2 mb-2"> 
                     By clicking here you will agree with NotReal003's {' '}
                     <a href="https://support.notreal003.xyz/terms" className="link link-primary" target="_blank" rel="noopener noreferrer">Terms of Service</a> and{' '}
                     <a href="https://support.notreal003.xyz/privacy" className="link link-primary" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
                   </span>
                 </label>
               </div>
-        <div className= "flex justify-between">
+        <div className= "flex justify-between mt-2">
           <button className="btn btn-outline btn-info mr-2" onClick={() => navigate(-1)}><ImExit />Back</button>
-              <div className="tooltip tooltip-top sm:overflow-x-scroll md:overflow-x-scroll" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : '...'}>
+              <div className="tooltip tooltip-top overflow-x-scroll" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : '...'}>
                 <button type="submit" className="btn btn-outline btn-info ml-2" disabled={isLoading || !agree}>
                   {isLoading ? 'Submitting...' : <><IoSend />Submit</>}
                 </button>
