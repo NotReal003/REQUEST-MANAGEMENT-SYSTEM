@@ -100,8 +100,8 @@ const One = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 lg:p-10">
-      <div className="w-full max-w-3xl rounded-lg shadow-sm mb-4">
+    <div className="flex flex-col items-center justify-center">
+      <div className="w-full max-w-2xl rounded-lg shadow-sm mb-4">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-center">Your Requests</h1>
       </div>
 
@@ -121,7 +121,7 @@ const One = () => {
                 className={`flex flex-col sm:flex-row justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
                 onClick={() => handleRequestClick(request._id)}
               >
-                <div className="flex items-center w-full sm:w-auto">
+                <div className="flex items-center w-full md:w-auto">
                   <RequestIcon type={request.type} />
                   <div className="flex flex-col sm:ml-2">
                     <h2 className="text-sm sm:text-lg font-bold">
@@ -132,7 +132,7 @@ const One = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-left">
+                <div className="flex items-center">
                   <FaArrowRight className="ml-2 text-white" />
                 </div>
               </div>
