@@ -100,7 +100,7 @@ const One = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 sm:p-4">
+    <div className="flex flex-col items-center justify-center p-4 max-w-md md:max-w-lg mx-auto">
       <div className="rounded-lg shadow-sm">
         <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
       </div>
