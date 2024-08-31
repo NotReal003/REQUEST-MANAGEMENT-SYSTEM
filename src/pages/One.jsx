@@ -37,13 +37,12 @@ const RequestStatus = ({ status }) => {
 };
 
 const RequestIcon = ({ type }) => {
-  const iconClass = "text-2xl sm:text-3xl md:text-4xl mr-2 sm:mr-3 md:mr-4";
   if (type === 'report') {
-    return <FaDiscord className={iconClass} title="Discord Report" />;
+    return <FaDiscord className="text-4xl mr-4" title="Discord Report" />;
   } else if (type === 'guild-application') {
-    return <FaPeopleGroup className={iconClass} title="Guild Application" />;
+    return <FaPeopleGroup className="text-4xl mr-4" title="Guild Application" />;
   } else if (type === 'support') {
-    return <MdSupportAgent className={iconClass} title="Support Request" />;
+    return <MdSupportAgent className="text-4xl mr-4" title="Support Request" />;
   }
   return null;
 };
@@ -61,9 +60,11 @@ const One = () => {
         const response = await axios.get('https://api.notreal003.xyz/requests', {
           headers: { Authorization: `${token}` },
         });
+
         const filteredRequests = response.data.filter((request) =>
           ['report', 'support', 'guild-application'].includes(request.type)
         );
+
         const sortedRequests = filteredRequests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setRequests(sortedRequests);
       } catch (error) {
@@ -73,6 +74,7 @@ const One = () => {
         setLoading(false);
       }
     };
+
     fetchRequests();
   }, [token]);
 
@@ -98,48 +100,50 @@ const One = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="rounded-lg shadow-lg">
-        <h1 className="text-xl sm:text-2xl font-bold mb-4 text-center">Your Requests</h1>
+    <div className="flex flex-col items-center justify-center p-4 sm:p-4">
+      <div className="rounded-lg shadow-sm">
+        <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
       </div>
+
       <div className="w-full max-w-3xl">
-        <div className="space-y-2 sm:space-y-4">
+        <div className="space-y-4">
           {loading ? (
             <div className="flex items-center justify-center space-x-2">
-              <span className="loading loading-spinner text-info"></span>
-              <p className="text-sm sm:text-base">Please hold on while we are finding your requests...</p>
+              <s pan className="loading loading-spinner text-info"></span>
+              <p className="font-serif">Please hold on while we are finding your requests...</p>
             </div>
           ) : error ? (
-            <p className="text-center text-red-600 font-bold text-sm sm:text-base">{error}</p>
+            <p className="text-center text-red-600 font-bold">{error}</p>
           ) : requests.length > 0 ? (
             requests.map((request) => (
               <div
                 key={request._id}
-                className={`flex justify-between items-center rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
+                className={`flex justify-between items-center p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
                 onClick={() => handleRequestClick(request._id)}
               >
                 <div className="flex items-center">
                   <RequestIcon type={request.type} />
                   <div>
-                    <h2 className="text-sm sm:text-base md:text-lg font-bold">
+                    <h2 className="text-lg font-bold">
                       {request.type === 'report' ? `Discord Report` : request.type === 'guild-application' ? 'Guild Application' : 'Support Request'} <RequestStatus status={request.status} />
                     </h2>
-                    <p className="text-xs sm:text-sm">
+                    <p className="text-sm">
                       {formatDistanceToNow(new Date(request.createdAt), { addSuffix: true })}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <FaArrowRight className="ml-2 text-white text-sm sm:text-base" />
+                  <FaArrowRight className="ml-2 text-white" />
                 </div>
               </div>
             ))
           ) : (
-            <p className="min-h-screen text-center text-gray-800 text-sm sm:text-base">Hold on! You have not submitted any request yet...</p>
+            <p className="min-h-screen text-center text-gray-800">Hold on! You have not submitted any request yet...</p>
           )}
         </div>
+
         <div className="mt-4">
-          <button className="btn btn-info btn-outline btn-sm sm:btn-md" onClick={() => navigate(-1)}>
+          <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
             <IoMdArrowRoundBack className="mr-2" />Back
           </button>
         </div>
