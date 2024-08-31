@@ -132,7 +132,7 @@ const One = () => {
                     </p>
                   </div>
                 </div>
-                <div className="2 text-white">
+                <div className="flex items-center">
                   <FaArrowRight className="ml-2 text-white" />
                 </div>
               </div>
