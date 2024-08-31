@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { IoSend } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
 import { FaPeopleGroup } from "react-icons/fa6";
@@ -133,16 +133,14 @@ const Apply = () => {
                   </span>
                 </label>
               </div>
-              <div className="tooltip tooltip-top flex justify-between" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : '...'}>
-              <div className='flex justify-between'>'
-                 <button className="btn btn-outline btn-warning mr-2"><ImExit />Back</button>
+              <span className="tooltip flex justify-between" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : '...'}>
+                <button className="btn btn-outline btn-info mr-2" onClick={() => navigate(-1)}><ImExit />Back</button>
                 <button type="submit" className="btn btn-outline btn-info ml-2" disabled={isLoading || !agree}>
                   {isLoading ? 'Submitting...' : <><IoSend />Submit</>}
                 </button>
-              </div>
-              </div>
-            </form>
-          </div>
+              </span>
+        </form>
+      </div>
     </div>
   );
 };
