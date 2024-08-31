@@ -62,7 +62,7 @@ const Admin = () => {
           },
         });
 
-        setRequests(requestsResponse.data.requests);
+        setRequests(requestsResponse.data);
         setTotalRequests(requestsResponse.data.totalRequests);
       } else {
         toast.warn('API is currently closed. You cannot view or manage requests.');
