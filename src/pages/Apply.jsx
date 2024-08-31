@@ -133,12 +133,14 @@ const Apply = () => {
                   </span>
                 </label>
               </div>
-              <span className="tooltip flex justify-between" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : '...'}>
-                <button className="btn btn-outline btn-info mr-2" onClick={() => navigate(-1)}><ImExit />Back</button>
+        <div className= "flex justify-between">
+          <button className="btn btn-outline btn-info mr-2" onClick={() => navigate(-1)}><ImExit />Back</button>
+              <div className="tooltip tooltip-left sm:sm tooltip-sm" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : '...'}>
                 <button type="submit" className="btn btn-outline btn-info ml-2" disabled={isLoading || !agree}>
                   {isLoading ? 'Submitting...' : <><IoSend />Submit</>}
                 </button>
-              </span>
+              </div>
+          </div>
         </form>
       </div>
     </div>
