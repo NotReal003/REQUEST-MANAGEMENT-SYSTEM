@@ -161,7 +161,7 @@ export default function Navbar({ isAuthenticated }) {
 
               {loading ? (
                 <div className="flex items-center mr-4">
-                  <ImSpinner6 className="animate-pulse h-4 w-4"/>
+                  <ImSpinner6 className="animate-spin h-4 w-4"/>
                 </div>
               ) : (
                 <div className="dropdown dropdown-bottom dropdown-end mr-4 ml-2">
