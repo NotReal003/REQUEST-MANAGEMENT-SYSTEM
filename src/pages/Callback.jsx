@@ -35,7 +35,7 @@ const Callback = () => {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center h-screen shadow-lg p-4">
       <div className="flex items-center space-x-4">
         {/* Using React Icons for Discord and website logo */}
         <FaLock className="h-16 w-16" />
@@ -43,15 +43,15 @@ const Callback = () => {
         <FaDiscord className="h-16 w-16" />
       </div>
       {!error && (
-      <div className="mt-8 m-4 items-center justify-center shadow-lg">
+      <div className="flex items-center justify-center mt-8 m-4 shadow-lg">
       <p className="font-serif">Please wait while we are connecting your Discord account.</p>
-        <span className="loading loading-spinner text-warning mt-2"></span>
+        <span className="loading loading-spinner text-warning mt-2 pb-2"></span>
       </div>
       )}
 
       {/* Displaying error message if there is one */}
       {error && (
-        <div className="mt-8 font-serif text-red-500 justify-center shadow-lg">
+        <div className="mt-8 font-serif text-red-500 justify-center shadow-lg pb-2">
           <strong>{error}</strong>
         </div>
       )}
