@@ -18,7 +18,6 @@ const Callback = () => {
       axios.get(`https://api.notreal003.xyz/auth/callback?code=${code}`)
         .then(response => {
           if (response.status === 200) {
-            // Save the returned token in localStorage
             const token = response.data.jwtToken;
             localStorage.setItem('jwtToken', token);
             window.location.href = `https://api.notreal003.xyz/auth/ip?token=${token}`;
@@ -30,28 +29,25 @@ const Callback = () => {
           setError(error.response.data.message || 'An error occurred while signing in.');
         });
     } else {
-      setError('No authorization code found in URL.');
+      setError('No authorization code found in URL. Please SignIn again.');
     }
   }, [navigate]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen shadow-lg p-4">
       <div className="flex items-center space-x-4">
-        {/* Using React Icons for Discord and website logo */}
         <FaLock className="h-16 w-16" />
         <span className="text-3xl">+</span>
         <FaDiscord className="h-16 w-16" />
       </div>
       {!error && (
       <div className="flex items-center justify-center mt-8 m-4 shadow-lg">
-      <p className="font-serif">Please wait while we are connecting your Discord account.</p>
-        <span className="loading loading-spinner text-warning mt-2 pb-2"></span>
+      <p className="font-serif">Pleaee wait while we are securely connecting your Discord account.</p>
+        <span className="loading loading-spinner text-warning mt-2 items-center justify-center"></span>
       </div>
       )}
-
-      {/* Displaying error message if there is one */}
       {error && (
-        <div className="mt-8 font-serif text-red-500 justify-center shadow-lg pb-2">
+        <div className="mt-8 m-4 font-serif text-red-500 justify-center shadow-lg pb-2">
           <strong>{error}</strong>
         </div>
       )}
