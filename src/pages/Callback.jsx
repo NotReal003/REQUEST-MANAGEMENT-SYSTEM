@@ -6,13 +6,14 @@ import { FaDiscord, FaLock } from "react-icons/fa";
 const Callback = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null); // State to handle API errors
-
+  const [loadind, setLoading] = useState(null);
   useEffect(() => {
     // Extract 'code' from URL query params
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
 
     if (code) {
+      setLoading(true);
       // Send a GET request to your API with the Discord code
       axios.get(`https://api.notreal003.xyz/auth/callback?code=${code}`)
         .then(response => {
@@ -41,10 +42,12 @@ const Callback = () => {
         <span className="text-3xl">+</span>
         <FaDiscord className="h-16 w-16" />
       </div>
-      <p className="mt-8 m-4">Please wait while we are connecting your Discord account.</p>
+      {!error && (
+      <p className="mt-8 m-4 font-serif">Please wait while we are connecting your Discord account.</p>
       <div className="mt-4">
         <span className="loading loading-spinner text-warning"></span>
       </div>
+      )}
 
       {/* Displaying error message if there is one */}
       {error && (
