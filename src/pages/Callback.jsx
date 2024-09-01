@@ -34,16 +34,18 @@ const Callback = () => {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen shadow-lg p-4">
+    <div className="flex flex-col items-center justify-center min-h-screen shadow-lg">
       <div className="flex items-center space-x-4">
-        <FaLock className="h-16 w-16" />
-        <span className="text-3xl">+</span>
-        <FaDiscord className="h-16 w-16" />
+        <FaLock className="h-16 w-16 m-4" />
+        <span className="text-3xl m-4 mr-4">+</span>
+        <FaDiscord className="h-16 w-16 m-4" />
       </div>
       {!error && (
-      <div className="flex items-center justify-center mt-8 m-4 shadow-lg">
+      <div className="flex items-center mt-8 m-4">
+        <div className="flex items-center justify-center">
+          <span className="loading loading-spinner text-warning m-4"></span>
+          </div>
       <p className="font-serif">Pleaee wait while we are securely connecting your Discord account.</p>
-        <span className="loading loading-spinner text-warning mt-2 items-center justify-center"></span>
       </div>
       )}
       {error && (
