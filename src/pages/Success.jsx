@@ -83,7 +83,7 @@ const Success = () => {
     <div className="flex items-center justify-center bg-base-50 min-h-screen">
       <div className="text-center">
         <div className="flex items-center justify-center mb-4">
-          <IoShieldCheckmark className="w-20 h-20 text-green-500 animate-pulse" />
+          <IoShieldCheckmark className="w-20 h-20 text-green-500 animate-ping" />
         </div>
         <h1 className="text-2xl font-bold mb-2">Success!</h1>
         <p>Thanks for submitting {request.typeName} <strong>{request.username}</strong>. We will notify you on your email <strong>{myUser.email}</strong>. Join our Discord Server so we may contact you :)</p>
