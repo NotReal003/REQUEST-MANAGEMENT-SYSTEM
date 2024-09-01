@@ -43,15 +43,15 @@ const Callback = () => {
         <FaDiscord className="h-16 w-16" />
       </div>
       {!error && (
-      <div className="mt-4 items-center">
-      <p className="mt-8 m-4 font-serif">Please wait while we are connecting your Discord account.</p>
+      <div className="mt-8 m-4 items-center justify-center shadow-lg">
+      <p className="font-serif">Please wait while we are connecting your Discord account.</p>
         <span className="loading loading-spinner text-warning mt-2"></span>
       </div>
       )}
 
       {/* Displaying error message if there is one */}
       {error && (
-        <div className="mt-4 font-serif text-red-500">
+        <div className="mt-8 font-serif text-red-500 justify-center shadow-lg">
           <strong>{error}</strong>
         </div>
       )}
