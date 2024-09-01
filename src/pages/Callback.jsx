@@ -43,9 +43,9 @@ const Callback = () => {
         <FaDiscord className="h-16 w-16" />
       </div>
       {!error && (
+      <div className="mt-4 items-center">
       <p className="mt-8 m-4 font-serif">Please wait while we are connecting your Discord account.</p>
-      <div className="mt-4">
-        <span className="loading loading-spinner text-warning"></span>
+        <span className="loading loading-spinner text-warning mt-2"></span>
       </div>
       )}
 
