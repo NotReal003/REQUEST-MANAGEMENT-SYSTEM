@@ -36,7 +36,7 @@ const Callback = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen shadow-lg">
       <div className="flex items-center space-x-4">
-        <FaLock className="h-16 w-16 m-4" />
+        <FaLock className="h-14 w-14 m-4" />
         <span className="text-3xl m-4 mr-4">+</span>
         <FaDiscord className="h-16 w-16 m-4" />
       </div>
@@ -45,11 +45,11 @@ const Callback = () => {
         <div className="flex items-center justify-center">
           <span className="loading loading-spinner text-warning m-4"></span>
           </div>
-      <p className="font-serif">Pleaee wait while we are securely connecting your Discord account.</p>
+      <p className="font-serif">Please wait while we are securely connecting your Discord account.</p>
       </div>
       )}
       {error && (
-        <div className="mt-8 m-4 font-serif text-red-500 justify-center shadow-lg pb-2">
+        <div className="mt-8 m-4 font-serif text-red-500 justify-center">
           <strong>{error}</strong>
         </div>
       )}
