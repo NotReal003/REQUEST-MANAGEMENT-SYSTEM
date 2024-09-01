@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaDiscord, FaLock } from "react-icons/fa";
-import { GiProcessor } from "react-icons/gi";
 
 const Callback = () => {
   const navigate = useNavigate();
@@ -35,21 +34,21 @@ const Callback = () => {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen text-white">
+    <div className="flex flex-col items-center justify-center h-screen">
       <div className="flex items-center space-x-4">
         {/* Using React Icons for Discord and website logo */}
-        <FaLock className="h-16 w-16 text-white" />
-        <span className="text-3xl"><GiProcessor className="mr-2 ml-2"/></span>
-        <FaDiscord className="h-16 w-16 text-white" />
+        <FaLock className="h-16 w-16" />
+        <span className="text-3xl">+</span>
+        <FaDiscord className="h-16 w-16" />
       </div>
       <p className="mt-8 m-4">Please wait while we are connecting your Discord account.</p>
       <div className="mt-4">
-        <span className="loading loading-spinner text-info"></span>
+        <span className="loading loading-spinner text-warning"></span>
       </div>
 
       {/* Displaying error message if there is one */}
       {error && (
-        <div className="mt-4 text-red-500">
+        <div className="mt-4 font-serif text-red-500">
           <strong>{error}</strong>
         </div>
       )}
