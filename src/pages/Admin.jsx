@@ -61,13 +61,19 @@ const Admin = () => {
   const handleApiToggle = async () => {
     try {
       const response = await axios.post(
-        'https://api.notreal003.xyz/server/manage-api',
-        { closeType: !apiClosed },
-        { headers: { Authorization: `${token}` } }
+        'https://api.notreal003.xyz/admin/toggle-api',
+        { closed: !apiClosed },
+        {
+          headers: {
+            Authorization: `${token}`,
+            closeType: apiClosed ? 'noopened' : 'yesclosed',
+          },
+        }
       );
       setApiClosed(response.data.closed);
     } catch (err) {
-      console.error('Error toggling API status:', err);
+      const errorMessage = err.response?.data?.message || 'Error toggling API status.';
+      setError(errorMessage);
     }
   };
 
@@ -87,14 +93,14 @@ const Admin = () => {
 
         // Filter requests by user ID
         if (userIdFilter) {
-          filteredRequests = filteredRequests.filter((request) => request.userId === userIdFilter);
+          filteredRequests = filteredRequests.filter((request) => request.id === userIdFilter);
         }
 
         const sortedRequests = filteredRequests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setRequests(sortedRequests);
       } catch (error) {
-        console.error('Error fetching requests:', error);
-        setError('Failed to load requests. Please try again later.');
+        const errorMessage = error.response?.data?.message || 'Failed to load requests. Please try again later.';
+        setError(errorMessage);
       } finally {
         setLoading(false);
       }
@@ -151,8 +157,8 @@ const Admin = () => {
               onChange={(e) => setUserIdFilter(e.target.value)}
             />
           </div>
-          <button className="btn btn-sm btn-outline" onClick={handleApiToggle}>
-            {apiClosed ? 'noopened' : 'yesclosed'}
+          <button className="btn btn-sm btn-outline ml-4 sm:ml-8" onClick={handleApiToggle}>
+            {apiClosed ? 'Open API' : 'Close API'}
           </button>
         </div>
       </div>
@@ -191,16 +197,20 @@ const Admin = () => {
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <FaArrowRight className="ml-2 text-white text-sm sm:text-base" />
+                  <FaArrowRight className="ml-2 sm:ml-4 text-lg sm:text-xl" />
                 </div>
               </div>
             ))
           ) : (
-            <p className="min-h-screen text-center text-gray-800 text-sm sm:text-base">No requests found.</p>
+            <div className="alert shadow-lg">
+              <div>
+                <span>No requests found.</span>
+              </div>
+            </div>
           )}
         </div>
         <div className="mt-4">
-          <button className="btn btn-info btn-outline btn-sm sm:btn-md" onClick={() => navigate(-1)}>
+          <button className="btn btn-primary btn-outline" onClick={() => navigate('/admin')}>
             <IoMdArrowRoundBack className="mr-2" /> Go Back
           </button>
         </div>
