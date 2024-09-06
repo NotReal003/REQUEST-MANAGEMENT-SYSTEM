@@ -69,7 +69,7 @@ const One = () => {
         setRequests(sortedRequests);
       } catch (error) {
         console.error('Error fetching requests:', error);
-        const errorMessage = err.response?.data?.message || 'Error toggling API status.';
+        const errorMessage = error.response?.data?.message || 'Error toggling API status.';
         setError(errorMessage);
       } finally {
         setLoading(false);
