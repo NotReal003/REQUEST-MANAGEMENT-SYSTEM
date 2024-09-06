@@ -5,6 +5,8 @@ import { FaDiscord, FaCheck, FaUserCircle } from "react-icons/fa";
 import axios from 'axios';
 import EditProfileModal from '../components/EditProfileModal';
 import { MdMarkEmailRead } from "react-icons/md";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Profile = () => {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -63,6 +65,7 @@ const Profile = () => {
       <div className="flex items-center justify-center min-h-screen bg-base-200">
         <div className="text-center">
           <strong className="text-lg text-red-500">{error}</strong>
+          <ToastContainer />
         </div>
       </div>
     );
