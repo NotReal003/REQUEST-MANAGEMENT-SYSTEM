@@ -6,6 +6,8 @@ import { MdSupportAgent } from 'react-icons/md';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { formatDistanceToNow } from 'date-fns';
 import { FaPeopleGroup } from "react-icons/fa6";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const RequestStatus = ({ status }) => {
   const statusStyles = {
@@ -58,22 +60,25 @@ const Admin = () => {
   const token = localStorage.getItem('jwtToken');
   const navigate = useNavigate();
 
-  const handleApiToggle = async () => {
+  const handleToggleApiStatus = async () => {
+    const jwtToken = localStorage.getItem('jwtToken');
     try {
-      const response = await axios.post(
-        'https://api.notreal003.xyz/admin/toggle-api',
-        { closed: !apiClosed },
+      const response = await axios.put(
+        'https://api.notreal003.xyz/server/manage-api',
+        { closeType: apiClosed ? 'noopened' : 'yesclosed' },
         {
-          headers: {
-            Authorization: `${token}`,
-            closeType: apiClosed ? 'noopened' : 'yesclosed',
-          },
+          headers: { Authorization: `${jwtToken}` },
         }
       );
-      setApiClosed(response.data.closed);
-    } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Error toggling API status.';
-      setError(errorMessage);
+      if (response.status === 200) {
+        toast.success(`API has been ${apiClosed ? 'opened' : 'closed'} successfully.`);
+        setApiClosed(!apiClosed);
+      } else {
+        toast.error('Failed to change API status.');
+      }
+    } catch (error) {
+      console.error('Error changing API status:', error);
+      toast.error('An error occurred while changing API status.');
     }
   };
 
@@ -131,12 +136,13 @@ const Admin = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-2 sm:p-4 md:p-6">
+      <ToastContainer />
       <div className="rounded-lg shadow-sm w-full max-w-3xl">
         <h1 className="text-xl sm:text-2xl font-bold mb-4 text-center">Admin Dashboard - Manage Requests</h1>
         <div className="mb-4 flex flex-col sm:flex-row justify-between">
           <div className="space-x-2">
             <select
-              className="select select-bordered select-sm"
+              className="select select-bordered select-md"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
@@ -149,19 +155,20 @@ const Admin = () => {
               <option value="RESOLVED">Resolved</option>
             </select>
 
-            <input
-              type="text"
-              className="input input-bordered input-sm"
-              placeholder="Filter by User ID"
-              value={userIdFilter}
-              onChange={(e) => setUserIdFilter(e.target.value)}
-            />
+          <div className="mb-4">
+            <label className="label cursor-pointer">
+              <span className="label-text text-xl mr-4">API Status:</span> 
+              <input
+                type="checkbox"
+                className="toggle toggle-info"
+                checked={!apiClosed}
+                onChange={handleToggleApiStatus}
+              />
+            </label>
           </div>
-          <button className="btn btn-sm btn-outline ml-4 sm:ml-8" onClick={handleApiToggle}>
-            {apiClosed ? 'Open API' : 'Close API'}
-          </button>
         </div>
       </div>
+    </div>
       <div className="w-full max-w-3xl">
         <div className="space-y-2 sm:space-y-4">
           {loading ? (
