@@ -1,27 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { debounce } from 'lodash';
 import { FaDiscord, FaArrowRight } from 'react-icons/fa';
 import { MdSupportAgent } from 'react-icons/md';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { formatDistanceToNow } from 'date-fns';
 import { FaPeopleGroup } from "react-icons/fa6";
 
-const Admin = () => {
-  const [requests, setRequests] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterStatus, setFilterStatus] = useState('');
-  const [apiClosed, setApiClosed] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [requestsPerPage] = useState(10);
-  const [totalRequests, setTotalRequests] = useState(0);
-  const [sortField, setSortField] = useState('createdAt');
-  const [sortOrder, setSortOrder] = useState('desc');
-
+const RequestStatus = ({ status }) => {
   const statusStyles = {
     DENIED: 'bg-red-600 text-white',
     APPROVED: 'bg-green-600 text-white',
@@ -32,63 +18,77 @@ const Admin = () => {
   };
 
   const statusTooltips = {
-    DENIED: 'Your request was denied.',
-    APPROVED: 'Your request was approved.',
-    RESUBMIT_REQUIRED: 'Please resubmit your request with necessary changes.',
-    PENDING: 'Your request is pending review.',
-    CANCELLED: 'Your request was cancelled.',
-    RESOLVED: 'Your request was resolved.',
+    DENIED: 'Request was denied.',
+    APPROVED: 'Request was approved.',
+    RESUBMIT_REQUIRED: 'Please resubmit with changes.',
+    PENDING: 'Request is pending.',
+    CANCELLED: 'Request was cancelled.',
+    RESOLVED: 'Request was resolved.',
   };
-  const RequestIcon = ({ type }) => {
+
+  return (
+    <span
+      className={`rounded-full px-2 py-1 text-xs font-bold ${statusStyles[status]}`}
+      title={statusTooltips[status]}
+    >
+      {status}
+    </span>
+  );
+};
+
+const RequestIcon = ({ type }) => {
+  const iconClass = "text-2xl sm:text-3xl md:text-4xl mr-2 sm:mr-3 md:mr-4";
   if (type === 'report') {
-    return <FaDiscord className="text-4xl mr-4" title="Discord Report" />;
+    return <FaDiscord className={iconClass} title="Discord Report" />;
   } else if (type === 'guild-application') {
-    return <FaPeopleGroup className="text-4xl mr-4" title="Guild Application" />;
+    return <FaPeopleGroup className={iconClass} title="Guild Application" />;
   } else if (type === 'support') {
-    return <MdSupportAgent className="text-4xl mr-4" title="Support Request" />;
+    return <MdSupportAgent className={iconClass} title="Support Request" />;
   }
   return null;
 };
 
+const Admin = () => {
+  const [requests, setRequests] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [statusFilter, setStatusFilter] = useState('');
+  const [userIdFilter, setUserIdFilter] = useState('');
+  const [apiClosed, setApiClosed] = useState(false);
+  const token = localStorage.getItem('jwtToken');
   const navigate = useNavigate();
 
-  const fetchData = useCallback(async () => {
-    const jwtToken = localStorage.getItem('jwtToken');
-    if (!jwtToken) {
-      navigate('/404');
-      return;
-    }
-
+  const handleApiToggle = async () => {
     try {
-      const [userResponse, apiStatusResponse] = await Promise.all([
-        axios.get('https://api.notreal003.xyz/users/@me', {
-          headers: { Authorization: `${jwtToken}` },
-        }),
-        axios.get('https://api.notreal003.xyz/server/manage-api', {
-          headers: { Authorization: `${jwtToken}` },
-        }),
-      ]);
+      const response = await axios.post(
+        'https://api.notreal003.xyz/server/manage-api',
+        { closeType: !apiClosed },
+        { headers: { Authorization: `${token}` } }
+      );
+      setApiClosed(response.data.closed);
+    } catch (err) {
+      console.error('Error toggling API status:', err);
+    }
+  };
 
-      const user = userResponse.data;
-      if (user.id === '1131271104590270606' || user.isAdmin) {
-        user.isAdmin = true;
-      }
-
-      if (!user.isAdmin) {
-        navigate('/404');
-        return;
-      }
-
-      setApiClosed(apiStatusResponse.data.message.serverClosed === 'yesclosed');
-
-      if (apiStatusResponse.data.message.serverClosed !== 'yesclosed') {
-        const response = await axios.get('https://api.notreal003.xyz/requests', {
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const response = await axios.get('https://api.notreal003.xyz/admin/requests', {
           headers: { Authorization: `${token}` },
         });
 
-        const filteredRequests = response.data.filter((request) =>
-          ['report', 'support', 'guild-application'].includes(request.type)
-        );
+        let filteredRequests = response.data;
+
+        // Filter requests by status
+        if (statusFilter) {
+          filteredRequests = filteredRequests.filter((request) => request.status === statusFilter);
+        }
+
+        // Filter requests by user ID
+        if (userIdFilter) {
+          filteredRequests = filteredRequests.filter((request) => request.userId === userIdFilter);
+        }
 
         const sortedRequests = filteredRequests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setRequests(sortedRequests);
@@ -99,62 +99,12 @@ const Admin = () => {
         setLoading(false);
       }
     };
+    fetchRequests();
+  }, [token, statusFilter, userIdFilter]);
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
-
-  const handleRequestClick = (requestId) => {
-    navigate(`/admindetail?id=${requestId}`);
+  const handleRequestClick = (id) => {
+    navigate(`/admindetail?id=${id}`);
   };
-
-  const handleToggleApiStatus = async () => {
-    const jwtToken = localStorage.getItem('jwtToken');
-    try {
-      const response = await axios.put(
-        'https://api.notreal003.xyz/server/manage-api',
-        { closeType: apiClosed ? 'noopened' : 'yesclosed' },
-        {
-          headers: { Authorization: `${jwtToken}` },
-        }
-      );
-      if (response.status === 200) {
-        toast.success(`API has been ${apiClosed ? 'opened' : 'closed'} successfully.`);
-        setApiClosed(!apiClosed);
-      } else {
-        toast.error('Failed to change API status.');
-      }
-    } catch (error) {
-      console.error('Error changing API status:', error);
-      toast.error('An error occurred while changing API status.');
-    }
-  };
-
-  const debouncedSearch = debounce((value) => {
-    setSearchQuery(value);
-    setCurrentPage(1);
-  }, 300);
-
-  const handleSearchChange = (e) => {
-    debouncedSearch(e.target.value);
-  };
-
-  const handleFilterChange = (e) => {
-    setFilterStatus(e.target.value);
-    setCurrentPage(1);
-  };
-
-  const handleSort = (field) => {
-    if (field === sortField) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortField(field);
-      setSortOrder('asc');
-    }
-    setCurrentPage(1);
-  };
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const getGradientClass = (status) => {
     switch (status) {
@@ -173,101 +123,88 @@ const Admin = () => {
     }
   };
 
-  const handleRequestClick = (id) => {
-    navigate(`/admindetail?id=${id}`);
-  };
-
-
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
-      <div className="flex flex-col md:flex-row mb-4 gap-4 rounded-lg">
-        <input
-          type="text"
-          placeholder="Search by User ID"
-          className="input input-bordered w-full max-w-xs"
-          onChange={handleSearchChange}
-        />
-        <select
-          className="select select-bordered"
-          onChange={handleFilterChange}
-        >
-          <option value="">Filter by Status</option>
-          <option value="PENDING">Pending</option>
-          <option value="APPROVED">Approved</option>
-          <option value="DENIED">Denied</option>
-          <option value="CANCELLED">Cancelled</option>
-          <option value="RESOLVED">Resolved</option>
-        </select>
-      </div>
-      <div className="mb-4">
-        <label className="label cursor-pointer">
-          <span className="label-text text-xl mr-4">API Status:</span> 
-          <input
-            type="checkbox"
-            className="toggle toggle-info"
-            checked={!apiClosed}
-            onChange={handleToggleApiStatus}
-          />
-        </label>
-      </div>
-      {loading ? (
-        <div className="flex justify-center items-center">
-          <span className="loading loading-spinner text-info"></span>
+    <div className="flex flex-col items-center justify-center p-2 sm:p-4 md:p-6">
+      <div className="rounded-lg shadow-sm w-full max-w-3xl">
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 text-center">Admin Dashboard - Manage Requests</h1>
+        <div className="mb-4 flex flex-col sm:flex-row justify-between">
+          <div className="space-x-2">
+            <select
+              className="select select-bordered select-sm"
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <option value="">All Statuses</option>
+              <option value="PENDING">Pending</option>
+              <option value="APPROVED">Approved</option>
+              <option value="DENIED">Denied</option>
+              <option value="RESUBMIT_REQUIRED">Resubmit Required</option>
+              <option value="CANCELLED">Cancelled</option>
+              <option value="RESOLVED">Resolved</option>
+            </select>
+
+            <input
+              type="text"
+              className="input input-bordered input-sm"
+              placeholder="Filter by User ID"
+              value={userIdFilter}
+              onChange={(e) => setUserIdFilter(e.target.value)}
+            />
+          </div>
+          <button className="btn btn-sm btn-outline" onClick={handleApiToggle}>
+            {apiClosed ? 'noopened' : 'yesclosed'}
+          </button>
         </div>
-      ) : requests.length > 0 ? (
-        <>
-          <div
+      </div>
+      <div className="w-full max-w-3xl">
+        <div className="space-y-2 sm:space-y-4">
+          {loading ? (
+            <div className="flex items-center justify-center space-x-2">
+              <span className="loading loading-spinner text-info"></span>
+              <p className="text-sm sm:text-base">Please hold on while we are fetching requests...</p>
+            </div>
+          ) : error ? (
+            <div className="alert alert-error shadow-lg">
+              <div>
+                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M18.364 5.636l-6.364 6.364m0 0L5.636 18.364m6.364-6.364l6.364 6.364M6.636 5.636L18.364 17.364" />
+                </svg>
+                <span>{error}</span>
+              </div>
+            </div>
+          ) : requests.length > 0 ? (
+            requests.map((request) => (
+              <div
                 key={request._id}
-                className={`flex justify-between items-center p-4 bg rounded-lg shadow-lg max-w-md md:max-w-lg mx-auto text-white shadow-lg ${getGradientClass(request.status)} cursor-pointer`}
+                className={`flex justify-between items-center p-2 sm:p-3 md:p-4 rounded-lg shadow-lg text-white ${getGradientClass(request.status)} cursor-pointer`}
                 onClick={() => handleRequestClick(request._id)}
               >
                 <div className="flex items-center">
                   <RequestIcon type={request.type} />
                   <div>
-                    <h2 className="text-lg font-bold">
+                    <h2 className="text-sm sm:text-base md:text-lg font-bold">
                       {request.type === 'report' ? `Discord Report` : request.type === 'guild-application' ? 'Guild Application' : 'Support Request'} <RequestStatus status={request.status} />
                     </h2>
-                    <p className="text-sm">
+                    <p className="text-xs sm:text-sm">
                       {formatDistanceToNow(new Date(request.createdAt), { addSuffix: true })}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <FaArrowRight className="ml-2 text-white" />
+                  <FaArrowRight className="ml-2 text-white text-sm sm:text-base" />
                 </div>
-          <div className="flex justify-between items-center mt-4">
-            <div>
-              <button
-                className={`btn ${currentPage === 1 ? 'btn-disabled' : 'btn-info'}`}
-                onClick={() => paginate(currentPage - 1)}
-              >
-                Previous
-              </button>
-              <span className="mx-4">
-                Page {currentPage} of {Math.ceil(totalRequests / requestsPerPage)}
-              </span>
-              <button
-                className={`btn ${
-                  currentPage >= Math.ceil(totalRequests / requestsPerPage)
-                    ? 'btn-disabled'
-                    : 'btn-info'
-                }`}
-                onClick={() => paginate(currentPage + 1)}
-              >
-                Next
-              </button>
-            </div>
-            <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
-              <IoMdArrowRoundBack className="mr-2" />
-              Back
-            </button>
-          </div>
-        </>
-      ) : (
-        <p className="text-center text-gray-800">No requests found for the selected filters.</p>
-      )}
-      <ToastContainer />
+              </div>
+            ))
+          ) : (
+            <p className="min-h-screen text-center text-gray-800 text-sm sm:text-base">No requests found.</p>
+          )}
+        </div>
+        <div className="mt-4">
+          <button className="btn btn-info btn-outline btn-sm sm:btn-md" onClick={() => navigate(-1)}>
+            <IoMdArrowRoundBack className="mr-2" /> Go Back
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
