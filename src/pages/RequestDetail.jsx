@@ -121,7 +121,7 @@ function RequestDetail() {
   if (!request) {
     return (
       <div className="h-screen flex flex-col items-center justify-center">
-        <p>No request found.</p>
+        <ToastContainer />
       </div>
     );
   }
