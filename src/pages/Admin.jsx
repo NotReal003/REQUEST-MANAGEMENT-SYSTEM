@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { IoMdArrowRoundBack } from 'react-icons/io';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { debounce } from 'lodash';
+import { FaDiscord, FaArrowRight } from 'react-icons/fa';
+import { MdSupportAgent } from 'react-icons/md';
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { formatDistanceToNow } from 'date-fns';
+import { FaPeopleGroup } from "react-icons/fa6";
 
 const Admin = () => {
   const [requests, setRequests] = useState([]);
@@ -17,6 +21,34 @@ const Admin = () => {
   const [totalRequests, setTotalRequests] = useState(0);
   const [sortField, setSortField] = useState('createdAt');
   const [sortOrder, setSortOrder] = useState('desc');
+
+  const statusStyles = {
+    DENIED: 'bg-red-600 text-white',
+    APPROVED: 'bg-green-600 text-white',
+    RESUBMIT_REQUIRED: 'bg-orange-600 text-white',
+    PENDING: 'bg-yellow-600 text-white',
+    CANCELLED: 'bg-red-600 text-white',
+    RESOLVED: 'bg-green-600 text-white',
+  };
+
+  const statusTooltips = {
+    DENIED: 'Your request was denied.',
+    APPROVED: 'Your request was approved.',
+    RESUBMIT_REQUIRED: 'Please resubmit your request with necessary changes.',
+    PENDING: 'Your request is pending review.',
+    CANCELLED: 'Your request was cancelled.',
+    RESOLVED: 'Your request was resolved.',
+  };
+  const RequestIcon = ({ type }) => {
+  if (type === 'report') {
+    return <FaDiscord className="text-4xl mr-4" title="Discord Report" />;
+  } else if (type === 'guild-application') {
+    return <FaPeopleGroup className="text-4xl mr-4" title="Guild Application" />;
+  } else if (type === 'support') {
+    return <MdSupportAgent className="text-4xl mr-4" title="Support Request" />;
+  }
+  return null;
+};
 
   const navigate = useNavigate();
 
@@ -50,30 +82,23 @@ const Admin = () => {
       setApiClosed(apiStatusResponse.data.message.serverClosed === 'yesclosed');
 
       if (apiStatusResponse.data.message.serverClosed !== 'yesclosed') {
-        const requestsResponse = await axios.get('https://api.notreal003.xyz/admin/requests', {
-          headers: { Authorization: `${jwtToken}` },
-          params: {
-            page: currentPage,
-            limit: requestsPerPage,
-            sortField,
-            sortOrder,
-            searchQuery,
-            filterStatus,
-          },
+        const response = await axios.get('https://api.notreal003.xyz/requests', {
+          headers: { Authorization: `${token}` },
         });
 
-        setRequests(requestsResponse.data);
-        setTotalRequests(requestsResponse.data.totalRequests);
-      } else {
-        toast.warn('API is currently closed. You cannot view or manage requests.');
+        const filteredRequests = response.data.filter((request) =>
+          ['report', 'support', 'guild-application'].includes(request.type)
+        );
+
+        const sortedRequests = filteredRequests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setRequests(sortedRequests);
+      } catch (error) {
+        console.error('Error fetching requests:', error);
+        setError('Failed to load requests. Please try again later.');
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      toast.error('An error occurred while fetching data.');
-    } finally {
-      setLoading(false);
-    }
-  }, [navigate, currentPage, requestsPerPage, sortField, sortOrder, searchQuery, filterStatus]);
+    };
 
   useEffect(() => {
     fetchData();
@@ -131,6 +156,28 @@ const Admin = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const getGradientClass = (status) => {
+    switch (status) {
+      case 'DENIED':
+        return 'bg-gradient-to-r from-red-600 to-red-700';
+      case 'CANCELLED':
+        return 'bg-gradient-to-r from-orange-600 to-orange-700';
+      case 'APPROVED':
+        return 'bg-gradient-to-r from-green-600 to-green-700';
+      case 'RESUBMIT_REQUIRED':
+        return 'bg-gradient-to-r from-orange-600 to-orange-700';
+      case 'RESOLVED':
+        return 'bg-gradient-to-r from-green-600 to-green-700';
+      default:
+        return 'bg-gradient-to-r from-yellow-500 to-yellow-600';
+    }
+  };
+
+  const handleRequestClick = (id) => {
+    navigate(`/admindetail?id=${id}`);
+  };
+
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
@@ -170,48 +217,25 @@ const Admin = () => {
         </div>
       ) : requests.length > 0 ? (
         <>
-          <table className="table rounded-lg w-full">
-            <thead>
-              <tr>
-                <th onClick={() => handleSort('username')}>Username:</th>
-                <th onClick={() => handleSort('type')}>Type</th>
-                <th onClick={() => handleSort('status')}>Status</th>
-                <th onClick={() => handleSort('createdAt')}>Submitted</th>
-              </tr>
-            </thead>
-            <tbody>
-              {requests.map((request) => (
-                <tr
-                  key={request._id}
-                  className={`cursor-pointer hover:bg-gray-100 ${
-                    request.status === 'APPROVED'
-                      ? 'bg-green-500'
-                      : request.status === 'DENIED'
-                      ? 'bg-red-500'
-                      : request.status === 'CANCELLED'
-                      ? 'bg-yellow-500'
-                      : ''
-                  }`}
-                  onClick={() => handleRequestClick(request._id)}
-                >
-                  <td>{request.username}</td>
-                  <td>{request.type}</td>
-                  <td>{request.status}</td>
-                  <td>
-                    {new Date(request.createdAt).toLocaleString('en-US', {
-                      timeZone: 'Asia/Kolkata',
-                      hour12: true,
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                      hour: 'numeric',
-                      minute: 'numeric',
-                    })}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div
+                key={request._id}
+                className={`flex justify-between items-center p-4 bg rounded-lg shadow-lg max-w-md md:max-w-lg mx-auto text-white shadow-lg ${getGradientClass(request.status)} cursor-pointer`}
+                onClick={() => handleRequestClick(request._id)}
+              >
+                <div className="flex items-center">
+                  <RequestIcon type={request.type} />
+                  <div>
+                    <h2 className="text-lg font-bold">
+                      {request.type === 'report' ? `Discord Report` : request.type === 'guild-application' ? 'Guild Application' : 'Support Request'} <RequestStatus status={request.status} />
+                    </h2>
+                    <p className="text-sm">
+                      {formatDistanceToNow(new Date(request.createdAt), { addSuffix: true })}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <FaArrowRight className="ml-2 text-white" />
+                </div>
           <div className="flex justify-between items-center mt-4">
             <div>
               <button
