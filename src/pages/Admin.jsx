@@ -170,7 +170,7 @@ const Admin = () => {
         </div>
       ) : requests.length > 0 ? (
         <>
-          <table className="table w-full">
+          <table className="table rounded-lg w-full">
             <thead>
               <tr>
                 <th onClick={() => handleSort('username')}>Username:</th>
