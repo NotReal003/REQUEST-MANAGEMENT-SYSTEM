@@ -155,9 +155,9 @@ const Admin = () => {
               <option value="RESOLVED">Resolved</option>
             </select>
 
-          <div className="mb-4">
+          <div className="mb-2 mt-2">
             <label className="label cursor-pointer">
-              <span className="label-text text-xl mr-4">API Status:</span> 
+              <span className="label-text text-md">API Status:</span> 
               <input
                 type="checkbox"
                 className="toggle toggle-info"
