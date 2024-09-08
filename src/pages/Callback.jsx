@@ -15,7 +15,9 @@ const Callback = () => {
     if (code) {
       setLoading(true);
       // Send a GET request to your API with the Discord code
-      axios.get(`/api/auth/callback?code=${code}`)
+      axios.get(`/api/auth/callback?code=${code}`, {
+        withCredentials: false,
+      })
         .then(response => {
           if (response.status === 200) {
             const token = response.data.jwtToken;
