@@ -16,7 +16,7 @@ const BlockUserPage = () => {
   // Fetch blocked users from the API
   const fetchBlockedUsers = async () => {
     try {
-      const response = await axios.get('/api/blocks', {
+      const response = await axios.get('/api/users/blocks', {
         headers: {
           Authorization: `${localStorage.getItem('jwtToken')}`,
         },
@@ -24,7 +24,7 @@ const BlockUserPage = () => {
       setBlockedUsers(response.data);
     } catch (error) {
       console.error('Error fetching blocked users:', error);
-      setError('Failed to fetch blocked users. Please try again.');
+      setError(error.message || 'Failed to fetch blocked users. Please try again.');
     }
   };
 
@@ -32,7 +32,7 @@ const BlockUserPage = () => {
   const blockUser = async () => {
     try {
       const response = await axios.post(
-        '/api/block/add',
+        '/api/users/block/add',
         { myBlockUser, myBlockReason },
         {
           headers: {
@@ -54,7 +54,7 @@ const BlockUserPage = () => {
   const unblockUser = async (userId) => {
     try {
       const response = await axios.put(
-        '/api/unblock',
+        '/api/users/unblock',
         { myBlockUser: userId },
         {
           headers: {
