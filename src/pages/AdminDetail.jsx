@@ -137,7 +137,7 @@ function AdminDetail() {
       )}
       <div className="card shadow-lg bg-base-100">
         <div className="card-body">
-          <h2 className="card-title">Request Details</h2>
+          <h2 className="card-title">Request Details ({request.status})</h2>
           <div className="form-control">
             <label className="label">Review Message</label>
             <textarea
@@ -162,6 +162,14 @@ function AdminDetail() {
               <option value="RESOLVED">Resolved</option>
             </select>
           </div>
+          <div className="form-control">
+              <label className="label">From User</label>
+              <textarea
+                value={`${request.username} / ${request.displayName}`}
+                readOnly
+                className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+              />
+            </div>
           {request.type === 'report' && (
             <div className="form-control">
               <label className="label">Discord Message Link / Evidence (required)</label>
