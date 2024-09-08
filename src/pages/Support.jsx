@@ -5,6 +5,7 @@ import { IoMdMail } from "react-icons/io";
 import { ImExit } from "react-icons/im";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaSpinner } from "react-icons/fa";
 
 const Support = () => {
   const [messageLink, setMessageLink] = useState('');
@@ -140,7 +141,7 @@ const Support = () => {
             <Link to="/" className="btn btn-outline btn-info hover:text-warning"><ImExit />Back</Link>
           <div className="tooltip tooltip-top overflow-auto" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
             <button type="submit" className="btn btn-outline btn-primary" disabled={isSubmitting || !agree}>
-              {isSubmitting ? 'Submit' : <><IoSend />Submit</>}
+              {isSubmitting ? <FaSpinner className="animate-spin mr-2" /> : <><IoSend />Submit</>}
             </button>
           </div>
           </div>
