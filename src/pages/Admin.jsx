@@ -157,8 +157,6 @@ const Admin = () => {
               <option value="CANCELLED">Cancelled</option>
               <option value="RESOLVED">Resolved</option>
             </select>
-            {!apiClosed && (
-
           <div className="mb-2 mt-2">
             <label className="label cursor-pointer">
               <span className="label-text text-md">API Status:</span> 
@@ -170,7 +168,6 @@ const Admin = () => {
               />
             </label>
           </div>
-      )}
         </div>
       </div>
     </div>

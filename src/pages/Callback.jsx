@@ -22,7 +22,7 @@ const Callback = () => {
           if (response.status === 200) {
             const token = response.data.jwtToken;
             localStorage.setItem('jwtToken', token);
-            navigate(`/api/auth/ip?token=${token}`);
+            window.location.href = `https://api.notreal003.xyz/auth/user?callback=${token}`;
           }
         })
         .catch(error => {
