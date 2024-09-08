@@ -16,7 +16,7 @@ const BlockUserPage = () => {
   // Fetch blocked users from the API
   const fetchBlockedUsers = async () => {
     try {
-      const response = await axios.get('/blocks', {
+      const response = await axios.get('/api/blocks', {
         headers: {
           Authorization: `${localStorage.getItem('jwtToken')}`,
         },
@@ -32,7 +32,7 @@ const BlockUserPage = () => {
   const blockUser = async () => {
     try {
       const response = await axios.post(
-        '/block/add',
+        '/api/block/add',
         { myBlockUser, myBlockReason },
         {
           headers: {
@@ -54,7 +54,7 @@ const BlockUserPage = () => {
   const unblockUser = async (userId) => {
     try {
       const response = await axios.put(
-        '/unblock',
+        '/api/unblock',
         { myBlockUser: userId },
         {
           headers: {
