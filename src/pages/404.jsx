@@ -8,7 +8,8 @@ const NotFound = () => {
     <div className="container mx-auto p-4">
       <div className="form-container min-h-screen text-center items-center">
         <h1 className="text-4xl font-bold mb-4">404 - Not Found</h1>
-        <p className="mb-4"><FaRegFaceGrinBeamSweat className="inline-block align-middle size-2"/> The page you are looking for does not exist</p>
+        <img src="assets/hover.gif" alt="." className="w-1/2 size-2" />
+        <p className="mb-4">The page you are looking for does not exist</p>
         <Link to="/" className="btn btn-outline btn-primary w-full flex items-center justify-center">Home</Link>
         </div>
     </div>
