@@ -93,20 +93,20 @@ const Profile = () => {
           <h2 className="text-xl font-semibold mb-4">Account Details</h2>
           <div className="text-sm gap-2">
             <p>
-              <strong>
-                <MdMarkEmailRead className="inline-block align-middle m-2" /> Email:
+              <strong className="mr-2">
+                <MdMarkEmailRead className="inline-block align-middle m-2" /> Email: 
               </strong> 
                {user.email}
             </p>
             <p>
-              <strong>
-                <FaCheck className="inline-block align-middle m-2" /> Joined:
+              <strong className="mr-2>
+                <FaCheck className="inline-block align-middle m-2" /> Joined: 
               </strong> 
                {new Date(user.joinedAt).toLocaleDateString()}
             </p>
             <p>
-              <strong>
-                <FaDiscord className="inline-block align-middle m-2" /> Discord ID:
+              <strong className="mr-2">
+                <FaDiscord className="inline-block align-middle m-2" /> Discord ID: 
               </strong> 
                {user.id}
             </p>
