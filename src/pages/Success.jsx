@@ -17,7 +17,7 @@ const Success = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const requestId = urlParams.get('request');
         const token = localStorage.getItem('jwtToken');
-        const res = await fetch(`https://api.notreal003.xyz/requests/${requestId}`, {
+        const res = await fetch(`/api/requests/${requestId}`, {
           headers: {
             'Authorization': `${token}`
           }
@@ -33,7 +33,7 @@ const Success = () => {
         setRequest(requestData);
 
         const userToken = localStorage.getItem('jwtToken');
-        const userRes = await fetch('https://api.notreal003.xyz/users/@me', {
+        const userRes = await fetch('/api/users/@me', {
           headers: {
             'Authorization': `${userToken}`
           }

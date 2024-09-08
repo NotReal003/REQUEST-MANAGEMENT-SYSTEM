@@ -39,7 +39,7 @@ const Apply = () => {
     }, 10000);
 
     try {
-      const response = await fetch('https://api.notreal003.xyz/requests/guild', {
+      const response = await fetch('/api/requests/guild', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

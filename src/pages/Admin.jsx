@@ -64,7 +64,7 @@ const Admin = () => {
     const jwtToken = localStorage.getItem('jwtToken');
     try {
       const response = await axios.put(
-        'https://api.notreal003.xyz/server/manage-api',
+        '/api/server/manage-api',
         { closeType: apiClosed ? 'noopened' : 'yesclosed' },
         {
           headers: { Authorization: `${jwtToken}` },
@@ -85,9 +85,12 @@ const Admin = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get('https://api.notreal003.xyz/admin/requests', {
+        const response = await axios.get('/api/admin/requests', {
           headers: { Authorization: `${token}` },
         });
+        if (response.status === 403) {
+          navigate('/404');
+        }
 
         let filteredRequests = response.data;
 

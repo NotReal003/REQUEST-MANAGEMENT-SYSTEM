@@ -57,7 +57,7 @@ const One = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get('https://api.notreal003.xyz/requests', {
+        const response = await axios.get('/api/requests', {
           headers: { Authorization: `${token}` },
         });
 

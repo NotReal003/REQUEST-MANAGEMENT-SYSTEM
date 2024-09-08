@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
-    axios.get('https://api.notreal003.xyz/users/@me', {
+    axios.get('/api/users/@me', {
       headers: { Authorization: `${token}` }
     })
       .then(response => {

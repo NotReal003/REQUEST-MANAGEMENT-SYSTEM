@@ -19,7 +19,7 @@ function AdminDetail() {
         const urlParams = new URLSearchParams(window.location.search);
         const ids = urlParams.get('id');
         const token = localStorage.getItem('jwtToken');
-        const response = await axios.get(`https://api.notreal003.xyz/admin/requests/${ids}`, {
+        const response = await axios.get(`/api/admin/requests/${ids}`, {
           headers: { Authorization: `${token}` },
         });
         setRequest(response.data);
@@ -44,7 +44,7 @@ function AdminDetail() {
 
       // Update the request status and review message
       const updateResponse = await axios.put(
-        `https://api.notreal003.xyz/admin/${ids}`,
+        `/api/admin/${ids}`,
         { status, reviewMessage },
         { headers: { Authorization: `${token}` } }
       );
@@ -57,7 +57,7 @@ function AdminDetail() {
 
         // Send the email notification
         const emailResponse = await axios.post(
-          'https://api.notreal003.xyz/admin/send/email',
+          '/api/admin/send/email',
           {
             requestId: ids,
             reviewMessage,
@@ -104,7 +104,7 @@ function AdminDetail() {
     const ids = urlParams.get('id');
     const token = localStorage.getItem('jwtToken');
     try {
-      await axios.delete(`https://api.notreal003.xyz/admin/${ids}`, {
+      await axios.delete(`/api/admin/${ids}`, {
         headers: { Authorization: `${token}` },
       });
       setAlert({ type: 'success', message: 'Request deleted successfully.' });

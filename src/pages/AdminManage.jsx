@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const BlockUserPage = () => {
@@ -7,6 +8,7 @@ const BlockUserPage = () => {
   const [blockedUsers, setBlockedUsers] = useState([]);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   // Fetch all blocked users when the component mounts
   useEffect(() => {
@@ -21,6 +23,9 @@ const BlockUserPage = () => {
           Authorization: `${localStorage.getItem('jwtToken')}`,
         },
       });
+      if (response.status === 403) {
+        navigate('/404');   
+      }
       setBlockedUsers(response.data);
     } catch (error) {
       console.error('Error fetching blocked users:', error);
@@ -40,6 +45,9 @@ const BlockUserPage = () => {
           },
         }
       );
+      if (response.status === 403) {
+        navigate('/404');
+      }
       setMessage(response.data.message);
       setError(null);
       fetchBlockedUsers(); // Refresh the blocked users list

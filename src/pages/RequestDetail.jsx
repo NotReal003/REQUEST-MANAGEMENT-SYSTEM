@@ -24,7 +24,7 @@ function RequestDetail() {
         const urlParams = new URLSearchParams(window.location.search);
         const requestId = urlParams.get('id');
         const token = localStorage.getItem('jwtToken');
-        const response = await axios.get(`https://api.notreal003.xyz/requests/${requestId}`, {
+        const response = await axios.get(`/api/requests/${requestId}`, {
           headers: { Authorization: `${token}` },
         });
 
@@ -68,7 +68,7 @@ function RequestDetail() {
     const requestId = urlParams.get('id');
 
     const cancelRequestPromise = axios.put(
-      `https://api.notreal003.xyz/requests/${requestId}/cancel`,
+      `/api/requests/${requestId}/cancel`,
       {
         status: 'CANCELLED',
         reviewMessage: 'Self-canceled by the user.',

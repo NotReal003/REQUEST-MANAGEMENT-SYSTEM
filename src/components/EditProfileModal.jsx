@@ -12,7 +12,7 @@ const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => 
       setLoading(true);
       const token = localStorage.getItem('jwtToken');
       const response = await axios.put(
-        'https://api.notreal003.xyz/users/display',
+        '/api/users/display',
         { displayName: newDisplayName },
         { headers: { Authorization: `${token}` } }
       );

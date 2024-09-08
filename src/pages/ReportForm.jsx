@@ -53,7 +53,7 @@ const ReportForm = () => {
 
     try {
       setIsSubmitting(true);
-      const response = await fetch('https://api.notreal003.xyz/requests/report', {
+      const response = await fetch('/api/requests/report', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

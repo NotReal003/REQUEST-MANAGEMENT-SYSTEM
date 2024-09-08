@@ -18,7 +18,7 @@ export default function Navbar({ isAuthenticated }) {
 
       try {
         const token = localStorage.getItem('jwtToken');
-        const res = await fetch('https://api.notreal003.xyz/users/@me', {
+        const res = await fetch('/api/users/@me', {
           headers: {
             'Authorization': `${token}`
           }
@@ -55,7 +55,7 @@ export default function Navbar({ isAuthenticated }) {
 
   const handleLogout = async () => {
     try {
-      const res = await fetch('https://api.notreal003.xyz/auth/signout', {
+      const res = await fetch('/api/auth/signout', {
         credentials: 'include',
       });
 

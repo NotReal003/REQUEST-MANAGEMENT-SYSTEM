@@ -49,7 +49,7 @@ const Support = () => {
 
     try {
       setIsSubmitting(true);
-      const response = await fetch('https://api.notreal003.xyz/requests/support', {
+      const response = await fetch('/api/requests/support', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

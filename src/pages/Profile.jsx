@@ -22,12 +22,12 @@ const Profile = () => {
         const token = localStorage.getItem('jwtToken');
 
         // Fetch user info
-        const userResponse = await axios.get('https://api.notreal003.xyz/users/@me', {
+        const userResponse = await axios.get('/api/users/@me', {
           headers: { Authorization: `${token}` }
         });
 
         // Fetch request count
-        const requestsResponse = await axios.get('https://api.notreal003.xyz/requests', {
+        const requestsResponse = await axios.get('/api/requests', {
           headers: { Authorization: `${token}` }
         });
 
