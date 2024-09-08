@@ -195,6 +195,7 @@ const Admin = () => {
                 <div className="flex items-center">
                   <RequestIcon type={request.type} />
                   <div>
+                    <h1 className="text-md sm:text-base md:text-xs font-bold">{request.username}</h1>
                     <h2 className="text-sm sm:text-base md:text-lg font-bold">
                       {request.type === 'report' ? `Discord Report` : request.type === 'guild-application' ? 'Guild Application' : 'Support Request'} <RequestStatus status={request.status} />
                     </h2>
