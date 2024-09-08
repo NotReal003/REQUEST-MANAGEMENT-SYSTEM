@@ -99,7 +99,7 @@ const Profile = () => {
                {user.email}
             </p>
             <p>
-              <strong className="mr-2>
+              <strong className="mr-2">
                 <FaCheck className="inline-block align-middle m-2" /> Joined: 
               </strong> 
                {new Date(user.joinedAt).toLocaleDateString()}

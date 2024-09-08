@@ -31,8 +31,8 @@ const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => 
   };
 
   return isOpen ? (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="p-6 rounded shadow-lg w-96">
+    <div className="modal modal-open fixed inset-0 flex items-center justify-center z-50">
+      <div className="modal-box shadow-lg w-96">
         <h2 className="text-xl font-bold mb-4">Edit Display Name</h2>
         <input
           type="text"

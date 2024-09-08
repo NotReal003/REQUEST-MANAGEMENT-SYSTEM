@@ -138,7 +138,7 @@ const Admin = () => {
     <div className="flex flex-col items-center justify-center p-2 sm:p-4 md:p-6">
       <ToastContainer />
       <div className="rounded-lg shadow-sm w-full max-w-3xl">
-        <h1 className="text-xl sm:text-2xl font-bold mb-4 text-center">Admin Dashboard - Manage Requests</h1>
+        <h1 className="text-xl sm:text-2xl font-bold mb-4 text-center">Admin Dashboard - Manage Requests/Users</h1>
         <div className="mb-4 flex flex-col sm:flex-row justify-between">
           <div className="space-x-2">
             <select
@@ -154,6 +154,7 @@ const Admin = () => {
               <option value="CANCELLED">Cancelled</option>
               <option value="RESOLVED">Resolved</option>
             </select>
+            {!apiClosed && (
 
           <div className="mb-2 mt-2">
             <label className="label cursor-pointer">
@@ -166,6 +167,7 @@ const Admin = () => {
               />
             </label>
           </div>
+      )}
         </div>
       </div>
     </div>
