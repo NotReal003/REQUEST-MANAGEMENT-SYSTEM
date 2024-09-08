@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const BlockUserPage = () => {
   const [myBlockUser, setMyBlockUser] = useState('');
@@ -54,19 +57,26 @@ const BlockUserPage = () => {
         }
       );
 
-      if (response.status === 403) {
-        navigate('/404'); // Navigate to 404 if forbidden
-      }
-
-      setMessage(response.data.message);
-      setError(null);
-      fetchBlockedUsers(); // Refresh the users list after blocking
-    } catch (error) {
-      console.error('Error blocking user:', error);
-      setError(error.response?.data?.message || 'Failed to block user.');
-      setMessage(null);
+  toast.promise(
+    response,
+    {
+      pending: 'Cancelling your request...',
+      success: 'Request cancelled successfully',
+      error: {
+        render({ data }) {
+          // Use a custom error message if available
+          return data.response?.data?.message || 'An error occurred while cancelling your request';
+        },
+      },
     }
-  };
+  );
+
+  try {
+    await response;
+  } catch (error) {
+    // Handle any additional error logic if necessary
+    console.error('Error cancelling the request:', error);
+  }
 
   // Unblock user function
   const unblockUser = async (userId) => {
@@ -81,22 +91,23 @@ const BlockUserPage = () => {
         }
       );
 
-      if (response.status === 403) {
-        navigate('/404'); // Navigate to 404 if forbidden
-      }
-
-      setMessage(response.data.message);
-      setError(null);
-      fetchBlockedUsers(); // Refresh the users list after unblocking
-    } catch (error) {
-      console.error('Error unblocking user:', error);
-      setError(error.response?.data?.message || 'Failed to unblock user.');
-      setMessage(null);
-    }
-  };
+      toast.promise(
+        response,
+        {
+          pending: 'Cancelling your request...',
+          success: 'Request cancelled successfully',
+          error: {
+            render({ data }) {
+              // Use a custom error message if available
+              return data.response?.data?.message || 'An error occurred while cancelling your request';
+            },
+          },
+        }
+      );
 
   return (
     <div className="container mx-auto p-4">
+      <ToastContainer />
       <h1 className="text-2xl font-bold mb-4">Block/Unblock Users</h1>
 
       {/* Block User Form */}
