@@ -6,6 +6,7 @@ const BlockUserPage = () => {
   const [myBlockUser, setMyBlockUser] = useState('');
   const [myBlockReason, setMyBlockReason] = useState('');
   const [blockedUsers, setBlockedUsers] = useState([]);
+  const [nonBlockedUsers, setNonBlockedUsers] = useState([]);
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const BlockUserPage = () => {
     fetchBlockedUsers();
   }, []);
 
-  // Fetch blocked users from the API
+  // Fetch blocked and non-blocked users from the API
   const fetchBlockedUsers = async () => {
     try {
       const response = await axios.get('/api/users/blocks', {
@@ -23,13 +24,20 @@ const BlockUserPage = () => {
           Authorization: `${localStorage.getItem('jwtToken')}`,
         },
       });
+
       if (response.status === 403) {
-        navigate('/404');   
+        navigate('/404'); // Navigate to 404 if forbidden
       }
-      setBlockedUsers(response.data);
+
+      // Separate users based on their "blocked" status
+      const blocked = response.data.filter(user => user.blocked === "YES");
+      const nonBlocked = response.data.filter(user => user.blocked !== "YES");
+
+      setBlockedUsers(blocked);
+      setNonBlockedUsers(nonBlocked);
     } catch (error) {
       console.error('Error fetching blocked users:', error);
-      setError(error.message || 'Failed to fetch blocked users. Please try again.');
+      setError(error.message || 'Failed to fetch users. Please try again.');
     }
   };
 
@@ -45,15 +53,17 @@ const BlockUserPage = () => {
           },
         }
       );
+
       if (response.status === 403) {
-        navigate('/404');
+        navigate('/404'); // Navigate to 404 if forbidden
       }
+
       setMessage(response.data.message);
       setError(null);
-      fetchBlockedUsers(); // Refresh the blocked users list
+      fetchBlockedUsers(); // Refresh the users list after blocking
     } catch (error) {
       console.error('Error blocking user:', error);
-      setError(error.response.data.message || 'Failed to block user.');
+      setError(error.response?.data?.message || 'Failed to block user.');
       setMessage(null);
     }
   };
@@ -70,12 +80,17 @@ const BlockUserPage = () => {
           },
         }
       );
+
+      if (response.status === 403) {
+        navigate('/404'); // Navigate to 404 if forbidden
+      }
+
       setMessage(response.data.message);
       setError(null);
-      fetchBlockedUsers(); // Refresh the blocked users list
+      fetchBlockedUsers(); // Refresh the users list after unblocking
     } catch (error) {
       console.error('Error unblocking user:', error);
-      setError(error.response.data.message || 'Failed to unblock user.');
+      setError(error.response?.data?.message || 'Failed to unblock user.');
       setMessage(null);
     }
   };
@@ -152,6 +167,35 @@ const BlockUserPage = () => {
         ) : (
           <div className="alert alert-info shadow-lg">
             <span>No blocked users found.</span>
+          </div>
+        )}
+      </div>
+
+      {/* Non-blocked Users List */}
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-4">Non-blocked Users</h2>
+        {nonBlockedUsers.length > 0 ? (
+          <div className="overflow-x-auto">
+            <table className="table table-zebra w-full">
+              <thead>
+                <tr>
+                  <th>User ID</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {nonBlockedUsers.map((user) => (
+                  <tr key={user.user_id}>
+                    <td>{user.user_id}</td>
+                    <td>Not Blocked</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="alert alert-info shadow-lg">
+            <span>No non-blocked users found.</span>
           </div>
         )}
       </div>
