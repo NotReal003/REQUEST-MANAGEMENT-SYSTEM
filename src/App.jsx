@@ -16,6 +16,7 @@ import Callback from './pages/Callback';
 import Profile from './pages/Profile';
 import EditProfileModal from './components/EditProfileModal';
 import Note from './pages/Note';
+import AdminManage from './pages/AdminManage';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -60,6 +61,7 @@ const App = () => {
             <Route path="*" element={<NotFound />} />
             <Route path="/callback" element={<Callback />} />
             <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/login" />} />
+            <Route path="/Admin/Manage" element={isAuthenticated ? <AdminManage /> : <Navigate to="/login" />} />"
             <Route path="/note" element={isAuthenticated ? <Note /> : <Navigate to="/login" />} />"
           </Routes>
         </div>

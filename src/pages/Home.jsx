@@ -54,6 +54,11 @@ const Home = () => {
               <span className="flex items-center">Admin Dashboard</span>
             </Link>
           )}
+          {isAdmin && (
+            <Link to="/admin/manage" className="btn btn-outline btn-error w-full flex justify-between items-center">
+              <span className="flex items-center">Admin Manage</span>
+            </Link>
+          )}
 
           {isAdmin && (
             <Link to="/profile" className="btn btn-outline btn-info w-full flex justify-between items-center">
