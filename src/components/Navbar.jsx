@@ -11,7 +11,6 @@ export default function Navbar({ isAuthenticated }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
-  require('dotenv/config');
   const API = process.env.API;
 
   useEffect(() => {
