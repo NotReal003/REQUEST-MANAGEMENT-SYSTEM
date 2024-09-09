@@ -13,6 +13,7 @@ const Apply = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [agree, setAgree] = useState(false);
+  const API = process.env.API;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,7 +40,7 @@ const Apply = () => {
     }, 10000);
 
     try {
-      const response = await fetch('/api/requests/guild', {
+      const response = await fetch(`${API}/requests/guild`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

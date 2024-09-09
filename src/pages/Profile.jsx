@@ -7,7 +7,6 @@ import EditProfileModal from '../components/EditProfileModal';
 import { MdMarkEmailRead } from "react-icons/md";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 const Profile = () => {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [user, setUser] = useState(null);
@@ -15,6 +14,7 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const API = process.env.API;
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -22,12 +22,12 @@ const Profile = () => {
         const token = localStorage.getItem('jwtToken');
 
         // Fetch user info
-        const userResponse = await axios.get('/api/users/@me', {
+        const userResponse = await axios.get(`${API}/users/@me`, {
           headers: { Authorization: `${token}` }
         });
 
         // Fetch request count
-        const requestsResponse = await axios.get('/api/requests', {
+        const requestsResponse = await axios.get(`${API}/requests`, {
           headers: { Authorization: `${token}` }
         });
 

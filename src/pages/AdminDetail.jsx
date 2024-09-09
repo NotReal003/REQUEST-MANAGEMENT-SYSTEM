@@ -12,6 +12,7 @@ function AdminDetail() {
   const [reviewMessage, setReviewMessage] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const navigate = useNavigate();
+  const API = process.env.API;
 
   useEffect(() => {
     const fetchRequest = async () => {
@@ -19,7 +20,7 @@ function AdminDetail() {
         const urlParams = new URLSearchParams(window.location.search);
         const ids = urlParams.get('id');
         const token = localStorage.getItem('jwtToken');
-        const response = await axios.get(`/api/admin/requests/${ids}`, {
+        const response = await axios.get(`${API}/admin/requests/${ids}`, {
           headers: { Authorization: `${token}` },
         });
         setRequest(response.data);
@@ -44,7 +45,7 @@ function AdminDetail() {
 
       // Update the request status and review message
       const updateResponse = await axios.put(
-        `/api/admin/${ids}`,
+        `${API}/admin/${ids}`,
         { status, reviewMessage },
         { headers: { Authorization: `${token}` } }
       );
@@ -57,7 +58,7 @@ function AdminDetail() {
 
         // Send the email notification
         const emailResponse = await axios.post(
-          '/api/admin/send/email',
+          `${API}/admin/send/email`,
           {
             requestId: ids,
             reviewMessage,

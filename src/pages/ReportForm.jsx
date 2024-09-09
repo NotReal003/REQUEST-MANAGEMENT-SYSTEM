@@ -12,6 +12,7 @@ const ReportForm = () => {
   const [agree, setAgree] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const API = process.env.API;
 
   // Simple sanitizer function
   const sanitizeInput = (input) => {
@@ -53,7 +54,7 @@ const ReportForm = () => {
 
     try {
       setIsSubmitting(true);
-      const response = await fetch('/api/requests/report', {
+      const response = await fetch(`${API}/requests/report`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

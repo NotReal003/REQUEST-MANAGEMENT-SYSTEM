@@ -11,6 +11,7 @@ export default function Navbar({ isAuthenticated }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
+  const API = process.env.API;
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -18,7 +19,7 @@ export default function Navbar({ isAuthenticated }) {
 
       try {
         const token = localStorage.getItem('jwtToken');
-        const res = await fetch('/api/users/@me', {
+        const res = await fetch(`${API}/users/@me`, {
           headers: {
             'Authorization': `${token}`
           }

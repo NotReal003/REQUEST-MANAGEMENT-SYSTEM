@@ -10,6 +10,7 @@ const Success = () => {
   const [request, setRequest] = useState(null);
   const [error, setError] = useState(null);
   const [myUser, setMyUser] = useState(null);
+  const API = process.env.API;
 
   useEffect(() => {
     const fetchRequestDetails = async () => {
@@ -17,7 +18,7 @@ const Success = () => {
         const urlParams = new URLSearchParams(window.location.search);
         const requestId = urlParams.get('request');
         const token = localStorage.getItem('jwtToken');
-        const res = await fetch(`/api/requests/${requestId}`, {
+        const res = await fetch(`${API}/requests/${requestId}`, {
           headers: {
             'Authorization': `${token}`
           }
@@ -33,7 +34,7 @@ const Success = () => {
         setRequest(requestData);
 
         const userToken = localStorage.getItem('jwtToken');
-        const userRes = await fetch('/api/users/@me', {
+        const userRes = await fetch(`${API}/users/@me`, {
           headers: {
             'Authorization': `${userToken}`
           }

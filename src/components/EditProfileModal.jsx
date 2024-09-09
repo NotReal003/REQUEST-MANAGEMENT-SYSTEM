@@ -6,13 +6,14 @@ const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => 
   const [newDisplayName, setNewDisplayName] = useState(currentDisplayName);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const API = process.env.API;
 
   const handleSave = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('jwtToken');
       const response = await axios.put(
-        '/api/users/display',
+        `${API}/users/display`,
         { displayName: newDisplayName },
         { headers: { Authorization: `${token}` } }
       );

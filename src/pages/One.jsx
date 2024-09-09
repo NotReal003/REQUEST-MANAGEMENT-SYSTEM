@@ -53,11 +53,12 @@ const One = () => {
   const [error, setError] = useState(null);
   const token = localStorage.getItem('jwtToken');
   const navigate = useNavigate();
+  const API = process.env.API;
 
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get('/api/requests', {
+        const response = await axios.get(`${API}/requests`, {
           headers: { Authorization: `${token}` },
         });
 

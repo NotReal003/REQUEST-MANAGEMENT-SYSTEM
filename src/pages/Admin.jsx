@@ -59,12 +59,13 @@ const Admin = () => {
   const [apiClosed, setApiClosed] = useState(false);
   const token = localStorage.getItem('jwtToken');
   const navigate = useNavigate();
+  const API = process.env.API;
 
   const handleToggleApiStatus = async () => {
     const jwtToken = localStorage.getItem('jwtToken');
     try {
       const response = await axios.put(
-        '/api/server/manage-api',
+        `${API}/server/manage-api`,
         { closeType: apiClosed ? 'noopened' : 'yesclosed' },
         {
           headers: { Authorization: `${jwtToken}` },
@@ -85,7 +86,7 @@ const Admin = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await axios.get('/api/admin/requests', {
+        const response = await axios.get(`${API}/admin/requests`, {
           headers: { Authorization: `${token}` },
         });
         if (response.status === 403) {

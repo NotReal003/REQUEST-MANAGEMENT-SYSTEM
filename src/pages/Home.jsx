@@ -9,10 +9,11 @@ import axios from 'axios';
 
 const Home = () => {
   const [isAdmin, setIsAdmin] = useState(false);
+  const API = process.env.API;
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
-    axios.get('/api/users/@me', {
+    axios.get(`${API}/users/@me`, {
       headers: { Authorization: `${token}` }
     })
       .then(response => {

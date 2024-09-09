@@ -13,6 +13,7 @@ function RequestDetail() {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   const navigate = useNavigate();
+  const API = process.env.API;
 
   const reviewMessageRef = useRef(null);
   const additionalInfoRef = useRef(null);
@@ -24,7 +25,7 @@ function RequestDetail() {
         const urlParams = new URLSearchParams(window.location.search);
         const requestId = urlParams.get('id');
         const token = localStorage.getItem('jwtToken');
-        const response = await axios.get(`/api/requests/${requestId}`, {
+        const response = await axios.get(`${API}/requests/${requestId}`, {
           headers: { Authorization: `${token}` },
         });
 
@@ -68,7 +69,7 @@ function RequestDetail() {
     const requestId = urlParams.get('id');
 
     const cancelRequestPromise = axios.put(
-      `/api/requests/${requestId}/cancel`,
+      `${API}/requests/${requestId}/cancel`,
       {
         status: 'CANCELLED',
         reviewMessage: 'Self-canceled by the user.',

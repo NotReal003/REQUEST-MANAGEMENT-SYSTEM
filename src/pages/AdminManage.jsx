@@ -12,6 +12,7 @@
       const [message, setMessage] = useState(null);
       const [error, setError] = useState(null);
       const navigate = useNavigate();
+      const API = process.env.API;
 
       // Fetch all blocked users when the component mounts
       useEffect(() => {
@@ -21,7 +22,7 @@
       // Fetch blocked and non-blocked users from the API
       const fetchBlockedUsers = async () => {
         try {
-          const response = await axios.get('/api/users/blocks', {
+          const response = await axios.get(`${API}/users/blocks`, {
             headers: {
               Authorization: `${localStorage.getItem('jwtToken')}`,
             },
@@ -46,7 +47,7 @@
       // Block user function
       const blockUser = async () => {
         const blockUserPromise = axios.post(
-          '/api/users/block/add',
+          `${API}/users/block/add`,
           { myBlockUser, myBlockReason },
           {
             headers: {
@@ -79,7 +80,7 @@
       // Unblock user function
       const unblockUser = async (userId) => {
         const unblockUserPromise = axios.put(
-          '/api/users/unblock',
+          `${API}/users/unblock`,
           { myBlockUser: userId },
           {
             headers: {
@@ -108,6 +109,9 @@
           console.error('Error unblocking the user:', error);
         }
       };
+      if (!blockedUsers) {
+        return <div>Loading...</div>;
+      }
 
       return (
         <div className="container mx-auto p-4">

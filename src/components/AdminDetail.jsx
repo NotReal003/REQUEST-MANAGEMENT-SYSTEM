@@ -9,12 +9,13 @@ const AdminDetail = ({ requestId, onBack }) => {
   const [status, setStatus] = useState('');
   const [reviewMessage, setReviewMessage] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const API = process.env.API;
 
   useEffect(() => {
     const fetchRequest = async () => {
       try {
         const token = localStorage.getItem('jwtToken');
-        const response = await axios.get(`https://api.notreal003.xyz/admin/requests/${requestId}`, {
+        const response = await axios.get(`${API}/admin/requests/${requestId}`, {
           headers: { Authorization: `${token}` },
         });
         setRequest(response.data);
@@ -37,7 +38,7 @@ const AdminDetail = ({ requestId, onBack }) => {
 
       // Update the request status and review message
       const updateResponse = await axios.put(
-        `https://api.notreal003.xyz/admin/requests/${requestId}`,
+        `${API}/admin/requests/${requestId}`,
         { status, reviewMessage },
         { headers: { Authorization: `${token}` } }
       );
@@ -50,7 +51,7 @@ const AdminDetail = ({ requestId, onBack }) => {
 
         // Send the email notification
         const emailResponse = await axios.post(
-          'https://api.notreal003.xyz/admin/send/email',
+          `${API}/admin/send/email`,
           {
             requestId,
             reviewMessage,
@@ -97,7 +98,7 @@ const AdminDetail = ({ requestId, onBack }) => {
   const handleDelete = async () => {
     try {
       const token = localStorage.getItem('jwtToken');
-      await axios.delete(`https://api.notreal003.xyz/admin/requests/${requestId}`, {
+      await axios.delete(`${API}/admin/requests/${requestId}`, {
         headers: { Authorization: `${token}` },
       });
       setAlert({

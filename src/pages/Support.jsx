@@ -13,6 +13,7 @@ const Support = () => {
   const [agree, setAgree] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const API = process.env.API;
 
   // Simple sanitizer function
   const sanitizeInput = (input) => {
@@ -50,7 +51,7 @@ const Support = () => {
 
     try {
       setIsSubmitting(true);
-      const response = await fetch('/api/requests/support', {
+      const response = await fetch(`${API}/requests/support`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
