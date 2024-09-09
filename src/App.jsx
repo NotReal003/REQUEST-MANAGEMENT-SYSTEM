@@ -21,6 +21,7 @@ import AdminManage from './pages/AdminManage';
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true); // New state to manage loading
+  require('dotenv/config');
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
