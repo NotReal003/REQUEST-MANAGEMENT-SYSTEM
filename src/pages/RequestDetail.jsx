@@ -13,7 +13,7 @@ function RequestDetail() {
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   const navigate = useNavigate();
-  const API = process.env.API;
+  const API = process.env.REACT_APP_API;
 
   const reviewMessageRef = useRef(null);
   const additionalInfoRef = useRef(null);

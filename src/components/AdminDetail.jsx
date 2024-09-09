@@ -9,7 +9,7 @@ const AdminDetail = ({ requestId, onBack }) => {
   const [status, setStatus] = useState('');
   const [reviewMessage, setReviewMessage] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const API = process.env.API;
+  const API = process.env.REACT_APP_API;
 
   useEffect(() => {
     const fetchRequest = async () => {

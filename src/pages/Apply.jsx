@@ -13,7 +13,7 @@ const Apply = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [agree, setAgree] = useState(false);
-  const API = process.env.API;
+  const API = process.env.REACT_APP_API;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

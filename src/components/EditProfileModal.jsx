@@ -6,7 +6,7 @@ const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => 
   const [newDisplayName, setNewDisplayName] = useState(currentDisplayName);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const API = process.env.API;
+  const API = process.env.REACT_APP_API;
 
   const handleSave = async () => {
     try {

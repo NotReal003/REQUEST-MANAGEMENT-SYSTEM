@@ -12,7 +12,7 @@
       const [message, setMessage] = useState(null);
       const [error, setError] = useState(null);
       const navigate = useNavigate();
-      const API = process.env.API;
+      const API = process.env.REACT_APP_API;
 
       // Fetch all blocked users when the component mounts
       useEffect(() => {

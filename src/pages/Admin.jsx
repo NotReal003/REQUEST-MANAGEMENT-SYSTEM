@@ -59,7 +59,7 @@ const Admin = () => {
   const [apiClosed, setApiClosed] = useState(false);
   const token = localStorage.getItem('jwtToken');
   const navigate = useNavigate();
-  const API = process.env.API;
+  const API = process.env.REACT_APP_API;
 
   const handleToggleApiStatus = async () => {
     const jwtToken = localStorage.getItem('jwtToken');

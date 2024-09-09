@@ -11,7 +11,7 @@ export default function Navbar({ isAuthenticated }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
-  const API = process.env.API;
+  const API = process.env.REACT_APP_API;
 
   useEffect(() => {
     const fetchUserData = async () => {

@@ -12,7 +12,7 @@ function AdminDetail() {
   const [reviewMessage, setReviewMessage] = useState('');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const navigate = useNavigate();
-  const API = process.env.API;
+  const API = process.env.REACT_APP_API;
 
   useEffect(() => {
     const fetchRequest = async () => {

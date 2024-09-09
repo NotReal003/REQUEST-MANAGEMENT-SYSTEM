@@ -12,7 +12,7 @@ const ReportForm = () => {
   const [agree, setAgree] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-  const API = process.env.API;
+  const API = process.env.REACT_APP_API;
 
   // Simple sanitizer function
   const sanitizeInput = (input) => {

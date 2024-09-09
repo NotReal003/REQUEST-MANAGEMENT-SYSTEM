@@ -10,7 +10,7 @@ const Success = () => {
   const [request, setRequest] = useState(null);
   const [error, setError] = useState(null);
   const [myUser, setMyUser] = useState(null);
-  const API = process.env.API;
+  const API = process.env.REACT_APP_API;
 
   useEffect(() => {
     const fetchRequestDetails = async () => {

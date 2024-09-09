@@ -53,7 +53,7 @@ const One = () => {
   const [error, setError] = useState(null);
   const token = localStorage.getItem('jwtToken');
   const navigate = useNavigate();
-  const API = process.env.API;
+  const API = process.env.REACT_APP_API;
 
   useEffect(() => {
     const fetchRequests = async () => {
@@ -70,7 +70,7 @@ const One = () => {
         setRequests(sortedRequests);
       } catch (error) {
         console.error('Error fetching requests:', error);
-        const errorMessage = error.response?.data?.message || 'Error toggling API status.';
+        const errorMessage = error.message || 'Error toggling API status.';
         setError(errorMessage);
       } finally {
         setLoading(false);
