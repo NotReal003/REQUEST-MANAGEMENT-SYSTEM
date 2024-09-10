@@ -221,7 +221,7 @@ const Admin = () => {
           )}
         </div>
         <div className="mt-4">
-          <button className="btn btn-primary btn-outline" onClick={() => navigate('/admin')}>
+          <button className="btn btn-primary btn-outline" onClick={() => navigate('/')}>
             <IoMdArrowRoundBack className="mr-2" /> Go Back
           </button>
         </div>
