@@ -73,7 +73,7 @@ const ErrorAlert = ({ message }) => (
 );
 
 // Filter Controls Component
-const FilterControls = ({ statusFilter, setStatusFilter, handleToggleApiStatus, apiClosed }) => (
+const FilterControls = ({ statusFilter, setStatusFilter, userIdFilter, setUserIdFilter, handleToggleApiStatus, apiClosed }) => (
   <div className="mb-4 flex flex-col sm:flex-row justify-between">
     <div className="space-x-2">
       <select
@@ -89,6 +89,13 @@ const FilterControls = ({ statusFilter, setStatusFilter, handleToggleApiStatus, 
         <option value="CANCELLED">Cancelled</option>
         <option value="RESOLVED">Resolved</option>
       </select>
+      <input
+        type="text"
+        placeholder="Filter by User ID"
+        value={userIdFilter}
+        className="input input-bordered w-full sm:w-auto"
+        onChange={(e) => setUserIdFilter(e.target.value)}
+      />
       <div className="mb-2 mt-2">
         <label className="label cursor-pointer">
           <span className="label-text text-md">API Status:</span>
@@ -138,6 +145,7 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [statusFilter, setStatusFilter] = useState('');
+  const [userIdFilter, setUserIdFilter] = useState('');
   const [apiClosed, setApiClosed] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const requestsPerPage = 10;
@@ -182,8 +190,14 @@ const Admin = () => {
 
         let filteredRequests = response.data;
 
+        // Filter requests by status
         if (statusFilter) {
           filteredRequests = filteredRequests.filter((request) => request.status === statusFilter);
+        }
+
+        // Filter requests by user ID
+        if (userIdFilter) {
+          filteredRequests = filteredRequests.filter((request) => request.id.includes(userIdFilter));
         }
 
         const sortedRequests = filteredRequests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -196,7 +210,7 @@ const Admin = () => {
       }
     };
     fetchRequests();
-  }, [token, statusFilter]);
+  }, [token, statusFilter, userIdFilter]);
 
   const handleRequestClick = (id) => {
     navigate(`/admindetail?id=${id}`);
@@ -235,6 +249,8 @@ const Admin = () => {
         <FilterControls
           statusFilter={statusFilter}
           setStatusFilter={setStatusFilter}
+          userIdFilter={userIdFilter}
+          setUserIdFilter={setUserIdFilter}
           handleToggleApiStatus={handleToggleApiStatus}
           apiClosed={apiClosed}
         />
