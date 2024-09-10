@@ -47,6 +47,8 @@ const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => 
           <button onClick={onClose} className="btn btn-secondary">Cancel</button>
           <button onClick={handleSave} className="btn btn-primary" disabled={loading}>
   {loading ? (
+    <FaSpinner className="animate-spin" />
+  ) : (
     <>
       <svg width="40" height="40" viewBox="0 0 430 430" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M344.35 142.219L379.705 106.863L323.137 50.2949L287.781 85.6503" stroke="#08A88A" stroke-width="12" stroke-miterlimit="14" stroke-linecap="round" stroke-linejoin="round"/>
@@ -56,8 +58,6 @@ const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => 
       </svg>
       Saving...
     </>
-  ) : (
-    <FaSpinner className="animate-spin" />
   )}
 </button>
 
