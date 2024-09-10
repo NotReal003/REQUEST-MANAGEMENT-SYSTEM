@@ -1,6 +1,7 @@
 // src/components/EditProfileModal.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import { FaSpinner } from 'react-icons/fa';
 
 const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => {
   const [newDisplayName, setNewDisplayName] = useState(currentDisplayName);
@@ -45,8 +46,21 @@ const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => 
         <div className="flex justify-end space-x-2">
           <button onClick={onClose} className="btn btn-secondary">Cancel</button>
           <button onClick={handleSave} className="btn btn-primary" disabled={loading}>
-            {loading ? 'Saving...' : 'Save'}
-          </button>
+  {loading ? (
+    <>
+      <svg width="40" height="40" viewBox="0 0 430 430" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M344.35 142.219L379.705 106.863L323.137 50.2949L287.781 85.6503" stroke="#08A88A" stroke-width="12" stroke-miterlimit="14" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M153.431 333.137L68.6216 361.465L96.8623 276.568" stroke="#121331" stroke-width="12" stroke-miterlimit="14" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M153.431 333.138L96.8624 276.569L287.781 85.6504L344.35 142.219L153.431 333.138Z" stroke="#121331" stroke-width="12" stroke-miterlimit="14" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M220.606 209.394L287.781 142.219" stroke="#08A88A" stroke-width="12" stroke-miterlimit="14" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Saving...
+    </>
+  ) : (
+    <FaSpinner className="animate-spin" />
+  )}
+</button>
+
         </div>
       </div>
     </div>
