@@ -52,7 +52,7 @@ const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => 
                 <FaSpinner className="animate-spin mr-2" />
               </>
             ) : (
-            <TextIcon width="20" height="20" className="mr-2" /> 'Save'
+            <span><TextIcon width="20" height="20" className="mr-2" /> Save </span>
             )}
           </button>
 
