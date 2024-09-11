@@ -1,8 +1,7 @@
 // src/components/EditProfileModal.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import { FaSpinner } from 'react-icons/fa';
-import { ReactComponent as TextIcon } from './icons/text.svg';
+import { FaSpinner, FaSave } from 'react-icons/fa';
 
 const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => {
   const [newDisplayName, setNewDisplayName] = useState(currentDisplayName);
@@ -49,10 +48,10 @@ const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => 
           <button onClick={handleSave} className="btn btn-primary" disabled={loading}>
             {loading ? (
               <>
-                <FaSpinner className="animate-spin mr-2" />
+                Saving... <FaSpinner className="animate-spin mr-2" />
               </>
             ) : (
-            <span><TextIcon width="20" height="20" className="mr-2" /> Save </span>
+            <span>Save <FaSave className="ml-2"/></span>
             )}
           </button>
 
