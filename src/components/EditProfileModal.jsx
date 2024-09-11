@@ -48,11 +48,11 @@ const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => 
           <button onClick={handleSave} className="btn btn-primary" disabled={loading}>
             {loading ? (
               <>
-                Saving <FaSpinner className="animate-spin mr-2" />
+                Save <FaSpinner className="animate-spin mr-2" />
               </>
             ) : (
             <>
-              Save <FaSave className="inline-block align-middle m-1 mr-2"/>
+              Save <FaSave className="inline-block align-middle mr-2"/>
             </>
             )}
           </button>
