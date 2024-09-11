@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { IoSend } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
 import { FaPeopleGroup } from "react-icons/fa6";
@@ -138,8 +138,8 @@ const Apply = () => {
           <div className="sticky bottom-0 left-0 right-0 w-full bg-base-100 border-gray-900 flex justify-between items-center rounded-lg p-2">
             <Link to="/" className="btn btn-info no-animation hover:text-warning"><ImExit />Back</Link>
           <div className="tooltip tooltip-top overflow-auto" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
-            <button type="submit" className="btn btn-primary no-animation" disabled={isSubmitting || !agree}>
-              {isSubmitting ? <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Submit</span> : <><IoSend className="inline-block align-middle mr-2" /> Submit</>}
+            <button type="submit" className="btn btn-primary no-animation" disabled={isLoading || !agree}>
+              {isLoading ? <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Submit</span> : <><IoSend className="inline-block align-middle mr-2" /> Submit</>}
             </button>
           </div>
           </div>
