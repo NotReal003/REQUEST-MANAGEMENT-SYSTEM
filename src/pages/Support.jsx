@@ -138,11 +138,11 @@ const Support = () => {
               </span>
             </label>
           </div>
-          <div className="sticky bottom-0 left-0 right-0 w-full bg-opacity-75 border-gray-900 flex justify-between items-center rounded-lg p-2">
-            <Link to="/" className="btn btn-outline btn-info hover:text-warning"><ImExit />Back</Link>
+          <div className="sticky bottom-0 left-0 right-0 w-full border-gray-900 flex justify-between items-center rounded-lg p-2">
+            <Link to="/" className="btn btn-info no-animation hover:text-warning"><ImExit />Back</Link>
           <div className="tooltip tooltip-top overflow-auto" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
-            <button type="submit" className="btn btn-outline btn-primary no-animation" disabled={isSubmitting || !agree}>
-              {isSubmitting ? <span><FaSpinner className="animate-spin mr-2" /> Submit</span> : <><IoSend /> Submit</>}
+            <button type="submit" className="btn btn-primary no-animation" disabled={isSubmitting || !agree}>
+              {isSubmitting ? <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Submit</span> : <><IoSend className="inline-block align-middle mr-2" /> Submit</>}
             </button>
           </div>
           </div>
