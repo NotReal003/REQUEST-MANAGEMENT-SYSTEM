@@ -5,6 +5,7 @@ import { ImExit } from "react-icons/im";
 import { FaShieldHalved } from "react-icons/fa6";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaSpinner } from "react-icons/fa";
 
 const ReportForm = () => {
   const [messageLink, setMessageLink] = useState('');
@@ -143,12 +144,14 @@ const ReportForm = () => {
                 </span>
               </label>
             </div>
-            <div className="tooltip tooltip-top w-full" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
-              <button type="submit" className="btn btn-outline btn-primary w-full" disabled={isSubmitting || !agree}>
-                {isSubmitting ? 'Submitting...' : <><IoSend />Submit</>}
-              </button>
-            </div>
-            <Link to="/" className="btn btn-outline btn-secondary w-full mt-4"><ImExit />Back</Link>
+          <div className="sticky bottom-0 left-0 right-0 w-full bg-base-100 border-gray-900 flex justify-between items-center rounded-lg p-2">
+            <Link to="/" className="btn btn-info no-animation hover:text-warning"><ImExit />Back</Link>
+          <div className="tooltip tooltip-top overflow-auto" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
+            <button type="submit" className="btn btn-primary no-animation" disabled={isSubmitting || !agree}>
+              {isSubmitting ? <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Submit</span> : <><IoSend className="inline-block align-middle mr-2" /> Submit</>}
+            </button>
+          </div>
+          </div>
           </form>
       </div>
     </div>
