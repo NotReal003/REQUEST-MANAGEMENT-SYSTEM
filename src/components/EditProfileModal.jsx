@@ -43,15 +43,17 @@ const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => 
           className="input input-bordered w-full mb-4"
         />
         {error && <p className="text-red-500 mb-4">{error}</p>}
-        <div className="flex justify-end space-x-2">
+        <div className="flex justify-end space-x-2 gap-x-2">
           <button onClick={onClose} className="btn btn-secondary">Cancel</button>
           <button onClick={handleSave} className="btn btn-primary" disabled={loading}>
             {loading ? (
               <>
-                Saving... <FaSpinner className="animate-spin mr-2" />
+                Saving <FaSpinner className="animate-spin mr-2" />
               </>
             ) : (
-            <span>Save <FaSave className="ml-2"/></span>
+            <>
+              Save <FaSave className="inline-block align-middle m-1 mr-2"/>
+            </>
             )}
           </button>
 

@@ -5,7 +5,7 @@ import { IoLogIn } from "react-icons/io5";
 import { ImExit, ImSpinner6 } from "react-icons/im";
 import { MdNavigateNext } from "react-icons/md";
 import { LiaExternalLinkAltSolid } from "react-icons/lia";
-import { RiShieldUserFill } from "react-icons/ri";
+import { FcSettings } from "react-icons/fc";
 
 export default function Navbar({ isAuthenticated }) {
   const [user, setUser] = useState(null);
@@ -180,7 +180,7 @@ export default function Navbar({ isAuthenticated }) {
                     {isAuthenticated ? (
                       <li>
                         <Link to="/profile" className="flex items-center gap-x-3">
-                          <RiShieldUserFill /> Profile
+                          <FcSettings /> Profile
                         </Link>
                         <Link onClick={handleLogout} className="flex items-center gap-x-3 hover:text-red-500">
                           <ImExit className="size-3" /> <span>Sign out</span>
