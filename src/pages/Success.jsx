@@ -82,12 +82,12 @@ const Success = () => {
   }
 
   return (
-    <div className="flex items-center justify-center bg-base-50 min-h-screen">
+    <div className="flex flex flex-col items-center justify-center p-4 max-w-md md:max-w-lg mx-auto shadow-lg bg-base-50 min-h-screen">
       <div className="text-center">
         <div className="flex items-center justify-center mb-4">
           <IoShieldCheckmark className="w-20 h-20 text-green-500 animate-pulse" />
         </div>
-        <h1 className="text-2xl font-bold mb-2">Success!</h1>
+        <h1 className="text-2xl font-bold mb-2">Success</h1>
         <p>Thanks for submitting {request.typeName} <strong>{request.username}</strong>. We will notify you on your email <strong>{myUser.email}</strong>. Join our Discord Server so we may contact you :)</p>
         <p className="text-xs">Your request ID: {request._id}</p>
         <Link to="/one" className="btn btn-outline btn-info mt-4 w-full">

@@ -27,7 +27,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center p-4">
+    <div className="flex flex-col justify-center p-4 min-h-screen">
       <div className="bg rounded-lg p-8 w-full max-w-md md:max-w-lg mx-auto shadow-lg">
         <h1 className="text-2xl font-bold mb-6">Your Requests</h1>
 

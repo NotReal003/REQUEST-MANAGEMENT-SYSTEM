@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaDiscord, FaArrowRight } from 'react-icons/fa';
+import { FaDiscord, FaArrowRight, FaSpinner } from 'react-icons/fa';
 import { MdSupportAgent } from 'react-icons/md';
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { formatDistanceToNow } from 'date-fns';
@@ -102,7 +102,7 @@ const One = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 max-w-md md:max-w-lg mx-auto shadow-lg">
+    <div className="flex flex-col items-center justify-center p-4 max-w-md md:max-w-lg mx-auto min-h-screen shadow-lg">
       <div className="rounded-lg shadow-sm">
         <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
       </div>
@@ -111,7 +111,7 @@ const One = () => {
         <div className="space-y-4">
           {loading ? (
             <div className="flex items-center justify-center space-x-2">
-              <span className="loading loading-spinner text-info"></span>
+              <FaSpinner className="animate-spin inline-block align-middle mr-2"/>
               <p>Please hold on while we are finding your requests...</p>
             </div>
           ) : error ? (

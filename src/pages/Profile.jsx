@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoMdSettings, IoMdListBox } from "react-icons/io";
-import { FaDiscord, FaCheck, FaUserCircle } from "react-icons/fa";
+import { FaDiscord, FaCheck, FaUserCircle, FaSpinner } from "react-icons/fa";
 import axios from 'axios';
 import EditProfileModal from '../components/EditProfileModal';
 import { MdMarkEmailRead } from "react-icons/md";
@@ -55,7 +55,7 @@ const Profile = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-base-200">
-        <span className="loading loading-spinner text-info"></span>
+        <FaSpinner className="animate-spin inline-block align-middle" />
       </div>
     );
   }

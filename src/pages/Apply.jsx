@@ -76,7 +76,7 @@ const Apply = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 max-w-md md:max-w-lg mx-auto shadow-lg">
+    <div className="flex flex-col items-center justify-center p-4 max-w-md md:max-w-lg mx-auto min-h-screen shadow-lg">
       <ToastContainer className="m-2 items-center shadow-lg"/>
       <div className="form-container">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
@@ -86,7 +86,7 @@ const Apply = () => {
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info h-6 w-6 shrink-0">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
-          <span>If you believe the user is violating the Discord Terms of Service or Community Guidelines, right-click the message and choose "Report message" button.</span>
+          <span>Please make sure you provide us your exact In-Game-Name or we may will be not able to invite you to the Guild, also fill in your answers.</span>
         </div>
         <form id="guildApplicationForm" onSubmit={handleSubmit}>
           <label htmlFor="inGameName" className="label">In-Game Name (required)</label>
@@ -141,9 +141,9 @@ const Apply = () => {
                   </span>
                 </label>
               </div>
-          <div className="sticky bottom-0 left-0 right-0 w-full bg-base-100 border-gray-900 flex justify-between items-center rounded-lg p-2">
+          <div className="sticky bottom-0 left-0 right-0 w-full bg-base-100 flex justify-between items-center rounded-lg p-2 pb-2">
             <Link to="/" className="btn btn-info no-animation hover:text-warning"><ImExit />Back</Link>
-          <div className="tooltip tooltip-top overflow-auto" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
+          <div className="tooltip tooltip-top" data-tip={!agree ? "You must agree to our Terms of Services and Privacy Policy" : ""}>
             <button type="submit" className="btn btn-primary no-animation" disabled={isLoading || !agree}>
               {isLoading ? <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Submit</span> : <><IoSend className="inline-block align-middle mr-2" /> Submit</>}
             </button>

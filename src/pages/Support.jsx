@@ -84,7 +84,7 @@ const Support = () => {
   }, [messageLink, additionalInfo, agree, navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 max-w-md md:max-w-lg mx-auto shadow-lg">
+    <div className="flex flex-col items-center justify-center p-4 max-w-md md:max-w-lg mx-auto shadow-lg min-h-screen">
       <ToastContainer className="m-2 items-center shadow-lg"/>
       <div className="form-container">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">

@@ -121,14 +121,14 @@ function RequestDetail() {
 
   if (!request) {
     return (
-      <div className="h-screen flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center p-4 max-w-md md:max-w-lg mx-auto shadow-lg min-h-screen">
         <ToastContainer />
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="flex flex-col items-center justify-center p-4 max-w-md md:max-w-lg mx-auto shadow-lg min-h-screen">
       <ToastContainer />
       {request.reviewed === 'false' && (
         <div className="flex items-center m-2">
