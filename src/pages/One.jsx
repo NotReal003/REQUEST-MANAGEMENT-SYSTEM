@@ -144,7 +144,7 @@ const One = () => {
           )}
         </div>
 
-        <div className="sticky bottom-0 left-0 right-0 w-full bg-base-100 border border-t-slate-300 flex justify-start items-center rounded-md p-2">
+        <div className="sticky bottom-0 left-0 right-0 w-full bg-base-100 border-1 border-t-slate-100 flex justify-start items-center rounded-md p-2">
           <button className="btn btn-info no-animation hover:btn-warning" onClick={() => navigate('/')}>
             <IoMdArrowRoundBack className="mr-2" />Back
           </button>
