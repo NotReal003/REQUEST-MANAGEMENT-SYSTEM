@@ -91,7 +91,7 @@ export default function Navbar({ isAuthenticated }) {
               strokeWidth="2"
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
-          <span>We are unable to verify you. Please check your network connection and reload this page. <strong>Error: {errorIssue}</strong></span>
+          <span>We are unable to verify you. Please check your network connection and reload this page. <strong>{errorIssue}</strong></span>
           <div>
             <button className="btn btn-sm btn-outline btn-warning" onClick={() => window.location.reload()}>Reload</button>
           </div>
