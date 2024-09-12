@@ -37,7 +37,7 @@ export default function Navbar({ isAuthenticated }) {
 
         if (!res.ok) {
           setShowAlert(true);
-          setErrorIssue('B: Network Connection Error');
+          setErrorIssue(res.message || 'B: Network Connection Error');
         }
 
         const userData = await res.json();
