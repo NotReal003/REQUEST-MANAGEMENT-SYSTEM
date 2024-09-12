@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Footer from '../components/Footer';
 import { FaDiscord } from 'react-icons/fa';
 import { MdSupportAgent } from "react-icons/md";
 import { IoMdMail } from "react-icons/io";
@@ -68,7 +67,6 @@ const Home = () => {
           )}
         </div>
       </div>
-      <Footer className="mt-8" />
     </div>
   );
 };

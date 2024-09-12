@@ -102,7 +102,7 @@ const One = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 max-w-md md:max-w-lg mx-auto min-h-screen shadow-lg">
+    <div className="flex flex-col items-center justify-center p-2 max-w-md md:max-w-lg mx-auto min-h-screen shadow-lg">
       <div className="rounded-lg shadow-sm">
         <h1 className="text-2xl font-bold mb-4">Your Requests</h1>
       </div>
@@ -144,8 +144,8 @@ const One = () => {
           )}
         </div>
 
-        <div className="mt-4">
-          <button className="btn btn-info btn-outline" onClick={() => navigate(-1)}>
+        <div className="sticky bottom-0 left-0 right-0 w-full bg-base-100 border border-gray-900 flex justify-start items-center rounded-lg p-2">
+          <button className="btn btn-info no-animation hover:btn-warning" onClick={() => navigate('/')}>
             <IoMdArrowRoundBack className="mr-2" />Back
           </button>
         </div>
