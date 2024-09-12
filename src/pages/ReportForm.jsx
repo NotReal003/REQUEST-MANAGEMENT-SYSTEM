@@ -1,12 +1,3 @@
-import React, { useState, useCallback } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { IoSend } from "react-icons/io5";
-import { ImExit } from "react-icons/im";
-import { FaShieldHalved } from "react-icons/fa6";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { FaSpinner } from "react-icons/fa";
-
 const ReportForm = () => {
   const [messageLink, setMessageLink] = useState('');
   const [additionalInfo, setAdditionalInfo] = useState('');
@@ -35,7 +26,7 @@ const ReportForm = () => {
     const token = localStorage.getItem('jwtToken');
     if (!token) {
       toast.error('You must be logged in to submit a report.');
-      navigate('/login'); // Redirect to login page
+      navigate('/login');
       return;
     }
 
@@ -89,7 +80,7 @@ const ReportForm = () => {
   }, [messageLink, additionalInfo, agree, navigate]);
 
   return (
-    <div className="flex flex-col justify-center p-4 min-h-screen max-w-md md:max-w-lg ">
+    <div className="flex flex-col items-center justify-center p-4 h-auto max-w-md md:max-w-lg mx-auto shadow-lg">
       <ToastContainer />
       <div className="form-container">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
@@ -126,33 +117,34 @@ const ReportForm = () => {
             maxLength={1000}
           />
 
-        <div className="terms m-1">
-              <label className="label cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  id="agree" 
-                  name="agree" 
-                  className="checkbox" 
-                  checked={agree}
-                  onChange={(e) => setAgree(e.target.checked)}
-                  required 
-                />
-                <span className="label-text ml-2"> 
-                  By clicking here you are By clicking here you will agree with NotReal003's{' '}
-                  <a href="https://support.notreal003.xyz/terms" className="link link-primary" target="_blank" rel="noopener noreferrer">Terms of Service</a> and{' '}
-                  <a href="https://support.notreal003.xyz/privacy" className="link link-primary" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
-                </span>
-              </label>
-            </div>
+          <div className="terms m-1">
+            <label className="label cursor-pointer">
+              <input 
+                type="checkbox" 
+                id="agree" 
+                name="agree" 
+                className="checkbox" 
+                checked={agree}
+                onChange={(e) => setAgree(e.target.checked)}
+                required 
+              />
+              <span className="label-text ml-2"> 
+                By clicking here you are agreeing with NotReal003's{' '}
+                <a href="https://support.notreal003.xyz/terms" className="link link-primary" target="_blank" rel="noopener noreferrer">Terms of Service</a> and{' '}
+                <a href="https://support.notreal003.xyz/privacy" className="link link-primary" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+              </span>
+            </label>
+          </div>
+
           <div className="sticky bottom-0 left-0 right-0 w-full bg-base-100 border-gray-900 flex justify-between items-center rounded-lg p-2">
             <Link to="/" className="btn btn-info no-animation hover:text-warning"><ImExit />Back</Link>
-          <div className="tooltip tooltip-top overflow-auto" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
-            <button type="submit" className="btn btn-primary no-animation" disabled={isSubmitting || !agree}>
-              {isSubmitting ? <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Submit</span> : <><IoSend className="inline-block align-middle mr-2" /> Submit</>}
-            </button>
+            <div className="tooltip tooltip-top overflow-auto" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
+              <button type="submit" className="btn btn-primary no-animation" disabled={isSubmitting || !agree}>
+                {isSubmitting ? <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Submit</span> : <><IoSend className="inline-block align-middle mr-2" /> Submit</>}
+              </button>
+            </div>
           </div>
-          </div>
-          </form>
+        </form>
       </div>
     </div>
   );
