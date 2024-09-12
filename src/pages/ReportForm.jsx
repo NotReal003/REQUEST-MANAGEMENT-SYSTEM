@@ -89,7 +89,7 @@ const ReportForm = () => {
   }, [messageLink, additionalInfo, agree, navigate]);
 
   return (
-    <div className="flex flex-col justify-center p-4 min-h-screen">
+    <div className="flex flex-col justify-center p-4 min-h-screen max-w-md md:max-w-lg ">
       <ToastContainer />
       <div className="form-container">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">

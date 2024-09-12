@@ -135,7 +135,7 @@ function RequestDetail() {
           <p className="text-sm text-gray-400 m-2">Your request is currently being reviewed by the admin.</p>
         </div>
       )}
-      <div className="card shadow-lg bg-base-100">
+      <div className="card">
         <div className="card-body">
           <h2 className="card-title">Request Details ({request.status})</h2>
           {request.reviewed === 'true' && (
