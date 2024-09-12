@@ -16,7 +16,7 @@ import Callback from './pages/Callback';
 import Profile from './pages/Profile';
 import Note from './pages/Note';
 import AdminManage from './pages/AdminManage';
-import Footer from '../components/Footer';
+import Footer from './components/Footer';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
