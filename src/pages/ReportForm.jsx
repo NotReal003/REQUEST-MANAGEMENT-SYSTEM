@@ -89,10 +89,10 @@ const ReportForm = () => {
   }, [messageLink, additionalInfo, agree, navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 h-auto max-w-md md:max-w-lg mx-auto shadow-lg">
+    <div className="flex flex-col items-center justify-center p-4 min-h-screen">
       <ToastContainer />
-      <div className="form-container">
-        <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
+      <div className="form-container bg-white p-8 w-full max-w-md md:max-w-lg mx-auto shadow-lg rounded-lg">
+        <h1 className="text-2xl font-bold mb-4 flex items-center justify-center">
           <FaShieldHalved className="size-6 mr-2" />Discord report
         </h1>
         <div role="alert" className="alert">
@@ -138,7 +138,7 @@ const ReportForm = () => {
                 required 
               />
               <span className="label-text ml-2"> 
-                By clicking here you are agreeing with NotReal003's{' '}
+                By clicking here you will agree with NotReal003's{' '}
                 <a href="https://support.notreal003.xyz/terms" className="link link-primary" target="_blank" rel="noopener noreferrer">Terms of Service</a> and{' '}
                 <a href="https://support.notreal003.xyz/privacy" className="link link-primary" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
               </span>
@@ -149,13 +149,14 @@ const ReportForm = () => {
             <Link to="/" className="btn btn-info no-animation hover:text-warning"><ImExit />Back</Link>
             <div className="tooltip tooltip-top overflow-auto" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
               <button type="submit" className="btn btn-primary no-animation" disabled={isSubmitting || !agree}>
-                {isSubmitting ? <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Submit</span> : <><IoSend className="inline-block align-middle mr-2" /> Submit</>}
+                {isSubmitting ? <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Submitting</span> : <><IoSend className="inline-block align-middle mr-2" /> Submit</>}
               </button>
             </div>
           </div>
         </form>
       </div>
     </div>
+
   );
 };
 

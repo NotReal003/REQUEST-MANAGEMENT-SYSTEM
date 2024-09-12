@@ -32,13 +32,12 @@ export default function Navbar({ isAuthenticated }) {
         }
         if (res.status === 0) {
          setShowAlert(true);
-         setErrorIssue('Network Connection Error');
+         setErrorIssue('A: Network Connection Error');
         }
-        const data = await res.json();
 
         if (!res.ok) {
           setShowAlert(true);
-          setErrorIssue(data.message || 'Network Connection Error');
+          setErrorIssue(res.message || 'B: Network Connection Error');
         }
 
         const userData = await res.json();
@@ -46,7 +45,7 @@ export default function Navbar({ isAuthenticated }) {
       } catch (error) {
         if (error.code === 'ERR_NETWORK');
         setShowAlert(true);
-        setErrorIssue('Network Connection Error');
+        setErrorIssue('C: Network Connection Error');
       }
 
       setLoading(false);
@@ -64,11 +63,10 @@ export default function Navbar({ isAuthenticated }) {
       const res = await fetch('/api/auth/signout', {
         credentials: 'include',
       });
-      const data = await res.json();
 
       if (!res.ok) {
-        setErrorIssue(data.message || 'Sorry, we are unable to logout you at the moment.');
         throw new Error('Failed to logout');
+        setErrorIssue(res.message || 'Sorry, we are unable to logout you at the moment.');
       }
 
       localStorage.removeItem('jwtToken');
