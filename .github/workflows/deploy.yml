@@ -23,10 +23,10 @@ jobs:
 
       - name: Build the project
         run: |
-          CI=false npm run build  # Prevent treating warnings as errors
+          CI=false npm start  # Prevent treating warnings as errors
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub Actions
-          publish_dir: ./build  # Specify the build directory
+          publish_dir: / # Specify the build directory
