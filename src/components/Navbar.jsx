@@ -11,6 +11,7 @@ export default function Navbar({ isAuthenticated }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showAlert, setShowAlert] = useState(false);
+  const [errorIssue, setErrorIssue] = useState('');
   const API = process.env.REACT_APP_API;
 
   useEffect(() => {
@@ -30,11 +31,13 @@ export default function Navbar({ isAuthenticated }) {
           window.location.href = '/';
         }
         if (res.status === 0) {
-         setShowAlert(true); 
+         setShowAlert(true);
+         setErrorIssue('A: Network Connection Error');
         }
 
         if (!res.ok) {
           setShowAlert(true);
+          setErrorIssue('B: Network Connection Error');
         }
 
         const userData = await res.json();
@@ -42,6 +45,7 @@ export default function Navbar({ isAuthenticated }) {
       } catch (error) {
         if (error.code === 'ERR_NETWORK');
         setShowAlert(true);
+        setErrorIssue('C: Network Connection Error');
       }
 
       setLoading(false);
@@ -62,6 +66,7 @@ export default function Navbar({ isAuthenticated }) {
 
       if (!res.ok) {
         throw new Error('Failed to logout');
+        setErrorIssue(res.message || 'Sorry, we are unable to logout you at the moment.');
       }
 
       localStorage.removeItem('jwtToken');
@@ -86,7 +91,7 @@ export default function Navbar({ isAuthenticated }) {
               strokeWidth="2"
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
-          <span>We are unable to verify you. Please check your network connection and reload this page.</span>
+          <span>We are unable to verify you. Please check your network connection and reload this page. <strong>Error: {errorIssue}</strong></span>
           <div>
             <button className="btn btn-sm btn-outline btn-warning" onClick={() => window.location.reload()}>Reload</button>
           </div>
