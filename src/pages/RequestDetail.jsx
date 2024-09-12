@@ -128,14 +128,14 @@ function RequestDetail() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center p-2 min-h-screen max-w-md md:max-w-lg mx-auto shadow-lg">
+    <div className="flex flex-col items-center justify-center p-2 min-h-screen">
       <ToastContainer />
       {request.reviewed === 'false' && (
         <div className="flex items-center m-2">
           <p className="text-sm text-gray-400 m-2">Your request is currently being reviewed by the admin.</p>
         </div>
       )}
-      <div className="card max-w-md md:max-w-lg mx-auto p-2">
+      <div className="card w-full max-w-md md:max-w-lg mx-auto shadow-lg rounded-lg p-4">
         <div className="card-body">
           <h2 className="card-title">Request Details ({request.status})</h2>
           {request.reviewed === 'true' && (

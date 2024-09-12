@@ -143,7 +143,7 @@ const Apply = () => {
               </div>
           <div className="sticky bottom-0 left-0 right-0 w-full bg-base-100 flex justify-between items-center rounded-lg p-4 pb-2">
             <Link to="/" className="btn btn-info no-animation hover:text-warning"><ImExit />Back</Link>
-          <div className="tooltip tooltip-top" data-tip={!agree ? "You must agree to our Terms of Services and Privacy Policy" : ""}>
+          <div className="tooltip tooltip-top overflow-x-auto" data-tip={!agree ? "You must agree to our Terms of Services and Privacy Policy" : ""}>
             <button type="submit" className="btn btn-primary no-animation" disabled={isLoading || !agree}>
               {isLoading ? <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Submit</span> : <><IoSend className="inline-block align-middle mr-2" /> Submit</>}
             </button>
