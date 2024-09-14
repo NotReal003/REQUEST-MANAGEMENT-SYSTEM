@@ -66,7 +66,8 @@ const One = () => {
           headers: { Authorization: `${token}` },
         });
         if (response.response.status === 403) {
-          window.location.reload()
+          window.location.reload();
+          return;
         }
 
         const filteredRequests = response.data.filter((request) =>
