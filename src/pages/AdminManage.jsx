@@ -23,10 +23,6 @@ const BlockUserPage = () => {
         },
       });
 
-      if (response.status === 403) {
-        navigate('/404'); // Navigate to 404 if forbidden / is not admin
-      }
-
       // Separate users based on their "blocked" status
       const blocked = response.data.filter(user => user.blocked === "YES");
       const nonBlocked = response.data.filter(user => user.blocked !== "YES");
@@ -34,10 +30,18 @@ const BlockUserPage = () => {
       setBlockedUsers(blocked);
       setNonBlockedUsers(nonBlocked);
     } catch (error) {
-      console.error('Error fetching blocked users:', error);
-      setError(error.message || 'Failed to fetch users. Please try again.');
+      const errorStatus = error.response?.status;
+      if (errorStatus === 403) {
+        // Navigate to the 404 page if forbidden
+        navigate('/PageNotFound');
+      } else {
+        const errorMessage = error.response?.data?.message || 'Failed to load users. Please try again later.';
+        console.error('Error fetching blocked users:', error);
+        setError(`${errorStatus}: ${errorMessage || 'Failed to fetch users. Please try again.'}`);
+      }
     }
   }, [API, navigate]);
+
 
   // Fetch all blocked users when the component mounts
   useEffect(() => {
