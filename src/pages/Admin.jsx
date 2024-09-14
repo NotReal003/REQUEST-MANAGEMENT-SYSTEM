@@ -77,7 +77,7 @@ const FilterControls = ({ statusFilter, setStatusFilter, userIdFilter, setUserId
   <div className="mb-4 flex flex-col sm:flex-row justify-between">
     <div className="space-x-2">
       <select
-        className="select select-bordered select-md"
+        className="select select-bordered select-md mb-2"
         value={statusFilter}
         onChange={(e) => setStatusFilter(e.target.value)}
       >

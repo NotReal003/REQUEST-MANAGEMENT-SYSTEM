@@ -56,7 +56,7 @@ export default function Navbar({ isAuthenticated }) {
     } else {
       setLoading(false);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, API]);
 
   const handleLogout = async () => {
     try {
@@ -65,8 +65,8 @@ export default function Navbar({ isAuthenticated }) {
       });
 
       if (!res.ok) {
-        throw new Error('Failed to logout');
         setErrorIssue(res.message || 'Sorry, we are unable to logout you at the moment.');
+        throw new Error('Failed to logout');
       }
 
       localStorage.removeItem('jwtToken');

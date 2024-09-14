@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { IoMdSettings, IoMdListBox } from "react-icons/io";
 import { FaDiscord, FaCheck, FaUserCircle, FaSpinner } from "react-icons/fa";
 import axios from 'axios';
