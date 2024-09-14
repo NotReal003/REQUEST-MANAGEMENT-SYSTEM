@@ -28,10 +28,12 @@ const Callback = () => {
         .catch(error => {
           console.error('Error during authentication:', error);
           // Set error message from the API response
+          setLoading(false);
           setError(error.response.data.message || 'An error occurred while signing in.');
         });
     } else {
       setError('No authorization code found in URL. Please SignIn again.');
+      setLoading(false);
     }
   }, [navigate]);
 
@@ -42,7 +44,7 @@ const Callback = () => {
         <span className="text-3xl m-4 mr-4">+</span>
         <FaDiscord className="h-16 w-16 m-4 ml-4" />
       </div>
-      {!error && loading && (
+      {loading && (
       <div className="flex items-center mt-8 m-4">
         <div className="flex items-center justify-center">
           <span className="loading loading-spinner text-warning m-4"></span>
