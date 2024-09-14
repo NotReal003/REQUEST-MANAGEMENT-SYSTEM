@@ -34,8 +34,8 @@ const ReportForm = () => {
 
     const token = localStorage.getItem('jwtToken');
     if (!token) {
-      toast.error('You must be logged in to submit a report.');
-      navigate('/login'); // Redirect to login page
+      toast.warning('You must be logged in to submit an application.');
+        setIsSubmitting(false);
       return;
     }
 

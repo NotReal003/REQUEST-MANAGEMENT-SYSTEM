@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { FaDiscord, FaLock } from "react-icons/fa";
+import { FaDiscord, FaLock, FaSpinner } from "react-icons/fa";
 
 const Callback = () => {
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ const Callback = () => {
       {loading && (
       <div className="flex items-center mt-8 m-4">
         <div className="flex items-center justify-center">
-          <span className="loading loading-spinner text-warning m-4"></span>
+          <FaSpinner className="animate-spin inline-block align-middle m-4" />
           </div>
       <p className="font-serif">Please wait while we are securely connecting your Discord account.</p>
       </div>

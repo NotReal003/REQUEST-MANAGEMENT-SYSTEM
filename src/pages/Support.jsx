@@ -33,10 +33,11 @@ const Support = () => {
     e.preventDefault();
     const token = localStorage.getItem('jwtToken');
     if (!token) {
-      toast.warning('You must be logged in to submit a request.');
-      navigate('/login'); // Redirect to login page
+      toast.warning('You must be logged in to submit an application.');
+        setIsSubmitting(false);
       return;
     }
+    
     if (!agree) {
       toast.error('You must agree to the terms before submitting.');
       return;
