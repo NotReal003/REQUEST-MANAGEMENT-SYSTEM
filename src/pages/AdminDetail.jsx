@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import { MdDelete, MdUpdate, MdEmail } from 'react-icons/md';
+import { MdDelete, MdUpdate } from 'react-icons/md';
 
 function AdminDetail() {
   const { requestId } = useParams();
@@ -35,7 +35,7 @@ function AdminDetail() {
     };
 
     fetchRequest();
-  }, [requestId]);
+  }, [requestId, API]);
 
   const handleUpdateAndSendEmail = async () => {
     try {

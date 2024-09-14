@@ -210,7 +210,7 @@ const Admin = () => {
       }
     };
     fetchRequests();
-  }, [token, statusFilter, userIdFilter]);
+  }, [token, statusFilter, userIdFilter, API, navigate]);
 
   const handleRequestClick = (id) => {
     navigate(`/admindetail?id=${id}`);

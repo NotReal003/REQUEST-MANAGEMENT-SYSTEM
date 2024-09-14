@@ -59,7 +59,7 @@ const Success = () => {
     };
 
     fetchRequestDetails();
-  }, [requestId]);
+  }, [requestId, API]);
 
   if (loading) {
     return (
@@ -93,7 +93,7 @@ const Success = () => {
         <Link to="/one" className="btn btn-outline btn-info mt-4 w-full">
           <CircleCheck className='size-4' /> Your Requests
         </Link>
-        <a target="_blank" href="https://discord.gg/sqVBrMVQmp" className="btn btn-outline btn-primary w-full mt-5">
+        <a rel="noreferrer" target="_blank" href="https://discord.gg/sqVBrMVQmp" className="btn btn-outline btn-primary w-full mt-5">
           <FaDiscord /> Join our Discord Server
         </a>
         <Link to="/" className="btn btn-outline btn-warning mt-4 w-full">

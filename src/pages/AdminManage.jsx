@@ -17,7 +17,7 @@
       // Fetch all blocked users when the component mounts
       useEffect(() => {
         fetchBlockedUsers();
-      }, []);
+      }, [fetchBlockedUsers]);
 
       // Fetch blocked and non-blocked users from the API
       const fetchBlockedUsers = async () => {
@@ -88,6 +88,7 @@
             },
           }
         );
+        setMessage(null);
 
         toast.promise(
           unblockUserPromise,

@@ -23,7 +23,7 @@ const Home = () => {
       .catch(error => {
         console.error('Failed to check admin status:', error);
       });
-  }, []);
+  }, [API]);
 
   return (
     <div className="flex flex-col justify-center p-4 min-h-screen">

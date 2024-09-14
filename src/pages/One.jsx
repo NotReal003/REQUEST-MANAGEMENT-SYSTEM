@@ -78,7 +78,7 @@ const One = () => {
     };
 
     fetchRequests();
-  }, [token]);
+  }, [token, API]);
 
   const handleRequestClick = (id) => {
     navigate(`/requestdetail?id=${id}`);

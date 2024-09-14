@@ -42,7 +42,7 @@ const Callback = () => {
         <span className="text-3xl m-4 mr-4">+</span>
         <FaDiscord className="h-16 w-16 m-4 ml-4" />
       </div>
-      {!error && (
+      {!error && loading && (
       <div className="flex items-center mt-8 m-4">
         <div className="flex items-center justify-center">
           <span className="loading loading-spinner text-warning m-4"></span>

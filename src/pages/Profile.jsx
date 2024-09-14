@@ -13,7 +13,6 @@ const Profile = () => {
   const [requestCount, setRequestCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
   const API = process.env.REACT_APP_API;
 
   useEffect(() => {
@@ -44,7 +43,7 @@ const Profile = () => {
     };
 
     fetchProfileData();
-  }, []);
+  }, [API]);
   const handleUpdateDisplayName = (newDisplayName) => {
     setUser((prevUser) => ({
       ...prevUser,
@@ -78,6 +77,7 @@ const Profile = () => {
           <img
             src={`https://cdn.discordapp.com/avatars/${user.id}/${user.avatarHash}.webp?size=128`}
             className="w-24 h-24 rounded-full shadow-lg"
+            alt={user.username}
           />
         ) : (
           <FaUserCircle className="w-24 h-24 rounded-full shadow-lg" />

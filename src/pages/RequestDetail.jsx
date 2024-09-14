@@ -43,7 +43,7 @@ function RequestDetail() {
     };
 
     fetchRequest();
-  }, [requestId]);
+  }, [requestId, API]);
 
   useEffect(() => {
     // Adjust height for textareas

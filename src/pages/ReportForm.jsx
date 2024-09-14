@@ -86,7 +86,7 @@ const ReportForm = () => {
     } finally {
       setIsSubmitting(false);
     }
-  }, [messageLink, additionalInfo, agree, navigate]);
+  }, [messageLink, additionalInfo, agree, navigate, API]);
 
   return (
     <div className="flex flex-col items-center justify-center p-2 min-h-screen">
