@@ -66,13 +66,6 @@ const Home = () => {
             </Link>
           )}
         </div>
-
-        {/* Sale Information */}
-        <div className="mt-8">
-          <p className="text-center text-sm">
-            This website and backend API are available for sale. For more information, please <a href="discord:/users/1131271104590270606" className="text-blue-500 hover:underline">contact me on Discord</a>.
-          </p>
-        </div>
       </div>
     </div>
   );
