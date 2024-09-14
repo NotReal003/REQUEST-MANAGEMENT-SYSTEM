@@ -70,7 +70,7 @@ const One = () => {
         setRequests(sortedRequests);
       } catch (error) {
         console.error('Error fetching requests:', error);
-        const errorMessage = error.message || 'Error While Checking Requests...';
+        const errorMessage = errorStatus = error.response?.data?.message || 'Error While Checking Requests...';
         setError(errorMessage);
       } finally {
         setLoading(false);
