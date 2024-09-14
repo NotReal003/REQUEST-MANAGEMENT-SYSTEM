@@ -6,7 +6,7 @@ import { FaDiscord, FaLock } from "react-icons/fa";
 const Callback = () => {
   const navigate = useNavigate();
   const [error, setError] = useState(null); // State to handle API errors
-  const [loadind, setLoading] = useState(null);
+  const [loading, setLoading] = useState(null);
   useEffect(() => {
     // Extract 'code' from URL query params
     const urlParams = new URLSearchParams(window.location.search);
