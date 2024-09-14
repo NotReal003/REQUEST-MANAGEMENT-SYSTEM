@@ -17,7 +17,7 @@ import Profile from './pages/Profile';
 import Note from './pages/Note';
 import AdminManage from './pages/AdminManage';
 import Footer from './components/Footer';
-import forSell from './components/ForSell';
+import ForSell from './components/ForSell';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
