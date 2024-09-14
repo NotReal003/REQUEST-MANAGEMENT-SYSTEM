@@ -177,17 +177,14 @@ const Admin = () => {
       }
     }
   };
-
   useEffect(() => {
     const fetchRequests = async () => {
       try {
         const response = await axios.get(`${API}/admin/requests`, {
           headers: { Authorization: `${token}` },
         });
-        if (response.status === 403) {
-          navigate('/404');
-        }
 
+        // Success case
         let filteredRequests = response.data;
 
         // Filter requests by status
@@ -200,17 +197,27 @@ const Admin = () => {
           filteredRequests = filteredRequests.filter((request) => request.id.includes(userIdFilter));
         }
 
+        // Sort requests by creation date
         const sortedRequests = filteredRequests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setRequests(sortedRequests);
       } catch (error) {
-        const errorMessage = error.response?.data?.message || 'Failed to load requests. Please try again later.';
-        setError(errorMessage);
+        const errorStatus = error.response?.status;
+
+        // Handle 403 forbidden
+        if (errorStatus === 403) {
+          navigate('/404');
+        } else {
+          const errorMessage = error.response?.data?.message || 'Failed to load requests. Please try again later.';
+          setError(errorMessage);
+        }
       } finally {
         setLoading(false);
       }
     };
+
     fetchRequests();
   }, [token, statusFilter, userIdFilter, API, navigate]);
+
 
   const handleRequestClick = (id) => {
     navigate(`/admindetail?id=${id}`);

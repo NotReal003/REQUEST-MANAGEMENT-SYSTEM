@@ -23,19 +23,28 @@ function AdminDetail() {
         const response = await axios.get(`${API}/admin/requests/${ids}`, {
           headers: { Authorization: `${token}` },
         });
+
+        // Success case, set the request data
         setRequest(response.data);
         setStatus(response.data.status);
         setReviewMessage(response.data.reviewMessage || '');
       } catch (error) {
-        setAlert({
-          type: 'error',
-          message: 'Error while fetching the request details.',
-        });
+        const errorStatus = error.response?.status;
+
+        // Handle 403 forbidden
+        if (errorStatus === 403) {
+          navigate('/404');
+        } else {
+          setAlert({
+            type: 'error',
+            message: 'Error while fetching the request details.',
+          });
+        }
       }
     };
 
     fetchRequest();
-  }, [requestId, API]);
+  }, [requestId, API, navigate]);
 
   const handleUpdateAndSendEmail = async () => {
     try {
