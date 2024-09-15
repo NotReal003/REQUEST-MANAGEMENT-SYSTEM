@@ -39,9 +39,8 @@ function RequestDetail() {
           setLoading(false);
         }
       } catch (error) {
-        setErrorMesssag(error.response?.data?.message || 'An error occurred while fetching the request.');
+          setErrorMesssage(error.response?.data?.message || 'An error occurred while fetching the request.');
         toast.error(error.response?.data?.message || 'You do not have permission to check this request');
-        set
         setLoading(false);
       }
     };
@@ -123,11 +122,11 @@ function RequestDetail() {
     );
   }
 
-  if (error) {
+  if (errorMesssage) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-base-200">
         <div className="text-center">
-          <strong className="text-lg text-red-500">{error}</strong>
+          <strong className="text-lg text-red-500">{errorMesssage}</strong>
           <ToastContainer />
         </div>
       </div>
