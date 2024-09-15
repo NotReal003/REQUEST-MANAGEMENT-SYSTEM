@@ -51,9 +51,9 @@ const EditProfileModal = ({ isOpen, onClose, currentDisplayName, onUpdate }) => 
                 Save <FaSpinner className="animate-spin mr-2" />
               </>
             ) : (
-            <>
-              Save <FaSave className="inline-block align-middle mr-2"/>
-            </>
+              <>
+                Save <FaSave className="inline-block align-middle mr-2" />
+              </>
             )}
           </button>
 

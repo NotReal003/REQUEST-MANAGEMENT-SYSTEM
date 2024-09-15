@@ -45,12 +45,12 @@ const Callback = () => {
         <FaDiscord className="h-16 w-16 m-4 ml-4" />
       </div>
       {loading && (
-      <div className="flex items-center mt-8 m-4">
-        <div className="flex items-center justify-center">
-          <FaSpinner className="animate-spin inline-block align-middle m-4" />
+        <div className="flex items-center mt-8 m-4">
+          <div className="flex items-center justify-center">
+            <FaSpinner className="animate-spin inline-block align-middle m-4" />
           </div>
-      <p className="font-serif">Please wait while we are securely connecting your Discord account.</p>
-      </div>
+          <p className="font-serif">Please wait while we are securely connecting your Discord account.</p>
+        </div>
       )}
       {error && (
         <div className="mt-8 m-4 font-serif text-red-500 justify-center">

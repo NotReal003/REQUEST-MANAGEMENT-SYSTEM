@@ -34,10 +34,10 @@ const Support = () => {
     const token = localStorage.getItem('jwtToken');
     if (!token) {
       toast.warning('You must be logged in to submit an application.');
-        setIsSubmitting(false);
+      setIsSubmitting(false);
       return;
     }
-    
+
     if (!agree) {
       toast.error('You must agree to the terms before submitting.');
       return;
@@ -86,10 +86,10 @@ const Support = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-2 min-h-screen">
-      <ToastContainer className="m-2 items-center shadow-lg"/>
+      <ToastContainer className="m-2 items-center shadow-lg" />
       <div className="form-container w-full max-w-md md:max-w-lg mx-auto shadow-lg rounded-lg p-4">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
-          <IoMdMail className="size-6 mr-2"/>Support
+          <IoMdMail className="size-6 mr-2" />Support
         </h1>
         <div role="alert" className="alert">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="stroke-info h-6 w-6 shrink-0">
@@ -100,22 +100,22 @@ const Support = () => {
         <form id="reportForm" onSubmit={handleSubmit}>
           <label htmlFor="messageLink" className="label">Your support request (required)</label>
           <textarea
-            id="messageLink" 
-            name="messageLink" 
-            className="textarea textarea-bordered w-full" 
-            rows="3" 
+            id="messageLink"
+            name="messageLink"
+            className="textarea textarea-bordered w-full"
+            rows="3"
             placeholder="Let us know the issue"
             value={messageLink}
             onChange={(e) => setMessageLink(e.target.value)}
-            required 
+            required
             maxLength={1000}
           />
           <label htmlFor="additionalInfo" className="label">Anything else?</label>
-          <textarea 
-            id="additionalInfo" 
-            name="additionalInfo" 
-            className="textarea textarea-bordered w-full" 
-            rows="1" 
+          <textarea
+            id="additionalInfo"
+            name="additionalInfo"
+            className="textarea textarea-bordered w-full"
+            rows="1"
             placeholder="Feel free to leave this field blank"
             value={additionalInfo}
             onChange={(e) => setAdditionalInfo(e.target.value)}
@@ -123,16 +123,16 @@ const Support = () => {
           />
           <div className="terms m-1">
             <label className="label cursor-pointer">
-              <input 
-                type="checkbox" 
-                id="agree" 
-                name="agree" 
-                className="checkbox" 
+              <input
+                type="checkbox"
+                id="agree"
+                name="agree"
+                className="checkbox"
                 checked={agree}
                 onChange={(e) => setAgree(e.target.checked)}
-                required 
+                required
               />
-              <span className="label-text ml-2"> 
+              <span className="label-text ml-2">
                 By clicking here you will agree with NotReal003's{' '}
                 <a href="https://support.notreal003.xyz/terms" className="link link-primary" target="_blank" rel="noopener noreferrer">Terms of Service</a> and{' '}
                 <a href="https://support.notreal003.xyz/privacy" className="link link-primary" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
@@ -141,11 +141,11 @@ const Support = () => {
           </div>
           <div className="sticky bottom-0 left-0 right-0 w-full bg-base-100 border-1 border-t-slate-100 flex justify-between items-center rounded-lg p-2">
             <Link to="/" className="btn btn-info no-animation hover:text-warning"><ImExit />Back</Link>
-          <div className="tooltip tooltip-top overflow-auto" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
-            <button type="submit" className="btn btn-primary no-animation" disabled={isSubmitting || !agree}>
-              {isSubmitting ? <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Submit</span> : <><IoSend className="inline-block align-middle mr-2" /> Submit</>}
-            </button>
-          </div>
+            <div className="tooltip tooltip-top overflow-auto" data-tip={!agree ? "You must agree to the Terms of Services and to our Privacy Policy." : ""}>
+              <button type="submit" className="btn btn-primary no-animation" disabled={isSubmitting || !agree}>
+                {isSubmitting ? <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Submit</span> : <><IoSend className="inline-block align-middle mr-2" /> Submit</>}
+              </button>
+            </div>
           </div>
         </form>
       </div>

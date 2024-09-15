@@ -77,7 +77,7 @@ const Apply = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-2 min-h-screen">
-      <ToastContainer className="m-2 items-center shadow-lg"/>
+      <ToastContainer className="m-2 items-center shadow-lg" />
       <div className="form-container w-full max-w-md md:max-w-lg mx-auto shadow-lg rounded-lg p-4">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
           <FaPeopleGroup className="size-6 mr-2" /> Guild Application
@@ -124,30 +124,30 @@ const Apply = () => {
             onChange={(e) => setAdditionalInfo(e.target.value)}
           ></textarea>
           <div className="terms mr-2 mb-2">
-                <label className="label cursor-pointer">
-                  <input 
-                    type="checkbox" 
-                    id="agree" 
-                    name="agree" 
-                    className="checkbox" 
-                    checked={agree}
-                    onChange={(e) => setAgree(e.target.checked)}
-                    required 
-                  />
-                  <span className="label-text ml-2 text-justify"> 
-                    By clicking here you will agree with NotReal003's {' '}
-                    <a href="https://support.notreal003.xyz/terms" className="link link-primary" target="_blank" rel="noopener noreferrer">Terms of Service</a> and{' '}
-                    <a href="https://support.notreal003.xyz/privacy" className="link link-primary" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
-                  </span>
-                </label>
-              </div>
+            <label className="label cursor-pointer">
+              <input
+                type="checkbox"
+                id="agree"
+                name="agree"
+                className="checkbox"
+                checked={agree}
+                onChange={(e) => setAgree(e.target.checked)}
+                required
+              />
+              <span className="label-text ml-2 text-justify">
+                By clicking here you will agree with NotReal003's {' '}
+                <a href="https://support.notreal003.xyz/terms" className="link link-primary" target="_blank" rel="noopener noreferrer">Terms of Service</a> and{' '}
+                <a href="https://support.notreal003.xyz/privacy" className="link link-primary" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+              </span>
+            </label>
+          </div>
           <div className="sticky bottom-0 left-0 right-0 w-full bg-base-100 flex justify-between  border-1 border-t-slate-100 items-center rounded-lg p-4 pb-2">
             <Link to="/" className="btn btn-info no-animation hover:text-warning"><ImExit />Back</Link>
-          <div className="tooltip tooltip-top overflow-x-auto" data-tip={!agree ? "You must agree to our Terms of Services and Privacy Policy" : ""}>
-            <button type="submit" className="btn btn-primary no-animation" disabled={isLoading || !agree}>
-              {isLoading ? <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Submit</span> : <><IoSend className="inline-block align-middle mr-2" /> Submit</>}
-            </button>
-          </div>
+            <div className="tooltip tooltip-top overflow-x-auto" data-tip={!agree ? "You must agree to our Terms of Services and Privacy Policy" : ""}>
+              <button type="submit" className="btn btn-primary no-animation" disabled={isLoading || !agree}>
+                {isLoading ? <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Submit</span> : <><IoSend className="inline-block align-middle mr-2" /> Submit</>}
+              </button>
+            </div>
           </div>
         </form>
       </div>

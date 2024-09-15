@@ -93,21 +93,21 @@ const Profile = () => {
           <div className="text-sm gap-2">
             <p>
               <strong className="mr-1">
-                <MdMarkEmailRead className="inline-block align-middle m-1" /> Email: 
-              </strong> 
-               {user.email}
+                <MdMarkEmailRead className="inline-block align-middle m-1" /> Email:
+              </strong>
+              {user.email}
             </p>
             <p>
               <strong className="mr-1">
-                <FaCheck className="inline-block align-middle m-1" /> Joined: 
-              </strong> 
-               {new Date(user.joinedAt).toLocaleDateString()}
+                <FaCheck className="inline-block align-middle m-1" /> Joined:
+              </strong>
+              {new Date(user.joinedAt).toLocaleDateString()}
             </p>
             <p>
               <strong className="mr-1">
-                <FaDiscord className="inline-block align-middle m-1" /> Discord ID: 
-              </strong> 
-               {user.id}
+                <FaDiscord className="inline-block align-middle m-1" /> Discord ID:
+              </strong>
+              {user.id}
             </p>
           </div>
 
@@ -122,24 +122,24 @@ const Profile = () => {
         </div>
       </div>
 
-        <div className="flex justify-between items-center mt-8">
-          <button
-            className="btn btn-outline btn-info btn-sm flex items-center"
-            onClick={() => window.location.href = `discord://users/${user.id}`}
-          >
-            <FaDiscord className="mr-2" /> View Discord Profile
-          </button>
+      <div className="flex justify-between items-center mt-8">
+        <button
+          className="btn btn-outline btn-info btn-sm flex items-center"
+          onClick={() => window.location.href = `discord://users/${user.id}`}
+        >
+          <FaDiscord className="mr-2" /> View Discord Profile
+        </button>
         <button className="btn btn-outline btn-secondary btn-sm" onClick={() => setEditModalOpen(true)}><IoMdSettings /> Edit Profile
         </button>
       </div>
       <EditProfileModal
-          isOpen={isEditModalOpen}
-          onClose={() => setEditModalOpen(false)}
-          currentDisplayName={user?.displayName || user?.username}
-          onUpdate={handleUpdateDisplayName}
-        />
+        isOpen={isEditModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        currentDisplayName={user?.displayName || user?.username}
+        onUpdate={handleUpdateDisplayName}
+      />
       <div className="flex items-center justify-center mt-2">
-      <p className="mt-2 text-xs text-gray-400">Before using the "View Discord Profile" button, please make sure you are on Desktop or You have installed Discord on your Device.</p>
+        <p className="mt-2 text-xs text-gray-400">Before using the "View Discord Profile" button, please make sure you are on Desktop or You have installed Discord on your Device.</p>
       </div>
     </div>
   );

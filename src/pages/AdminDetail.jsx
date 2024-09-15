@@ -173,13 +173,13 @@ function AdminDetail() {
             </select>
           </div>
           <div className="form-control">
-              <label className="label">From User</label>
-              <textarea
-                value={`${request.username} / ${request.displayName}`}
-                readOnly
-                className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-              />
-            </div>
+            <label className="label">From User</label>
+            <textarea
+              value={`${request.username} / ${request.displayName}`}
+              readOnly
+              className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+            />
+          </div>
           {request.type === 'report' && (
             <div className="form-control">
               <label className="label">Discord Message Link / Evidence (required)</label>
@@ -190,44 +190,44 @@ function AdminDetail() {
               />
             </div>
           )}
-            {request.type === 'support' && (
-                <div className="form-control">
-                  <label className="label">Your support request (required)</label>
-                  <textarea
-                    value={request.messageLink}
-                    readOnly
-                    className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-                  />
-                </div>
-            )}
-            {request.type === 'guild-application' && (
-          <div className="form-control">
-            <label className="label">In-Game Name (required)</label>
-            <textarea
-              value={request.inGameName}
-              readOnly
-              className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-            />
-           </div>
-            )}
-            {request.type === 'guild-application' && (
-          <div className="form-control">
-          <label className="label">Reason for joining the guild? (required)</label>
-          <textarea
-            value={request.messageLink}
-            readOnly
-            className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
-          />
-          </div>
-          )}
+          {request.type === 'support' && (
             <div className="form-control">
-              <label className="label">Anything else you would like to add?</label>
+              <label className="label">Your support request (required)</label>
               <textarea
-                value={request.additionalInfo}
+                value={request.messageLink}
                 readOnly
                 className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
               />
             </div>
+          )}
+          {request.type === 'guild-application' && (
+            <div className="form-control">
+              <label className="label">In-Game Name (required)</label>
+              <textarea
+                value={request.inGameName}
+                readOnly
+                className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+              />
+            </div>
+          )}
+          {request.type === 'guild-application' && (
+            <div className="form-control">
+              <label className="label">Reason for joining the guild? (required)</label>
+              <textarea
+                value={request.messageLink}
+                readOnly
+                className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+              />
+            </div>
+          )}
+          <div className="form-control">
+            <label className="label">Anything else you would like to add?</label>
+            <textarea
+              value={request.additionalInfo}
+              readOnly
+              className="textarea textarea-bordered focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
+            />
+          </div>
           <div className="form-control mt-4">
             <button onClick={handleUpdateAndSendEmail} className="btn btn-info">
               <MdUpdate /> Update Request & Send Email

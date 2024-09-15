@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { CircleCheck, House } from 'lucide-react';
-import { FaDiscord, FaSpinner} from "react-icons/fa6";
+import { FaDiscord, FaSpinner } from "react-icons/fa6";
 import { IoShieldCheckmark } from "react-icons/io5";
 
 
@@ -30,7 +30,7 @@ const Success = () => {
           setError(errorResponse.message || 'Failed to load request.');
           throw new Error(errorResponse.message || 'Failed to load the request.');
         }
-        
+
         const requestData = await res.json();
         setRequest(requestData);
 

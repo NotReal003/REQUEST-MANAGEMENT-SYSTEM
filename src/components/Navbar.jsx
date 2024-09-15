@@ -31,8 +31,8 @@ export default function Navbar({ isAuthenticated }) {
           window.location.href = '/';
         }
         if (res.status === 0) {
-         setShowAlert(true);
-         setErrorIssue('A: Network Connection Error');
+          setShowAlert(true);
+          setErrorIssue('A: Network Connection Error');
         }
 
         if (!res.ok) {
@@ -167,7 +167,7 @@ export default function Navbar({ isAuthenticated }) {
 
               {loading ? (
                 <div className="flex items-center mr-4">
-                  <ImSpinner6 className="animate-spin h-4 w-4"/>
+                  <ImSpinner6 className="animate-spin h-4 w-4" />
                 </div>
               ) : (
                 <div className="dropdown dropdown-bottom dropdown-end mr-4 ml-2">
