@@ -1,6 +1,6 @@
 {
   "name": "requestPage",
-  "version": "0.1.0",
+  "version": "2.9.0",
   "private": true,
   "dependencies": {
     "@babel/plugin-transform-class-properties": "^7.25.4",

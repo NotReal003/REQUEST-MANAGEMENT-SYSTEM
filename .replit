@@ -1,4 +1,4 @@
-modules = ["nodejs-20", "web", "nix"]
+modules = ["nodejs-16", "web", "nix"]
 hidden = [".config", "package-lock.json"]
 run = "npm start"
 
