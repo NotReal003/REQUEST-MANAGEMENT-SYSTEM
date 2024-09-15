@@ -12,6 +12,7 @@ function RequestDetail() {
   const [loading, setLoading] = useState(true);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
+  const [errorMesssage, setErrorMesssage] = useState(null);
   const navigate = useNavigate();
   const API = process.env.REACT_APP_API;
 
@@ -33,11 +34,14 @@ function RequestDetail() {
           setRequest(response.data);
           setLoading(false);
         } else {
-          toast.error(response.data.message || 'An error occurred while fetching the request.');
+          setErrorMesssage(response.data.message || 'An error occurred while fetching the request.');
+      toast.error(response.data.message || 'An error occurred while fetching the request.');
           setLoading(false);
         }
       } catch (error) {
-        toast.error(error.response?.data?.message || 'You do not have permission to check this request.');
+        setErrorMesssag(error.response?.data?.message || 'An error occurred while fetching the request.');
+        toast.error(error.response?.data?.message || 'You do not have permission to check this request');
+        set
         setLoading(false);
       }
     };
@@ -119,6 +123,17 @@ function RequestDetail() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-base-200">
+        <div className="text-center">
+          <strong className="text-lg text-red-500">{error}</strong>
+          <ToastContainer />
+        </div>
+      </div>
+    );
+  }
+  
   if (!request) {
     return (
       <div className="flex flex-col items-center justify-center p-4 max-w-md md:max-w-lg mx-auto shadow-lg min-h-screen">
