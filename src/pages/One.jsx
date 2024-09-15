@@ -65,7 +65,7 @@ const One = () => {
         const response = await axios.get(`${API}/requests`, {
           headers: { Authorization: `${token}` },
         });
-        if (response.response.status === 403) {
+        if (response.status === 403) {
           window.location.reload();
           return;
         }
