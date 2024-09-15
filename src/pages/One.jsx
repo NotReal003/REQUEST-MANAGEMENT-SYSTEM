@@ -77,7 +77,7 @@ const One = () => {
         const sortedRequests = filteredRequests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setRequests(sortedRequests);
       } catch (error) {
-        console.error('Error fetching requests:', error);
+        console.error(error);
         const errorMessage = error.response?.data?.message || 'Error While Checking Requests...';
         setError(errorMessage);
       } finally {
