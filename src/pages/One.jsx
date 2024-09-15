@@ -119,7 +119,7 @@ const One = () => {
         <div className="space-y-4">
           {loading ? (
             <div className="flex items-center justify-center space-x-2">
-              <FaSpinner className="animate-spin inline-block align-middle mr-2" />
+              <FaSpinner className="animate-spin inline-block align-middle mr-2"/>
               <p>Please hold on while we are finding your requests...</p>
             </div>
           ) : error ? (
