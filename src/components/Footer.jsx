@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="footer footer-center bg-base-200 text-base-content rounded p-10 mt-40">
+    <footer className="footer footer-center bg-base-200 text-base-content rounded p-4">
       <nav className="grid grid-flow-col gap-4">
         <Link to="https://support.notreal003.xyz/terms" className="link link-hover hover:underline">Terms of Service</Link>
         <Link to="https://support.notreal003.xyz/privacy" className="link link-hover hover:underline">Privacy Policy</Link>
