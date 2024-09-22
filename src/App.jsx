@@ -18,6 +18,11 @@ import Note from './pages/Note';
 import AdminManage from './pages/AdminManage';
 import Footer from './components/Footer';
 import ForSell from './components/ForSell';
+import EmailSignup from './pages/EmailSignup';
+import EmailSignin from './pages/EmailSignin';
+import VerifyEmail from './pages/VerifyEmail';
+import VerifySigninEmail from './pages/VerifySigninEmail';
+
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -64,7 +69,11 @@ const App = () => {
             <Route path="/callback" element={<Callback />} />
             <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/login" />} />
             <Route path="/Admin/Manage" element={isAuthenticated ? <AdminManage /> : <Navigate to="/login" />} />"
-            <Route path="/note" element={isAuthenticated ? <Note /> : <Navigate to="/login" />} />"
+            <Route path="/note" element={isAuthenticated ? <Note /> : <Navigate to="/login" />} />
+            <Route path="/EmailSignup" element={isAuthenticated ? <Navigate to="/" /> : <EmailSignup />} />
+            <Route path="/EmailSignin" element={isAuthenticated ? <Navigate to="/" /> : <EmailSignin />} />
+            <Route path="/VerifyEmail" element={isAuthenticated ? <Navigate to="/" /> : <VerifyEmail />} />
+            <Route path="/VerifySigninEmail" element={isAuthenticated ? <Navigate to="/" /> : <VerifySigninEmail />} />
           </Routes>
         </div>
         <Footer />
