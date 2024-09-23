@@ -33,7 +33,8 @@ const EmailSignup = () => {
       }, 3000);
       setLoading(false);
     } catch (error) {
-      toast.error('There was a problem during signup. Please try again.');
+      const errorMessage = error.response?.data?.message || 'There was a problem during signup. Please try again.';
+      toast.error(errorMessage);
       setLoading(false);
     }
   };
@@ -42,7 +43,7 @@ const EmailSignup = () => {
     <div className="h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 max-w-md md:max-w-lg mx-auto shadow-lg rounded-lg">
       <ToastContainer />
       <div className="bg-gradient-to-br from-black-400 via-black-500 to-black-600 p-8 bg-opacity-10 rounded-lg shadow-lg max-w-sm ml-2 mr-2 m-2 w-full">
-        <h1 className="text-4xl font-bold mb-6 text-center text-white">Sign Up with Email</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center text-white">Sign Up with Email</h1>
         <form onSubmit={handleSignup}>
           <div className="mb-4">
             <input
