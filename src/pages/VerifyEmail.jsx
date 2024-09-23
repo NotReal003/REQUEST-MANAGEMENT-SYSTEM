@@ -19,11 +19,12 @@ const VerifyEmail = () => {
           toast.error('Invalid verification code');
           return;
         }
-        await axios.get(`https://api.notreal003.xyz/auth/verify-email?token=${token}`);
+        await axios.get(`https://api.notreal003.xyz/auth/email-verify?token=${token}`);
         toast.success('Your email has been verified!');
         setTimeout(() => navigate('/login'), 3000);
       } catch (error) {
-        toast.error('There was an error verifying your email. Please try again.');
+        const errorMessage = error.response?.data?.message || 'There was an error verifying your email. Please try again.';
+        toast.error(errorMessage);
         setStatus('Verification Failed.');
       }
     };
