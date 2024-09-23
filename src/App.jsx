@@ -70,10 +70,10 @@ const App = () => {
             <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/login" />} />
             <Route path="/Admin/Manage" element={isAuthenticated ? <AdminManage /> : <Navigate to="/login" />} />"
             <Route path="/note" element={isAuthenticated ? <Note /> : <Navigate to="/login" />} />
-            <Route path="/EmailSignup" element={isAuthenticated ? <Navigate to="/" /> : <EmailSignup />} />
-            <Route path="/EmailSignin" element={isAuthenticated ? <Navigate to="/" /> : <EmailSignin />} />
-            <Route path="/VerifyEmail" element={isAuthenticated ? <Navigate to="/" /> : <VerifyEmail />} />
-            <Route path="/VerifySigninEmail" element={isAuthenticated ? <Navigate to="/" /> : <VerifySigninEmail />} />
+            <Route path="/email-signup" element={isAuthenticated ? <Navigate to="/" /> : <EmailSignup />} />
+            <Route path="/email-signin" element={isAuthenticated ? <Navigate to="/" /> : <EmailSignin />} />
+            <Route path="/veirfy-email" element={isAuthenticated ? <Navigate to="/" /> : <VerifyEmail />} />
+            <Route path="/verify-signin-email" element={isAuthenticated ? <Navigate to="/" /> : <VerifySigninEmail />} />
           </Routes>
         </div>
         <Footer />
