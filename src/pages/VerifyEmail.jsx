@@ -5,19 +5,20 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const VerifyEmail = () => {
-  const { requestId } = useParams();
+  const { code } = useParams();
   const [status, setStatus] = useState('Verifying...');
   const navigate = useNavigate();
 
   useEffect(() => {
     const verify = async () => {
       try {
-          const code = urlParams.get('token');
+         const urlParams = new URLSearchParams(window.location.search);
+          const token = urlParams.get('token');
         if (!code) {
           toast.error('Invalid verification code');
           return;
         }
-        await axios.get(`https://api.notreal003.xyz/auth/verify-email?token=${code}`);
+        await axios.get(`https://api.notreal003.xyz/auth/verify-email?token=${token}`);
         toast.success('Your email has been verified!');
         setTimeout(() => navigate('/login'), 3000);
       } catch (error) {
