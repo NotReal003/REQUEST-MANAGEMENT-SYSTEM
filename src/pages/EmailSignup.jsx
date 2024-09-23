@@ -6,8 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const EmailSignup = () => {
   const [email, setEmail] = useState('');
-  const navigate = useNavigate();
   const [username, setUsername] = useState('');
+  const navigate = useNavigate();
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -16,6 +16,7 @@ const EmailSignup = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
+
     if (!isValidEmail(email)) {
       toast.error('Please enter a valid email address');
       return;
@@ -44,7 +45,7 @@ const EmailSignup = () => {
               placeholder="Username"
               className="input input-bordered w-full"
               value={username}
-              onChange={(e) => setUsername(e.target.value)} // Ensure this is handled in your state
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
@@ -64,6 +65,7 @@ const EmailSignup = () => {
         </form>
       </div>
     </div>
-
+  );
+};
 
 export default EmailSignup;
