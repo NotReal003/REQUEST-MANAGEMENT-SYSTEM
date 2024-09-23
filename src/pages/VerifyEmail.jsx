@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaSpinner } from "react-icons/fa";
 
 const VerifyEmail = () => {
   const { code } = useParams();
@@ -10,7 +11,7 @@ const VerifyEmail = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const verify = async () => {
+    const verifyAccount = async () => {
       try {
          const urlParams = new URLSearchParams(window.location.search);
           const token = urlParams.get('token');
@@ -27,7 +28,7 @@ const VerifyEmail = () => {
       }
     };
 
-    if (code) verify();
+    verifyAccount();
   }, [code, navigate]);
 
   return (
@@ -35,7 +36,7 @@ const VerifyEmail = () => {
       <ToastContainer />
       <div className="bg-gradient-to-br from-black-400 via-black-500 to-black-600 p-8 bg-opacity-10 rounded-lg shadow-lg max-w-sm ml-2 mr-2 m-2 w-full text-center">
         <h1 className="text-2xl font-bold mb-4 text-white">{status}</h1>
-        <p>Please wait a moment...</p>
+        <span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Please wait a moment...</span>
       </div>
     </div>
   );
