@@ -28,7 +28,7 @@ const VerifySigninEmail = () => {
       }
     };
     signIn();
-  }, [code, token, navigate]);
+  }, [token, navigate]);
 
   return (
     <div className="h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 max-w-md md:max-w-lg mx-auto shadow-lg rounded-lg">
