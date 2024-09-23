@@ -15,7 +15,7 @@ const VerifyEmail = () => {
       try {
          const urlParams = new URLSearchParams(window.location.search);
           const token = urlParams.get('token');
-        if (!code) {
+        if (!token) {
           toast.error('Invalid verification code');
           return;
         }
