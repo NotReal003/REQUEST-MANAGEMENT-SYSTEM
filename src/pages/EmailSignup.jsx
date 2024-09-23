@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const EmailSignup = () => {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
+  const [username, setUsername] = useState('');
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -21,7 +22,7 @@ const EmailSignup = () => {
     }
 
     try {
-      await axios.post('https://api.notreal003.xyz/auth/email-signup', { email });
+      await axios.post('https://api.notreal003.xyz/auth/email-signup', { email, username });
       toast.success('Verification email sent! Redirecting...');
       setTimeout(() => {
         navigate('/verify-email', { state: { email } });
@@ -39,6 +40,16 @@ const EmailSignup = () => {
         <form onSubmit={handleSignup}>
           <div className="mb-4">
             <input
+              type="text"
+              placeholder="Username"
+              className="input input-bordered w-full"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)} // Ensure this is handled in your state
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <input
               type="email"
               placeholder="Email"
               value={email}
@@ -53,7 +64,6 @@ const EmailSignup = () => {
         </form>
       </div>
     </div>
-  );
-};
+
 
 export default EmailSignup;
