@@ -11,11 +11,10 @@ const VerifySigninEmail = () => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    setQuick(true);
     const code = urlParams.get('token');
-    const verify = async () => {
+    const signIn = async () => {
       try {
-        response = await axios.post(`https://api.notreal003.xyz/auth/verify-signin-email`, {
+        const response = await axios.post(`https://api.notreal003.xyz/auth/verify-signin-email`, {
           token: code,
         });
         toast.success('Your sign-in has been verified!');
@@ -28,9 +27,8 @@ const VerifySigninEmail = () => {
         setStatus('Verification Failed.');
       }
     };
-
-    if (email) verify();
-  }, [email, navigate]);
+    signIn();
+  }, [code, token, navigate]);
 
   return (
     <div className="h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 max-w-md md:max-w-lg mx-auto shadow-lg rounded-lg">
