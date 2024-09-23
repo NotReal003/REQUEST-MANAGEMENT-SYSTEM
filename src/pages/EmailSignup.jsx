@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaSpinner } from "react-icons/fa";
 
 const EmailSignup = () => {
   const [email, setEmail] = useState('');

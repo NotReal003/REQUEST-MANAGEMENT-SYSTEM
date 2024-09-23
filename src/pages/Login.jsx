@@ -17,14 +17,14 @@ const Login = () => {
           Login with Discord
         </button>
 
-        <Link to="/email-signin" className="btn btn-outline btn-secondary w-full mt-5 flex items-center justify-center transition-all duration-200 no-animation hover:bg-secondary hover:border-secondary hover:text-white">
+        <Link to="/email-signin" className="btn btn-outline btn-warning w-full mt-5 flex items-center justify-center transition-all duration-200 no-animation hover:bg-secondary hover:border-secondary hover:text-white">
           <FaEnvelope className="mr-2" />
           Login with Email
         </Link>
 
         <p className="text-center text-white mt-5">
           Don’t have an account?{" "}
-          <Link to="/email-signup" className="text-primary hover:underline">
+          <Link to="/email-signup" className="text-info hover:underline">
             Sign up with Email
           </Link>
         </p>
