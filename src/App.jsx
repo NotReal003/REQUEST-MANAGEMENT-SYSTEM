@@ -65,14 +65,14 @@ const App = () => {
             <Route path="/Admin" element={isAuthenticated ? <Admin /> : <Navigate to="/login" />} />
             <Route path="/RequestDetail" element={isAuthenticated ? <RequestDetail /> : <Navigate to="/login" />} />
             <Route path="/AdminDetail" element={isAuthenticated ? <AdminDetail /> : <Navigate to="/login" />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={isAuthenticated ? <NotFound /> : <Navigate to="/login" />} />
             <Route path="/callback" element={<Callback />} />
             <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/login" />} />
             <Route path="/Admin/Manage" element={isAuthenticated ? <AdminManage /> : <Navigate to="/login" />} />"
             <Route path="/note" element={isAuthenticated ? <Note /> : <Navigate to="/login" />} />
             <Route path="/email-signup" element={isAuthenticated ? <Navigate to="/" /> : <EmailSignup />} />
             <Route path="/email-signin" element={isAuthenticated ? <Navigate to="/" /> : <EmailSignin />} />
-            <Route path="/veirfy-email" element={isAuthenticated ? <Navigate to="/" /> : <VerifyEmail />} />
+            <Route path="/verify-email" element={isAuthenticated ? <Navigate to="/" /> : <VerifyEmail />} />
             <Route path="/verify-signin-email" element={isAuthenticated ? <Navigate to="/" /> : <VerifySigninEmail />} />
           </Routes>
         </div>

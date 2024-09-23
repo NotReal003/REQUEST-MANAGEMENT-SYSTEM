@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const EmailSignup = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const isValidEmail = (email) => {
@@ -23,13 +24,16 @@ const EmailSignup = () => {
     }
 
     try {
+      setLoading(true);
       await axios.post('https://api.notreal003.xyz/auth/email-signup', { email, username });
       toast.success('Verification email sent! Redirecting...');
       setTimeout(() => {
         navigate('/verify-email', { state: { email } });
       }, 3000);
+      setLoading(false);
     } catch (error) {
       toast.error('There was a problem during signup. Please try again.');
+      setLoading(false);
     }
   };
 
@@ -59,8 +63,10 @@ const EmailSignup = () => {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-full">
-            Sign Up
+          <button
+            disabled={loading}
+            type="submit" className="btn btn-primary w-full no-animation">
+            {loading ? <span> <FaSpinner className="animate-spin inline-block align-middle mr-2" /> Sign Up </span> : <> Submit </>}
           </button>
         </form>
       </div>
