@@ -18,6 +18,7 @@ const VerifyEmail = () => {
           const token = urlParams.get('token');
         if (!token) {
           toast.error('Invalid verification code');
+          setLoading('No veirfication code found.')
           return;
         }
         setLoading('<span><FaSpinner className="animate-spin inline-block align-middle mr-2" /> Please wait a moment...</span>');
@@ -25,7 +26,7 @@ const VerifyEmail = () => {
         toast.success('Your email has been verified!');
         setLoading('Verification Done.');
         const jwtToken = response.data.jwtToken;
-        localstorage.setitem('jwtToken', jwtToken);
+          localStorage.setitem('jwtToken', jwtToken);
         navigate('/');
         setTimeout(() => navigate('/login'), 3000);
       } catch (error) {
