@@ -35,6 +35,7 @@ const VerifyEmail = () => {
         navigate('/');
         setTimeout(() => navigate('/login'), 3000);
       } catch (error) {
+        console.log(error);
         const errorMessage = error.response?.data?.message || 'There was an error verifying your email. Please try again.';
         setQuick(false);
         setLoading(errorMessage);

@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const VerifySigninEmail = () => {
-  const location = useLocation();
-  const { email } = location.state || {};
+  const { token } = useParams();
   const [status, setStatus] = useState('Verifying...');
   const navigate = useNavigate();
 
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    setQuick(true);
+    const code = urlParams.get('token');
     const verify = async () => {
       try {
-        await axios.get(`https://api.notreal003.xyz/auth/verify-signin-email?email=${email}`);
+        response = await axios.post(`https://api.notreal003.xyz/auth/verify-signin-email`, {
+          token: code,
+        });
         toast.success('Your sign-in has been verified!');
+        const jwtToken = response.data.jwtToken;
+        localStorage.setItem('jwtToken', jwtToken);
         setTimeout(() => navigate('/'), 5000);
       } catch (error) {
+        console.log(error);
         toast.error('There was an error verifying your sign-in. Please try again.');
         setStatus('Verification Failed.');
       }
