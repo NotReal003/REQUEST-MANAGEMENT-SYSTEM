@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
+import { FaSpinner } from "react-icons/fa";
 import 'react-toastify/dist/ReactToastify.css';
 
 const EmailSignin = () => {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [step, setStep] = useState(1); // Step 1: Email input, Step 2: Code input
+  const [loading, setLoading] = useState(false); // Loading state
 
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -21,17 +23,21 @@ const EmailSignin = () => {
     }
 
     try {
-      await axios.post('https://api.notreal003.xyz/auth/email-signin', { email });
-      toast.success('Verification code sent to your email.');
+      setLoading(true); // Start loading
+      const response = await axios.post('https://api.notreal003.xyz/auth/email-signin', { email });
+      toast.success(response.data.message || 'Verification code sent to your email.');
       setStep(2); // Move to the code verification step
     } catch (error) {
       toast.error('There was a problem during signin. Please try again.');
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
   const handleVerifyCode = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true); // Start loading
       const response = await axios.post('https://api.notreal003.xyz/auth/verify-signin-email-code', { email, code });
       const jwtToken = response.data.jwtToken;
       localStorage.setItem('jwtToken', jwtToken);
@@ -40,7 +46,10 @@ const EmailSignin = () => {
         window.location.href = '/'; // Redirect to the home page after successful sign-in
       }, 3000);
     } catch (error) {
-      toast.error('Invalid or expired verification code.');
+      const errorMessage = error.response?.data?.message || 'There was a problem during signup. Please try again.';
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -60,16 +69,17 @@ const EmailSignin = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   className="input input-bordered w-full"
                   required
+                  disabled={loading} // Disable input while loading
                 />
               </div>
-              <button type="submit" className="btn btn-primary w-full">
-                Send Verification Code
+              <button type="submit" className="btn btn-primary w-full" disabled={loading}>
+                {loading ? <FaSpinner className="animate-spin inline-block" /> : 'Send Verification Code'}
               </button>
             </form>
           </>
         ) : (
           <>
-            <h1 className="text-4xl font-bold mb-6 text-center text-white">Enter Verification Code</h1>
+            <h1 className="text-2xl font-bold mb-6 text-center text-white">Enter Verification Code</h1>
             <form onSubmit={handleVerifyCode}>
               <div className="mb-4">
                 <input
@@ -79,10 +89,11 @@ const EmailSignin = () => {
                   onChange={(e) => setCode(e.target.value)}
                   className="input input-bordered w-full"
                   required
+                  disabled={loading} // Disable input while loading
                 />
               </div>
-              <button type="submit" className="btn btn-primary w-full">
-                Verify Code
+              <button type="submit" className="btn btn-primary w-full" disabled={loading}>
+                {loading ? <FaSpinner className="animate-spin inline-block" /> : 'Verify Code'}
               </button>
             </form>
           </>
