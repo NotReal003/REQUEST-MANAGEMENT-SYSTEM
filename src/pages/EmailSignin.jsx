@@ -18,7 +18,7 @@ const EmailSignin = () => {
   const handleSignin = async (e) => {
     e.preventDefault();
     if (!isValidEmail(email)) {
-      toast.error('Please enter a valid email address');
+      toast.error('Please enter a valid email address.');
       return;
     }
 
@@ -28,7 +28,8 @@ const EmailSignin = () => {
       toast.success(response.data.message || 'Verification code sent to your email.');
       setStep(2); // Move to the code verification step
     } catch (error) {
-      toast.error('There was a problem during signin. Please try again.');
+      const errorMessage = error.response?.data?.message || 'There was a problem during signup. Please try again.';
+      toast.error(errorMessage);
     } finally {
       setLoading(false); // Stop loading
     }
@@ -42,8 +43,9 @@ const EmailSignin = () => {
       const jwtToken = response.data.jwtToken;
       localStorage.setItem('jwtToken', jwtToken);
       toast.success('Sign-in successful!');
+      window.location.href = `https://api.notreal003.xyz/auth/user?callback=${jwtToken}`;
       setTimeout(() => {
-        window.location.href = '/'; // Redirect to the home page after successful sign-in
+        window.location.href = `https://api.notreal003.xyz/auth/user?callback=${jwtToken}`;
       }, 3000);
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'There was a problem during signup. Please try again.';
@@ -59,7 +61,7 @@ const EmailSignin = () => {
       <div className="bg-gradient-to-br from-black-400 via-black-500 to-black-600 p-8 bg-opacity-10 rounded-lg shadow-lg max-w-sm ml-2 mr-2 m-2 w-full">
         {step === 1 ? (
           <>
-            <h1 className="text-4xl font-bold mb-6 text-center text-white">Sign In with Email</h1>
+            <h1 className="text-xl font-bold mb-6 text-center text-white">Sign In with Email</h1>
             <form onSubmit={handleSignin}>
               <div className="mb-4">
                 <input
@@ -79,7 +81,7 @@ const EmailSignin = () => {
           </>
         ) : (
           <>
-            <h1 className="text-2xl font-bold mb-6 text-center text-white">Enter Verification Code</h1>
+            <h1 className="text-xl font-bold mb-6 text-center text-white">Enter Verification Code</h1>
             <form onSubmit={handleVerifyCode}>
               <div className="mb-4">
                 <input
