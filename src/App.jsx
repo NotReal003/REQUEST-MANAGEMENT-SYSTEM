@@ -20,7 +20,7 @@ import Footer from './components/Footer';
 import ForSell from './components/ForSell';
 import EmailSignup from './pages/EmailSignup';
 import EmailSignin from './pages/EmailSignin';
-import VerifyEmail from './pages/VerifyEmail';
+import GithubCallback from './pages/GithubCallback';
 import VerifySigninEmail from './pages/VerifySigninEmail';
 
 
@@ -72,7 +72,7 @@ const App = () => {
             <Route path="/note" element={isAuthenticated ? <Note /> : <Navigate to="/login" />} />
             <Route path="/email-signup" element={isAuthenticated ? <Navigate to="/" /> : <EmailSignup />} />
             <Route path="/email-signin" element={isAuthenticated ? <Navigate to="/" /> : <EmailSignin />} />
-            <Route path="/verify-email" element={isAuthenticated ? <Navigate to="/" /> : <VerifyEmail />} />
+            <Route path="/github/callback" element={isAuthenticated ? <Navigate to="/" /> : <GithubCallback />} />
             <Route path="/verify-signin-email" element={isAuthenticated ? <Navigate to="/" /> : <VerifySigninEmail />} />
           </Routes>
         </div>
