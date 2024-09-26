@@ -65,7 +65,7 @@ const App = () => {
             <Route path="/Admin" element={isAuthenticated ? <Admin /> : <Navigate to="/login" />} />
             <Route path="/RequestDetail" element={isAuthenticated ? <RequestDetail /> : <Navigate to="/login" />} />
             <Route path="/AdminDetail" element={isAuthenticated ? <AdminDetail /> : <Navigate to="/login" />} />
-            <Route path="*" element={isAuthenticated ? <NotFound /> : <Navigate to="/login" />} />
+            <Route path="*" element={!isAuthenticated ? <NotFound /> : <Navigate to="/login" />} />
             <Route path="/callback" element={<Callback />} />
             <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/login" />} />
             <Route path="/Admin/Manage" element={isAuthenticated ? <AdminManage /> : <Navigate to="/login" />} />"
