@@ -1,9 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Showcase = () => {
+const About = () => {
   return (
     <div className="container mx-auto p-6">
-      {/* Header */}
       <header className="text-center mb-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">Request Management System</h1>
         <p className="text-lg text-gray-600">
@@ -11,7 +11,6 @@ const Showcase = () => {
         </p>
       </header>
 
-      {/* Overview Section */}
       <section className="mb-12">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Overview</h2>
         <p className="text-gray-600">
@@ -19,12 +18,10 @@ const Showcase = () => {
         </p>
       </section>
 
-      {/* Key Features */}
       <section className="mb-12">
         <h2 className="text-2xl font-semibold text-gray-800 mb-4">Key Features</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Frontend Features */}
           <div className="bg-white shadow-md rounded-lg p-6">
             <h3 className="text-xl font-semibold text-gray-700 mb-4">Frontend</h3>
             <ul className="list-disc list-inside text-gray-600">
@@ -93,7 +90,7 @@ const Showcase = () => {
             <li>GET `/auth/github/callback`: Verify Github Code</li>
             <li>GET `/users/@me`: Get current user details.</li>
             <li>GET `/auth/signout`: Logout user.</li>
-            <link>And other routes</link>
+            <li>And other routes</li>
           </ul>
         </div>
 
@@ -126,4 +123,4 @@ const Showcase = () => {
   );
 };
 
-export default Showcase;
+export default About;
