@@ -246,15 +246,6 @@ const Admin = () => {
 
   const handleNextPage = () => setCurrentPage((prev) => prev + 1);
   const handlePrevPage = () => setCurrentPage((prev) => prev - 1);
-  
-  if (loading) {
-    return (
-    <div className="flex items-center justify-center space-x-2">
-      <span className="loading loading-spinner text-info"></span>
-      <p className="text-sm sm:text-base">Fetching requests...</p>
-    </div>
-      );
-  }
 
   return (
     <div className="flex flex-col items-center justify-center p-2 sm:p-4 md:p-6">
