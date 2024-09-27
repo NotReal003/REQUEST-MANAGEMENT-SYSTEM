@@ -21,7 +21,7 @@ import ForSell from './components/ForSell';
 import EmailSignup from './pages/EmailSignup';
 import EmailSignin from './pages/EmailSignin';
 import GithubCallback from './pages/GithubCallback';
-import VerifySigninEmail from './pages/VerifySigninEmail';
+import About from './pages/About';
 
 
 const App = () => {
@@ -73,7 +73,7 @@ const App = () => {
             <Route path="/email-signup" element={isAuthenticated ? <Navigate to="/" /> : <EmailSignup />} />
             <Route path="/email-signin" element={isAuthenticated ? <Navigate to="/" /> : <EmailSignin />} />
             <Route path="/github/callback" element={isAuthenticated ? <Navigate to="/" /> : <GithubCallback />} />
-            <Route path="/verify-signin-email" element={isAuthenticated ? <Navigate to="/" /> : <VerifySigninEmail />} />
+            <Route path="/about" element={isAuthenticated ? <Navigate to="/" /> : <About />} />
           </Routes>
         </div>
         <Footer />

@@ -6,7 +6,9 @@ const ForSell = () => {
       This website and with backend API are for sell. For more information, please{' '}
       <a href="discord:/users/1131271104590270606" className="text-blue-500 hover:underline font-bold">
         Contact Me On Discord
-      </a>,  if not working, my username in discord is <strong>notnt77</strong> add me there :)
+      </a>,  if not working, my username in discord is <strong>notnt77</strong> add me there :) read more about this system by <a href="/about" className="text-blue-500 hover:underline font-bold">
+        Clicking Here!
+      </a>
     </div>
   );
 };
