@@ -43,7 +43,7 @@ const Callback = () => {
       <div className="flex items-center space-x-4">
         <IoLogoGithub className="h-14 w-14 m-4" />
         <span className="text-2xl m-4 mr-4">+</span>
-        <FaLockclassName className="h-14 w-14 m-4 ml-4" />
+        <FaLock className="h-14 w-14 m-4 ml-4" />
       </div>
       {loading && (
         <div className="flex items-center mt-8 m-4">
