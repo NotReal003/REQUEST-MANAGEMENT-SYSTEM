@@ -4,16 +4,16 @@ import { Link } from 'react-router-dom';
 const About = () => {
   return (
     <div className="container mx-auto p-6">
-      <header className="text-center mb-8 bg-base-100 shadow-lg">
+      <header className="text-center mb-8 bg-base-100">
         <h1 className="text-xl font-bold mb-4">Request Management System</h1>
-        <p className="text-lg font-serif">
+        <p className="text-md font-serif">
           A comprehensive platform to manage user requests with authentication, notifications, and admin control.
         </p>
       </header>
 
       <section className="mb-12">
         <h2 className="text-2xl font-semibold mb-4">Overview</h2>
-        <p>
+        <p className="font-serif">
           This project is a fully functional request management system, including both backend and frontend components. It is designed for users to submit different types of requests such as Discord reports, support requests, and guild applications. Administrators can manage these requests with advanced control options.
         </p>
       </section>
