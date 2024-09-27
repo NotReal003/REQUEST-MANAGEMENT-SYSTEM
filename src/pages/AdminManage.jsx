@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
 
 const BlockUserPage = () => {
   const [myBlockUser, setMyBlockUser] = useState('');
@@ -63,7 +62,7 @@ const BlockUserPage = () => {
     toast.promise(
       blockUserPromise,
       {
-        pending: 'Blocking user...',
+        loading: 'Blocking user...',
         success: 'User blocked successfully!',
         error: {
           render({ data }) {
@@ -97,7 +96,7 @@ const BlockUserPage = () => {
     toast.promise(
       unblockUserPromise,
       {
-        pending: 'Unblocking user...',
+        loading: 'Unblocking user...',
         success: 'User unblocked successfully!',
         error: {
           render({ data }) {
@@ -121,7 +120,7 @@ const BlockUserPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <ToastContainer />
+      <Toaster />
       <h1 className="text-2xl font-bold mb-4">Block/Unblock Users</h1>
 
       {/* Block User Form */}

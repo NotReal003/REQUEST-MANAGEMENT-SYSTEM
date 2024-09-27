@@ -6,8 +6,7 @@ import { MdSupportAgent } from 'react-icons/md';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { formatDistanceToNow } from 'date-fns';
 import { FaPeopleGroup } from 'react-icons/fa6';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
 
 // Request Status Component
 const RequestStatus = ({ status }) => {
@@ -247,10 +246,19 @@ const Admin = () => {
 
   const handleNextPage = () => setCurrentPage((prev) => prev + 1);
   const handlePrevPage = () => setCurrentPage((prev) => prev - 1);
+  
+  if (loading) {
+    return (
+    <div className="flex items-center justify-center space-x-2">
+      <span className="loading loading-spinner text-info"></span>
+      <p className="text-sm sm:text-base">Fetching requests...</p>
+    </div>
+      );
+  }
 
   return (
     <div className="flex flex-col items-center justify-center p-2 sm:p-4 md:p-6">
-      <ToastContainer />
+      <Toaster />
       <div className="rounded-lg shadow-sm w-full max-w-3xl">
         <h1 className="text-xl sm:text-2xl font-bold mb-4 text-center">Admin Dashboard - Manage Requests/Users</h1>
         <FilterControls

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
 import { FaSpinner } from "react-icons/fa";
 
 const EmailSignup = () => {
@@ -68,7 +67,7 @@ const EmailSignup = () => {
 
   return (
     <div className="h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 max-w-md md:max-w-lg mx-auto shadow-lg rounded-lg">
-      <ToastContainer />
+      <Toaster />
       <div className="bg-gradient-to-br from-black-400 via-black-500 to-black-600 p-8 bg-opacity-10 rounded-lg shadow-lg max-w-sm ml-2 mr-2 m-2 w-full">
         <h1 className="text-xl font-bold mb-6 text-center text-white">{step === 1 ? 'Sign Up with Email' : 'Verify Your Email'}</h1>
 

@@ -3,8 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { IoSend } from "react-icons/io5";
 import { ImExit } from "react-icons/im";
 import { FaShieldHalved } from "react-icons/fa6";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
 import { FaSpinner } from "react-icons/fa";
 
 const ReportForm = () => {
@@ -90,7 +89,7 @@ const ReportForm = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-2 min-h-screen">
-      <ToastContainer />
+      <Toaster />
       <div className="form-container w-full max-w-md md:max-w-lg mx-auto shadow-lg rounded-lg p-4">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
           <FaShieldHalved className="size-6 mr-2" />Discord report
