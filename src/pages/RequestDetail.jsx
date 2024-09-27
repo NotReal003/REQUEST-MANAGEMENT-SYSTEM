@@ -134,6 +134,7 @@ function RequestDetail() {
 
   return (
     <div className="flex flex-col items-center justify-center p-2 min-h-screen">
+      <Toaster />
       {request.reviewed === 'false' && (
         <div className="flex items-center m-2">
           <p className="text-sm text-gray-400 m-2">Your request is currently being reviewed by the admin.</p>
@@ -224,27 +225,20 @@ function RequestDetail() {
         <div className="modal modal-open">
           <div className="modal-box">
             <h3 className="font-bold text-lg">Confirm Cancellation</h3>
-            <p className="py-4">Are you sure you want to cancel your request?</p>
+            <p className="py-4 font-serif">Are you sure you want to cancel your request?</p>
             <div className="modal-action">
               <button
-                className="btn text-white bg-orange-500 hover:bg-orange-600 w-full no-animation"
-                onClick={handleCancelRequest}
-                disabled={isCancelling}
-              >
-                {isCancelling ? (
-                  <>
-                    <FaSpinner className="animate-spin mr-2" />
-                    Cancelling...
-                  </>
-                ) : (
-                  'Yes, cancel my request'
-                )}
-              </button>
-              <button
-                className="btn text-white bg-gray-500 hover:bg-gray-600 no-animation"
+                className="btn btn-info no-animation"
                 onClick={() => setShowCancelModal(false)}
               >
-                Close
+                No, keep it
+              </button>
+              <button
+                className="btn btn-error no-animation"
+                disabled={isCancelling}
+                onClick={handleCancelRequest}
+              >
+                {isCancelling ? <FaSpinner className="animate-spin mr-2" /> : 'Yes, cancel it'}
               </button>
             </div>
           </div>
