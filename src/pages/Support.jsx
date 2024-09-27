@@ -3,8 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { IoSend } from "react-icons/io5";
 import { IoMdMail } from "react-icons/io";
 import { ImExit } from "react-icons/im";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast, { Toaster } from 'react-hot-toast';
 import { FaSpinner } from "react-icons/fa";
 
 const Support = () => {
@@ -86,7 +85,7 @@ const Support = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-2 min-h-screen">
-      <ToastContainer className="m-2 items-center shadow-lg" />
+      <Toaster />
       <div className="form-container w-full max-w-md md:max-w-lg mx-auto shadow-lg rounded-lg p-4">
         <h1 className="text-2xl font-bold mb-4 fill-current flex items-center justify-center">
           <IoMdMail className="size-6 mr-2" />Support
