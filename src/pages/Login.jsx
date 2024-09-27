@@ -14,7 +14,7 @@ const Login = () => {
           onClick={() => window.location.href = `https://api.notreal003.xyz/auth/github`}
           className="btn btn-outline btn-primary w-full mt-5 flex items-center justify-center transition-all duration-200 no-animation hover:bg-primary hover:border-primary hover:text-white"
         >
-          <IoLogoGithub className="mr-2" />
+          <IoLogoGithub />
             Login with GitHub
           </button>
 
@@ -22,12 +22,12 @@ const Login = () => {
           onClick={() => window.location.href = `https://api.notreal003.xyz/auth/signin`}
           className="btn btn-outline btn-primary w-full mt-5 flex items-center justify-center transition-all duration-200 no-animation hover:bg-primary hover:border-primary hover:text-white"
         >
-          <FaDiscord className="mr-2" />
+          <FaDiscord />
           Login with Discord
         </button>
 
         <Link to="/email-signin" className="btn btn-outline btn-primary w-full mt-5 flex items-center justify-center transition-all duration-200 no-animation hover:bg-primary hover:border-primary hover:text-white">
-          <FaEnvelope className="mr-2" />
+          <FaEnvelope />
           Login with Email
         </Link>
 

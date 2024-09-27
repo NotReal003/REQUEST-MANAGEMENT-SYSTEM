@@ -41,16 +41,16 @@ const Callback = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen shadow-lg">
       <div className="flex items-center space-x-4">
-        <FaLock className="h-14 w-14 m-4" />
-        <span className="text-3xl m-4 mr-4">+</span>
-        <IoLogoGithub className="h-16 w-16 m-4 ml-4" />
+        <IoLogoGithub className="h-14 w-14 m-4" />
+        <span className="text-2xl m-4 mr-4">+</span>
+        <FaLockclassName className="h-14 w-14 m-4 ml-4" />
       </div>
       {loading && (
         <div className="flex items-center mt-8 m-4">
           <div className="flex items-center justify-center">
             <FaSpinner className="animate-spin inline-block align-middle m-4" />
           </div>
-          <p className="font-serif">Please wait while we are securely connecting your Discord account.</p>
+          <p className="font-serif">Please wait while we are securely connecting your Github account.</p>
         </div>
       )}
       {error && (

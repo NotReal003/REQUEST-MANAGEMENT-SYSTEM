@@ -59,12 +59,6 @@ const Home = () => {
               <span className="flex items-center">Admin Manage</span>
             </Link>
           )}
-
-          {isAdmin && (
-            <Link to="/profile" className="btn btn-outline btn-info w-full flex justify-between items-center">
-              <span className="flex items-center">Profile</span>
-            </Link>
-          )}
         </div>
       </div>
     </div>
