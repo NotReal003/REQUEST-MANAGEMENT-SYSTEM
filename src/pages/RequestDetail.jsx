@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { FaSpinner } from 'react-icons/fa';
-import { toast } from 'react-hot-toast';
+import { toast, { Toaster } } from 'react-hot-toast';
 
 function RequestDetail() {
   const { requestId } = useParams();
