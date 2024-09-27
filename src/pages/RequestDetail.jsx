@@ -3,8 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { FaSpinner } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-hot-toast';
 
 function RequestDetail() {
   const { requestId } = useParams();
@@ -35,11 +34,11 @@ function RequestDetail() {
           setLoading(false);
         } else {
           setErrorMesssage(response.data.message || 'An error occurred while fetching the request.');
-      toast.error(response.data.message || 'An error occurred while fetching the request.');
+          toast.error(response.data.message || 'An error occurred while fetching the request.');
           setLoading(false);
         }
       } catch (error) {
-          setErrorMesssage(error.response?.data?.message || 'An error occurred while fetching the request.');
+        setErrorMesssage(error.response?.data?.message || 'An error occurred while fetching the request.');
         toast.error(error.response?.data?.message || 'You do not have permission to check this request');
         setLoading(false);
       }
@@ -83,21 +82,15 @@ function RequestDetail() {
     toast.promise(
       cancelRequestPromise,
       {
-        pending: 'Cancelling your request...',
+        loading: 'Cancelling your request...',
         success: 'Request cancelled successfully',
-        error: {
-          render({ data }) {
-            // Use a custom error message if available
-            return data.response?.data?.message || 'An error occurred while cancelling your request';
-          },
-        },
+        error: (err) => err.response?.data?.message || 'An error occurred while cancelling your request',
       }
     );
 
     try {
       await cancelRequestPromise;
     } catch (error) {
-      // Handle any additional error logic if necessary
       console.error('Error cancelling the request:', error);
     } finally {
       setIsCancelling(false);
@@ -127,23 +120,20 @@ function RequestDetail() {
       <div className="flex items-center justify-center min-h-screen bg-base-200">
         <div className="text-center">
           <strong className="text-lg text-red-500">{errorMesssage}</strong>
-          <ToastContainer />
         </div>
       </div>
     );
   }
-  
+
   if (!request) {
     return (
       <div className="flex flex-col items-center justify-center p-4 max-w-md md:max-w-lg mx-auto shadow-lg min-h-screen">
-        <ToastContainer />
       </div>
     );
   }
 
   return (
     <div className="flex flex-col items-center justify-center p-2 min-h-screen">
-      <ToastContainer />
       {request.reviewed === 'false' && (
         <div className="flex items-center m-2">
           <p className="text-sm text-gray-400 m-2">Your request is currently being reviewed by the admin.</p>
@@ -234,31 +224,39 @@ function RequestDetail() {
         <div className="modal modal-open">
           <div className="modal-box">
             <h3 className="font-bold text-lg">Confirm Cancellation</h3>
-            <p className="py-4 font-serif">Are you sure you want to cancel your request?</p>
+            <p className="py-4">Are you sure you want to cancel your request?</p>
             <div className="modal-action">
               <button
-                className="btn btn-info no-animation"
-                onClick={() => setShowCancelModal(false)}
+                className="btn text-white bg-orange-500 hover:bg-orange-600 w-full no-animation"
+                onClick={handleCancelRequest}
+                disabled={isCancelling}
               >
-                No, keep it
+                {isCancelling ? (
+                  <>
+                    <FaSpinner className="animate-spin mr-2" />
+                    Cancelling...
+                  </>
+                ) : (
+                  'Yes, cancel my request'
+                )}
               </button>
               <button
-                className="btn btn-error no-animation"
-                disabled={isCancelling}
-                onClick={handleCancelRequest}
+                className="btn text-white bg-gray-500 hover:bg-gray-600 no-animation"
+                onClick={() => setShowCancelModal(false)}
               >
-                {isCancelling ? <FaSpinner className="animate-spin mr-2" /> : 'Yes, cancel it'}
+                Close
               </button>
             </div>
           </div>
         </div>
       )}
-      <button
-        className="btn btn-link mt-4"
-        onClick={() => navigate(-1)}
-      >
-        <IoMdArrowRoundBack size={20} className="mr-1" /> Go back
-      </button>
+
+      <div className="p-2">
+        <button className="btn text-white bg-blue-600 btn-md no-animation" onClick={() => navigate(-1)}>
+          <IoMdArrowRoundBack className="mr-1" />
+          Back
+        </button>
+      </div>
     </div>
   );
 }
