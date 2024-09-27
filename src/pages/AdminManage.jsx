@@ -64,11 +64,7 @@ const BlockUserPage = () => {
       {
         loading: 'Blocking user...',
         success: 'User blocked successfully!',
-        error: {
-          render({ data }) {
-            return data.response?.data?.message || 'An error occurred while blocking the user.';
-          },
-        },
+        error: (err) => err.response?.data?.message || 'An error occurred while cancelling your request',
       }
     );
 
@@ -98,11 +94,7 @@ const BlockUserPage = () => {
       {
         loading: 'Unblocking user...',
         success: 'User unblocked successfully!',
-        error: {
-          render({ data }) {
-            return data.response?.data?.message || 'An error occurred while unblocking the user.';
-          },
-        },
+        error: (err) => err.response?.data?.message || 'An error occurred while cancelling your request',
       }
     );
 
