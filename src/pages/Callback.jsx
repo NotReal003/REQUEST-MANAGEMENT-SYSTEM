@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaDiscord, FaLock, FaSpinner } from "react-icons/fa";
+import toast, { Toaster } from 'react-hot-toast';
 
 const Callback = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const Callback = () => {
       })
         .then(response => {
           if (response.status === 200) {
+            toast.success('Verification successful...');
             const token = response.data.jwtToken;
             localStorage.setItem('jwtToken', token);
             window.location.href = `https://api.notreal003.xyz/auth/user?callback=${token}`;
@@ -32,6 +34,7 @@ const Callback = () => {
           setError(error.response.data.message || 'An error occurred while signing in.');
         });
     } else {
+      toast.error('No authorization code found in URL. Please SignIn again.');
       setError('No authorization code found in URL. Please SignIn again.');
       setLoading(false);
     }

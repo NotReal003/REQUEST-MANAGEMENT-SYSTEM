@@ -73,7 +73,7 @@ const App = () => {
             <Route path="/email-signup" element={isAuthenticated ? <Navigate to="/" /> : <EmailSignup />} />
             <Route path="/email-signin" element={isAuthenticated ? <Navigate to="/" /> : <EmailSignin />} />
             <Route path="/github/callback" element={isAuthenticated ? <Navigate to="/" /> : <GithubCallback />} />
-            <Route path="/about" element={isAuthenticated ? <Navigate to="/" /> : <About />} />
+              <Route path="/about" element={<About />} />
           </Routes>
         </div>
         <Footer />
