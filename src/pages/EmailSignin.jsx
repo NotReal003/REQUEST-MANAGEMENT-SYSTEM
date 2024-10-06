@@ -74,7 +74,7 @@ const EmailSignin = () => {
                 />
               </div>
               <button type="submit" className="btn btn-primary w-full" disabled={loading}>
-                {loading ? <FaSpinner className="animate-spin inline-block" /> : 'Send Verification Code'}
+                {loading ? <span><FaSpinner className="animate-spin inline-block" /> Send Verification Code </span> : 'Send Verification Code'}
               </button>
             </form>
           </>
@@ -94,7 +94,7 @@ const EmailSignin = () => {
                 />
               </div>
               <button type="submit" className="btn btn-primary w-full" disabled={loading}>
-                {loading ? <FaSpinner className="animate-spin inline-block" /> : 'Verify Code'}
+                {loading ? <span><FaSpinner className="animate-spin inline-block" /> Verify Code </span> : <> Verify Code </>}
               </button>
             </form>
           </>
