@@ -5,6 +5,7 @@ import axios from 'axios';
 import EditProfileModal from '../components/EditProfileModal';
 import { MdMarkEmailRead } from "react-icons/md";
 import toast, { Toaster } from 'react-hot-toast';
+import { FcLinux } from "react-icons/fc";
 
 const Profile = () => {
   const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -97,15 +98,21 @@ const Profile = () => {
               </strong>
               {user.email}
             </p>
+              <p>
+                <strong className="mr-1">
+                  <FaCheck className="inline-block align-middle m-1" /> Joined:
+                </strong>
+                {new Date(user.joinedAt).toLocaleDateString()}
+              </p>
             <p>
               <strong className="mr-1">
-                <FaCheck className="inline-block align-middle m-1" /> Joined:
+                <FcLinux className="inline-block align-middle m-1" /> AuthType:
               </strong>
-              {new Date(user.joinedAt).toLocaleDateString()}
+              {user.authType}
             </p>
             <p>
               <strong className="mr-1">
-                <FaDiscord className="inline-block align-middle m-1" /> Discord ID:
+                <FaDiscord className="inline-block align-middle m-1" /> Account ID:
               </strong>
               {user.id}
             </p>
@@ -123,12 +130,13 @@ const Profile = () => {
       </div>
 
       <div className="flex justify-between items-center mt-8">
-        <button
-          className="btn btn-outline btn-info btn-sm flex items-center"
-          onClick={() => window.location.href = `discord://users/${user.id}`}
+        {user.authType === 'discord' && (
+        <button className="btn btn-outline btn-info btn-sm flex items-center"
+          onClick={() => window.location.href = `https://saexamplediscord://users/${user.id}`}
         >
           <FaDiscord className="mr-2" /> View Discord Profile
         </button>
+      )}
         <button className="btn btn-outline btn-secondary btn-sm" onClick={() => setEditModalOpen(true)}><IoMdSettings /> Edit Profile
         </button>
       </div>
@@ -138,9 +146,11 @@ const Profile = () => {
         currentDisplayName={user?.displayName || user?.username}
         onUpdate={handleUpdateDisplayName}
       />
+      {user.authType === 'discord' && (
       <div className="flex items-center justify-center mt-2">
         <p className="mt-2 text-xs text-gray-400">Before using the "View Discord Profile" button, please make sure you are on Desktop or You have installed Discord on your Device.</p>
       </div>
+      )}
     </div>
   );
 };
