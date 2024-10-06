@@ -132,7 +132,7 @@ const Profile = () => {
       <div className="flex justify-between items-center mt-8">
         {user.authType === 'discord' && (
         <button className="btn btn-outline btn-info btn-sm flex items-center"
-          onClick={() => window.location.href = `https://saexamplediscord://users/${user.id}`}
+          onClick={() => window.location.href = `discord:/users/${user.id}`}
         >
           <FaDiscord className="mr-2" /> View Discord Profile
         </button>
