@@ -80,16 +80,16 @@ const About = () => {
         <div className="bg-base-100 shadow-lg rounded-lg p-6">
           <h3 className="text-xl font-semibold mb-4">User Authentication</h3>
           <ul className="list-disc list-inside">
-            <li>GET `/auth/signin`: Login With Discord</li>
-            <li>GET `/auth/github`: Login With GitHub</li>
-            <li>GET `/auth/email-signup`: SignUp With Email</li>
-            <li>GET `/auth/email-signin`: Login With Email</li>
-            <li>GET `/auth/email-verify`: Verify SignUp Email</li>
-            <li>GET `/auth/verify-signin-email`: Verify SignIn Email</li>
-            <li>GET `/auth/callback`: Verify Discord Code</li>
-            <li>GET `/auth/github/callback`: Verify Github Code</li>
-            <li>GET `/users/@me`: Get current user details.</li>
-            <li>GET `/auth/signout`: Logout user.</li>
+            <li>GET /auth/signin: Login With Discord</li>
+            <li>GET /auth/github: Login With GitHub</li>
+            <li>GET /auth/email-signup: SignUp With Email</li>
+            <li>GET /auth/email-signin: Login With Email</li>
+            <li>GET /auth/email-verify: Verify SignUp Email</li>
+            <li>GET /auth/verify-signin-email: Verify SignIn Email</li>
+            <li>GET /auth/callback: Verify Discord Code</li>
+            <li>GET /auth/github/callback: Verify Github Code</li>
+            <li>GET /users/@me: Get current user details.</li>
+            <li>GET /auth/signout: Logout user.</li>
             <li>And other routes</li>
           </ul>
         </div>
@@ -97,11 +97,11 @@ const About = () => {
         <div className="bg-base-100 shadow-lg rounded-lg p-6 mt-6">
           <h3 className="text-xl font-semibold mb-4">Requests</h3>
           <ul className="list-disc list-inside">
-            <li>POST `/requests/report`: Submit a Discord report request.</li>
-            <li>POST `/requests/support`: Submit a support request.</li>
-            <li>POST `/requests/guild-application`: Submit a guild application request.</li>
-            <li>GET `/requests`: Get all requests for the current user.</li>
-            <li>PUT `/requests/:requestId`: Update request status (Admin only).</li>
+            <li>POST /requests/report: Submit a Discord report request.</li>
+            <li>POST /requests/support: Submit a support request.</li>
+            <li>POST /requests/guild-application: Submit a guild application request.</li>
+            <li>GET /requests: Get all requests for the current user.</li>
+            <li>PUT /requests/:requestId: Update request status (Admin only).</li>
             <li>And many more routes.</li>
           </ul>
         </div>
