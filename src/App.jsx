@@ -17,7 +17,6 @@ import Profile from './pages/Profile';
 import Note from './pages/Note';
 import AdminManage from './pages/AdminManage';
 import Footer from './components/Footer';
-import ForSell from './components/ForSell';
 import EmailSignup from './pages/EmailSignup';
 import EmailSignin from './pages/EmailSignin';
 import GithubCallback from './pages/GithubCallback';
@@ -53,7 +52,6 @@ const App = () => {
       <div className="App">
         <Navbar isAuthenticated={isAuthenticated} />
         <div className="container mx-auto p-4">
-          <ForSell className="rounded-lg" />
           <Routes>
             <Route exact path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
             <Route path="/report" element={isAuthenticated ? <ReportForm /> : <Navigate to="/login" />} />
