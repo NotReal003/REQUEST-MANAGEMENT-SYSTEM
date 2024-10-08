@@ -1,21 +1,37 @@
 # Request Management System
 
 ## Overview
-This project is a fully functional request management system, including both backend and frontend components. It is designed for users to submit different types of requests such as Discord reports, support requests, and guild applications. Administrators can manage these requests with advanced control options.
+This project is a fully functional request management system, designed for users to submit various types of requests such as Discord reports, support requests, and guild applications. Administrators can manage these requests with advanced control options. Additionally, the system incorporates a cryptocurrency payment feature, allowing users to support the project using different crypto wallets.
 
-The system uses React for the frontend and Node.js with MongoDB for the backend. Features include JWT-based authentication, email notifications, request status updates, and an admin dashboard for managing user requests.
+The system utilizes React for the frontend and Node.js with MongoDB for the backend. Features include JWT-based authentication, email notifications, request status updates, and an admin dashboard for managing user requests.
 
-## Key Features
+## Support Me
+
+I've spent a lot of time on this, to keep me working and for motivation, you can support me by paying with Crypto Currency 💲 
+
+#### BITCOIN
+```bash
+bc1qrhdcy3vl2qkjjq3ufc0u70vtun4f7yfavcl6x9
+```
+#### LTC
+```bash
+LaGrw1RgSWnhxKo1SiG9D9n4tVTVJyL2VC
+```
+
+For more info, please visit **https://pay.notreal003.xyz** :)
+
+## Features
 
 ### Frontend
-- **Request Form Pages**: Submit various types of requests (Discord Report, Support, Guild Application).
+- **Request Form Pages**: Users can submit various types of requests, including Discord reports, support requests, and guild applications.
 - **Authentication**: JWT-based login/logout with dynamic status display in the navbar.
 - **Admin Panel**: Admins can view, approve, reject, or cancel requests and leave review messages.
 - **User Dashboard**: Users can view their request history and status updates.
+- **Crypto Support**: Integrated cryptocurrency payment system for user support.
 - **Responsive Design**: Optimized for various devices using modern design practices.
 
 ### Backend
-- **Request Routes**: Handles Support, Discord Report, Guild Application requests.
+- **Request Routes**: Handles Support, Discord Report, and Guild Application requests.
 - **JWT Authentication**: Secure token-based access control.
 - **Request Status**: Tracks requests with status updates (Approved, Denied, Cancelled, Pending) and review messages.
 - **Admin Routes**: Admin-specific routes for managing requests and users.
@@ -38,7 +54,7 @@ The system uses React for the frontend and Node.js with MongoDB for the backend.
 - **MongoDB**: NoSQL database.
 - **JWT**: For authentication.
 - **Nodemailer**: For sending emails.
-- **Cloudflare Workers**: For hosting the backend API.
+- **Cloudflare Workers**: For hosting the backend API. (optional)
 
 ## Features Breakdown
 
@@ -64,12 +80,17 @@ The system uses React for the frontend and Node.js with MongoDB for the backend.
 - **User Dashboard**: View request history and status updates.
 - **Admin Dashboard**: Manage requests and user actions.
 
-## Backend API Endpoints
+### Cryptocurrency Payment System
+- **Crypto Wallet Integration**: Users can support the project through various cryptocurrencies (e.g., Bitcoin, Ethereum, Litecoin).
+- **QR Code Generation**: Users can scan QR codes to make payments easily.
+- **Transaction Notifications**: Users can receive confirmation messages after successful transactions.
+
+## Backend API EndPoints (OutDated by now)
 
 ### User Authentication
-- **POST `/auth/login`**: Login and return JWT token.
+- **GET `/auth/login`**: Login and return JWT token.
 - **GET `/users/@me`**: Get current user details.
-- **POST `/auth/signout`**: Logout user.
+- **GET `/auth/signout`**: Logout user.
 
 ### Requests
 - **POST `/requests/report`**: Submit a Discord report request.
@@ -90,41 +111,32 @@ The system uses React for the frontend and Node.js with MongoDB for the backend.
 ### Prerequisites
 - Node.js and npm installed.
 - MongoDB Atlas or local MongoDB setup.
-- (Opt) Cloudflare Workers account for backend hosting.
+- (Optional) Cloudflare Workers account for backend hosting.
 
 ### Frontend Setup
 1. Clone the repository:  
-   `git clone https://github.com/yourusername/repo.git`
+   `git clone https://github.com/NotReal003/REQUEST_PAGE.git`
 2. Install dependencies:  
    `npm install`
 3. Create a `.env` file and add your API URL:  
 REACT_APP_API=your_api_url
 CI=false
 4. Start the React app:  
-`npm start` for build `npm run build` (output will be /build)
+`npm start` for development or `npm run build` for production (output will be in `/build`).
 
 ### Backend Setup
 1. Clone the repository:  
-`git clone https://github.com/yourrepo/backend.git`
+`git clone https://github.com/NotReal003/REQUEST_PAGE_API.git`
 2. Install dependencies:  
 `npm install`
-3. Configure environment variables:
-MONGODB_URI=mongodb+srv://username
-@cluster.mongodb.net/database JWT_SECRET=your_jwt_secret
-DISCORD_CLIENT_ID=your_discord_client_id
-DISCORD_CLIENT_SECRET=your_discord_client_secret
-DISCORD_REDIRECT_URI=callback_url
-DISCORD_WEBHOOK_URL=first_request_route_webhookurl
-DISCORD_WEBHOOK_URL1=second_request_route_webhookurl
-EMAIL=email
-EPASS=email_password
-JWT_SECRET=your_jwt_secret
-MONGODB_URI=your_mongodb_uri
+3. Configure environment variables:  
+MONGODB_URI=mongodb+srv://username@cluster.mongodb.net/database JWT_SECRET=your_jwt_secret DISCORD_CLIENT_ID=your_discord_client_id DISCORD_CLIENT_SECRET=your_discord_client_secret
 NODE_ENV=production
-SESSION_SECRET=...
-WEB_TOKEN=an_webhook_url(please test it)
-USER_AUTH_WEBTOKEN=user_auth_webhookurl
-
+DISCORD_REDIRECT_URI=callback_url DISCORD_WEBHOOK_URL=first_request_route_webhookurl DISCORD_WEBHOOK_URL1=second_request_route_webhookurl EMAIL=email EPASS=email_password NODE_ENV=production SESSION_SECRET=... WEB_TOKEN=an_webhook_url(please test it) USER_AUTH_WEBTOKEN=user_auth_logger_webhookurl
+ADMIN_ID=theAdminId(user_id)
+G_ID=github_client_id
+G_SECRET=github_client_secret
+(please note that the GitHub Auth is not available for now so just for optional)
 4. Start the backend server:  
 `node index.js`
 
@@ -135,6 +147,7 @@ USER_AUTH_WEBTOKEN=user_auth_webhookurl
 2. **Submit Request**: Fill out and submit request forms.
 3. **View Requests**: Check request history and status updates.
 4. **Email Notifications**: Receive email updates on request status.
+5. **Support via Crypto**: Use the cryptocurrency payment system to support the project.
 
 ### Admin Actions
 1. **Manage Requests**: Approve, reject, or cancel requests. Leave review messages.
@@ -148,6 +161,6 @@ USER_AUTH_WEBTOKEN=user_auth_webhookurl
 - **IP Logging**: Tracks user IP addresses for security.
 
 ## Conclusion
-This request management system offers a comprehensive solution for handling user-submitted requests with robust administrative control and security features. Ideal for businesses or projects needing detailed request tracking and management.
+This request management system offers a comprehensive solution for handling user-submitted requests with robust administrative control and security features. It also incorporates a cryptocurrency payment feature, allowing users to support the project easily. Ideal for businesses or projects needing detailed request tracking and management.
 
-For further details, customization, or support, please refer to the documentation or contact the developer.
+For further details, customization, or support, please [Contact me on Discord](https://discord.gg/sqVBrMVQmp).
