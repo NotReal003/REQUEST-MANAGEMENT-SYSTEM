@@ -131,15 +131,17 @@ CI=false
 `git clone https://github.com/NotReal003/REQUEST_PAGE_API.git`
 2. Install dependencies:  
 `npm install`
-3. Configure environment variables:  
+3. Configure environment variables:
+```bash
 MONGODB_URI=mongodb+srv://username@cluster.mongodb.net/database JWT_SECRET=your_jwt_secret DISCORD_CLIENT_ID=your_discord_client_id DISCORD_CLIENT_SECRET=your_discord_client_secret
 NODE_ENV=production
 DISCORD_REDIRECT_URI=callback_url DISCORD_WEBHOOK_URL=first_request_route_webhookurl DISCORD_WEBHOOK_URL1=second_request_route_webhookurl EMAIL=email EPASS=email_password NODE_ENV=production SESSION_SECRET=... WEB_TOKEN=an_webhook_url(please test it) USER_AUTH_WEBTOKEN=user_auth_logger_webhookurl
 ADMIN_ID=theAdminId(user_id)
 G_ID=github_client_id
 G_SECRET=github_client_secret
+```
 (please note that the GitHub Auth is not available for now so just for optional)
-4. Start the backend server:  
+5. Start the backend server:  
 `node index.js`
 
 ## Usage
