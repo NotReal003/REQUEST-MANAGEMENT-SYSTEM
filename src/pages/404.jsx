@@ -1,4 +1,3 @@
-// src/pages/404.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaRegFaceGrinBeamSweat } from "react-icons/fa6";
