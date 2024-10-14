@@ -74,7 +74,7 @@ function RequestDetail() {
       `${API}/requests/${requestId}/cancel`,
       {
         status: 'CANCELLED',
-        reviewMessage: 'Self-canceled by the user.',
+        reviewMessage: 'Self-canceled by the user',
       },
       { headers: { Authorization: `${token}` } }
     );
